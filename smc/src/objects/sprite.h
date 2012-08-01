@@ -211,7 +211,7 @@ public:
 	void Set_Color_Combine( const float red, const float green, const float blue, const GLint com_type );
 
 	/* Set if rotation affects the collision rect
-	 * only supports 90° steps currently
+	 * only supports 90?steps currently
 	 * if enabled col_pos, col_rect and rect must be reset manually before changing rotation
 	*/
 	inline void Set_Rotation_Affects_Rect( bool enable = 0 )

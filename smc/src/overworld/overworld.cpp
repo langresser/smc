@@ -633,19 +633,19 @@ void cOverworld :: Update_Camera( void )
 	// todo : move to a Process_Input function
 	if( pOverworld_Manager->m_camera_mode )
 	{
-		if( pKeyboard->m_keys[pPreferences->m_key_right] || ( pJoystick->m_right && pPreferences->m_joy_enabled ) )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_right) || ( pJoystick->m_right && pPreferences->m_joy_enabled ) )
 		{
 			pOverworld_Manager->m_camera->Move( pFramerate->m_speed_factor * 15, 0 );
 		}
-		else if( pKeyboard->m_keys[pPreferences->m_key_left] || ( pJoystick->m_left && pPreferences->m_joy_enabled ) )
+		else if( pKeyboard->isKeyPress(pPreferences->m_key_left) || ( pJoystick->m_left && pPreferences->m_joy_enabled ) )
 		{
 			pOverworld_Manager->m_camera->Move( pFramerate->m_speed_factor * -15, 0 );
 		}
-		if( pKeyboard->m_keys[pPreferences->m_key_up] || ( pJoystick->m_up && pPreferences->m_joy_enabled ) )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_up) || ( pJoystick->m_up && pPreferences->m_joy_enabled ) )
 		{
 			pOverworld_Manager->m_camera->Move( 0, pFramerate->m_speed_factor * -15 );
 		}
-		else if( pKeyboard->m_keys[pPreferences->m_key_down] || ( pJoystick->m_down && pPreferences->m_joy_enabled ) )
+		else if( pKeyboard->isKeyPress(pPreferences->m_key_down) || ( pJoystick->m_down && pPreferences->m_joy_enabled ) )
 		{
 			pOverworld_Manager->m_camera->Move( 0, pFramerate->m_speed_factor * 15 );
 		}
@@ -709,7 +709,7 @@ bool cOverworld :: Key_Down( SDLKey key )
 		// toggle layer drawing
 		pOverworld_Manager->m_draw_layer = !pOverworld_Manager->m_draw_layer;
 	}
-	else if( pKeyboard->m_keys[SDLK_g] && pKeyboard->m_keys[SDLK_o] && pKeyboard->m_keys[SDLK_d] )
+	else if( pKeyboard->isKeyPress(SDLK_g) && pKeyboard->isKeyPress(SDLK_o) && pKeyboard->isKeyPress(SDLK_d) )
 	{
 		// all waypoint access
 		Set_Progress( m_waypoints.size(), 1 );

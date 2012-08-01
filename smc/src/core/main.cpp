@@ -507,7 +507,7 @@ void Exit_Game( void )
 		pResource_Manager = NULL;
 	}
 
-	char *last_sdl_error = SDL_GetError();
+	const char *last_sdl_error = SDL_GetError();
 	if( strlen( last_sdl_error ) > 0 )
 	{
 		printf( "Last known SDL Error : %s\n", last_sdl_error );
@@ -533,7 +533,7 @@ bool Handle_Input_Global( SDL_Event *ev )
 		}
 		case SDL_VIDEORESIZE:
 		{
-			pGuiSystem->notifyDisplaySizeChanged( CEGUI::Size( static_cast<float>(ev->resize.w), static_cast<float>(ev->resize.h) ) );
+//			pGuiSystem->notifyDisplaySizeChanged( CEGUI::Size( static_cast<float>(ev->resize.w), static_cast<float>(ev->resize.h) ) );
 			break;
 		}
 		case SDL_KEYDOWN:
@@ -580,6 +580,7 @@ bool Handle_Input_Global( SDL_Event *ev )
 		}
 		case SDL_ACTIVEEVENT:
 		{
+#if 0
 			// lost visibility
 			if( ev->active.gain == 0 )
 			{
@@ -598,6 +599,7 @@ bool Handle_Input_Global( SDL_Event *ev )
 				}
 				return 1;
 			}
+#endif
 			break;
 		}
 		default: // other events

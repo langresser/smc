@@ -543,7 +543,7 @@ void cEditor :: Process_Input( void )
 	}
 
 	// Camera Movement
-	if( pKeyboard->m_keys[SDLK_RIGHT] || pJoystick->m_right )
+	if( pKeyboard->isKeyPress(SDLK_RIGHT) || pJoystick->m_right )
 	{
 		if( pKeyboard->Is_Shift_Down() )
 		{
@@ -554,7 +554,7 @@ void cEditor :: Process_Input( void )
 			pActive_Camera->Move( m_camera_speed * pFramerate->m_speed_factor * pPreferences->m_scroll_speed, 0.0f );
 		}
 	}
-	else if( pKeyboard->m_keys[SDLK_LEFT] || pJoystick->m_left )
+	else if( pKeyboard->isKeyPress(SDLK_LEFT) || pJoystick->m_left )
 	{
 		if( pKeyboard->Is_Shift_Down() )
 		{
@@ -565,7 +565,7 @@ void cEditor :: Process_Input( void )
 			pActive_Camera->Move( -( m_camera_speed * pFramerate->m_speed_factor * pPreferences->m_scroll_speed ), 0.0f );
 		}
 	}
-	if( pKeyboard->m_keys[SDLK_UP] || pJoystick->m_up )
+	if( pKeyboard->isKeyPress(SDLK_UP) || pJoystick->m_up )
 	{
 		if( pKeyboard->Is_Shift_Down() )
 		{
@@ -576,7 +576,7 @@ void cEditor :: Process_Input( void )
 			pActive_Camera->Move( 0.0f, -( m_camera_speed * pFramerate->m_speed_factor * pPreferences->m_scroll_speed ) );
 		}
 	}
-	else if( pKeyboard->m_keys[SDLK_DOWN] || pJoystick->m_down )
+	else if( pKeyboard->isKeyPress(SDLK_DOWN) || pJoystick->m_down )
 	{
 		if( pKeyboard->Is_Shift_Down() )
 		{

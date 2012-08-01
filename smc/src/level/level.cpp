@@ -753,7 +753,7 @@ bool cLevel :: Key_Down( const SDLKey key )
 		pLevel_Player->Action_Interact( INP_ITEM );
 	}
 	// God Mode
-	else if( pKeyboard->m_keys[SDLK_g] && pKeyboard->m_keys[SDLK_o] && pKeyboard->m_keys[SDLK_d] && !editor_enabled )
+	else if( pKeyboard->isKeyPress(SDLK_g) && pKeyboard->isKeyPress(SDLK_o) && pKeyboard->isKeyPress(SDLK_d) && !editor_enabled )
 	{
 		if( pLevel_Player->m_god_mode )
 		{
@@ -767,7 +767,7 @@ bool cLevel :: Key_Down( const SDLKey key )
 		pLevel_Player->m_god_mode = !pLevel_Player->m_god_mode;
 	}
 	// Set Small state
-	else if( pKeyboard->m_keys[SDLK_k] && pKeyboard->m_keys[SDLK_i] && pKeyboard->m_keys[SDLK_d] && !editor_enabled )
+	else if( pKeyboard->isKeyPress(SDLK_k) && pKeyboard->isKeyPress(SDLK_i) && pKeyboard->isKeyPress(SDLK_d) && !editor_enabled )
 	{
 		pLevel_Player->Set_Type( MARYO_SMALL, 0 );
 	}

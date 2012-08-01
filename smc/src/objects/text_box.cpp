@@ -149,8 +149,6 @@ void cText_Box :: Activate( void )
 		{
 			if( input_event.type == SDL_KEYDOWN )
 			{
-				pKeyboard->m_keys[input_event.key.keysym.sym] = 1;
-
 				// exit keys
 				if( input_event.key.keysym.sym == pPreferences->m_key_action || input_event.key.keysym.sym == SDLK_ESCAPE || input_event.key.keysym.sym == SDLK_RETURN || input_event.key.keysym.sym == SDLK_SPACE )
 				{
@@ -165,8 +163,6 @@ void cText_Box :: Activate( void )
 			}
 			else if( input_event.type == SDL_KEYUP )
 			{
-				pKeyboard->m_keys[input_event.key.keysym.sym] = 0;
-
 				// handled keys
 				if( input_event.key.keysym.sym == pPreferences->m_key_right || input_event.key.keysym.sym == pPreferences->m_key_left )
 				{
@@ -199,7 +195,7 @@ void cText_Box :: Activate( void )
 			}
 		}
 
-		Uint8 *keys = SDL_GetKeyState( NULL );
+		Uint8 *keys = SDL_GetKeyboardState( NULL );
 		Sint16 joy_ver_axis = 0;
 
 		// if joystick enabled

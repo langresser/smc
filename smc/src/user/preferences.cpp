@@ -614,7 +614,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_up = static_cast<SDLKey>(val);
 		}
@@ -623,7 +623,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_down = static_cast<SDLKey>(val);
 		}
@@ -632,7 +632,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_left = static_cast<SDLKey>(val);
 		}
@@ -641,7 +641,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_right = static_cast<SDLKey>(val);
 		}
@@ -650,7 +650,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_jump = static_cast<SDLKey>(val);
 		}
@@ -659,7 +659,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_shoot = static_cast<SDLKey>(val);
 		}
@@ -668,7 +668,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_item = static_cast<SDLKey>(val);
 		}
@@ -677,7 +677,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_action = static_cast<SDLKey>(val);
 		}
@@ -690,7 +690,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_screenshot = static_cast<SDLKey>(val);
 		}
@@ -699,7 +699,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_editor_fast_copy_up = static_cast<SDLKey>(val);
 		}
@@ -708,7 +708,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_editor_fast_copy_down = static_cast<SDLKey>(val);
 		}
@@ -717,7 +717,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_editor_fast_copy_left = static_cast<SDLKey>(val);
 		}
@@ -726,7 +726,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_editor_fast_copy_right = static_cast<SDLKey>(val);
 		}
@@ -735,7 +735,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_editor_pixel_move_up = static_cast<SDLKey>(val);
 		}
@@ -744,7 +744,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_editor_pixel_move_down = static_cast<SDLKey>(val);
 		}
@@ -753,7 +753,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_editor_pixel_move_left = static_cast<SDLKey>(val);
 		}
@@ -762,7 +762,7 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		int val = attributes.getValueAsInteger( "value" );
 
-		if( val >= 0 && val <= SDLK_LAST )
+		if( val >= 0)
 		{
 			m_key_editor_pixel_move_right = static_cast<SDLKey>(val);
 		}

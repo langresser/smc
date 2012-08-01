@@ -385,7 +385,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	// if vertical synchronization is enabled
 	if( use_preferences && pPreferences->m_video_vsync )
 	{
-		SDL_GL_SetAttribute( SDL_GL_SWAP_CONTROL, 1 );
+//		SDL_GL_SetAttribute( SDL_GL_SWAP_CONTROL, 1 );
 	}
 
 	// if reinitialization
@@ -452,7 +452,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	{
 		int is_vsync;
 		// seems to return always true even if not available
-		SDL_GL_GetAttribute( SDL_GL_SWAP_CONTROL, &is_vsync );
+//		SDL_GL_GetAttribute( SDL_GL_SWAP_CONTROL, &is_vsync );
 
 		if( !is_vsync )
 		{
@@ -971,6 +971,7 @@ vector<cSize_Int> cVideo :: Get_Supported_Resolutions( int flags /* = 0 */ ) con
 
 void cVideo :: Make_GL_Context_Current( void )
 {
+#if 0
 	// scoped context lock here
 #ifdef _WIN32
 	if( wglGetCurrentContext() != wm_info.hglrc )
@@ -988,6 +989,7 @@ void cVideo :: Make_GL_Context_Current( void )
 
 	// update info (needed?)
 	SDL_GetWMInfo( &wm_info );
+#endif
 }
 
 void cVideo :: Make_GL_Context_Inactive( void )

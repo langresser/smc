@@ -45,8 +45,6 @@ cKeyboard :: ~cKeyboard( void )
 
 void cKeyboard :: Reset_Keys( void )
 {
-	// set all keys to 0
-	memset( m_keys, 0, sizeof( m_keys ) );
 }
 
 bool cKeyboard :: CEGUI_Handle_Key_Up( SDLKey key ) const
@@ -63,9 +61,6 @@ bool cKeyboard :: CEGUI_Handle_Key_Up( SDLKey key ) const
 
 bool cKeyboard :: Key_Up( SDLKey key )
 {
-	// set key to 0
-	m_keys[key] = 0;
-
 	// input was processed by the gui system
 	if( CEGUI_Handle_Key_Up( key ) )
 	{
@@ -122,9 +117,6 @@ bool cKeyboard :: Key_Down( SDLKey key )
 	{
 		return 1;
 	}
-
-	// set key to 1
-	m_keys[key] = 1;
 
 	// ## first the internal keys
 
@@ -419,6 +411,16 @@ unsigned int cKeyboard :: SDLKey_to_CEGUIKey( const SDLKey key ) const
     case SDLK_POWER:        return CEGUI::Key::Power;
     default:                return 0;
     }
+}
+
+bool cKeyboard::isKeyPress(SDL_Keycode key) const
+{
+	Uint8* keyState = SDL_GetKeyboardState(NULL);
+	if (keyState && keyState[SDL_GetScancodeFromKey(key)]) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

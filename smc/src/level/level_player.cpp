@@ -179,7 +179,7 @@ bool cLevel_Player :: Set_On_Ground( cSprite *obj, bool set_on_top /* = 1 */ )
 		}
 
 		// if massive ground and ducking key is pressed
-		if( m_ground_object->m_massive_type == MASS_MASSIVE && pKeyboard->m_keys[pPreferences->m_key_down] )
+		if( m_ground_object->m_massive_type == MASS_MASSIVE && pKeyboard->isKeyPress(pPreferences->m_key_down) )
 		{
 			Start_Ducking();
 		}
@@ -397,7 +397,7 @@ animation_end:
 				}
 			}
 
-			Uint8 *keys = SDL_GetKeyState( NULL );
+			Uint8 *keys = SDL_GetKeyboardState( NULL );
 			// Escape stops
 			if( keys[SDLK_ESCAPE] || keys[SDLK_RETURN] || keys[SDLK_SPACE] || keys[pPreferences->m_key_action] )
 			{
@@ -673,7 +673,7 @@ void cLevel_Player :: Update_Walking( void )
 	}
 
 	// only if left or right is pressed
-	if( pKeyboard->m_keys[pPreferences->m_key_left] || pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_left || pJoystick->m_right )
+	if( pKeyboard->isKeyPress(pPreferences->m_key_left) || pKeyboard->isKeyPress(pPreferences->m_key_right) || pJoystick->m_left || pJoystick->m_right )
 	{
 		float ground_mod = 1.0f;
 
@@ -796,7 +796,7 @@ void cLevel_Player :: Update_Staying( void )
 	}
 
 	// if left and right is not pressed
-	if( !pKeyboard->m_keys[pPreferences->m_key_left] && !pKeyboard->m_keys[pPreferences->m_key_right] && !pJoystick->m_left && !pJoystick->m_right )
+	if( !pKeyboard->isKeyPress(pPreferences->m_key_left) && !pKeyboard->isKeyPress(pPreferences->m_key_right) && !pJoystick->m_left && !pJoystick->m_right )
 	{
 		// walking
 		if( m_velx )
@@ -878,7 +878,7 @@ void cLevel_Player :: Update_Flying( void )
 		}
 
 		// move down 
-		if( pKeyboard->m_keys[pPreferences->m_key_down] || pJoystick->m_down )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_down) || pJoystick->m_down )
 		{
 			const float max_vel = 5.0f * Get_Vel_Modifier();
 
@@ -888,7 +888,7 @@ void cLevel_Player :: Update_Flying( void )
 			}
 		}
 		// move up
-		else if( pKeyboard->m_keys[pPreferences->m_key_up] || pJoystick->m_up )
+		else if( pKeyboard->isKeyPress(pPreferences->m_key_up) || pJoystick->m_up )
 		{
 			const float max_vel = -5.0f * Get_Vel_Modifier();
 
@@ -911,7 +911,7 @@ void cLevel_Player :: Update_Flying( void )
 	else
 	{
 		// move left
-		if( ( pKeyboard->m_keys[pPreferences->m_key_left] || pJoystick->m_left ) && !m_ducked_counter )
+		if( ( pKeyboard->isKeyPress(pPreferences->m_key_left) || pJoystick->m_left ) && !m_ducked_counter )
 		{
 			if( !m_parachute )
 			{
@@ -934,7 +934,7 @@ void cLevel_Player :: Update_Flying( void )
 			}
 		}
 		// move right
-		else if( ( pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_right ) && !m_ducked_counter )
+		else if( ( pKeyboard->isKeyPress(pPreferences->m_key_right) || pJoystick->m_right ) && !m_ducked_counter )
 		{
 			if( !m_parachute )
 			{
@@ -1205,20 +1205,20 @@ void cLevel_Player :: Update_Climbing( void )
 	if( Is_On_Climbable() )
 	{
 		// set velocity
-		if( pKeyboard->m_keys[pPreferences->m_key_left] || pJoystick->m_left )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_left) || pJoystick->m_left )
 		{
 			m_velx = -2.0f * Get_Vel_Modifier();
 		}
-		else if( pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_right )
+		else if( pKeyboard->isKeyPress(pPreferences->m_key_right) || pJoystick->m_right )
 		{
 			m_velx = 2.0f * Get_Vel_Modifier();
 		}
 
-		if( pKeyboard->m_keys[pPreferences->m_key_up] || pJoystick->m_up )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_up) || pJoystick->m_up )
 		{
 			m_vely = -4.0f * Get_Vel_Modifier();
 		}
-		else if( pKeyboard->m_keys[pPreferences->m_key_down] || pJoystick->m_down )
+		else if( pKeyboard->isKeyPress(pPreferences->m_key_down) || pJoystick->m_down )
 		{
 			m_vely = 4.0f * Get_Vel_Modifier();
 		}
@@ -1272,7 +1272,10 @@ bool cLevel_Player :: Is_On_Climbable( float move_y /* = 0.0f */ )
 
 void cLevel_Player :: Start_Jump_Keytime( void )
 {
-	if( m_god_mode || m_state == STA_STAY || m_state == STA_WALK || m_state == STA_RUN || m_state == STA_FALL || m_state == STA_FLY || m_state == STA_JUMP || ( m_state == STA_CLIMB && !pKeyboard->m_keys[pPreferences->m_key_up] ) )
+	if( m_god_mode || m_state == STA_STAY || m_state == STA_WALK 
+		|| m_state == STA_RUN || m_state == STA_FALL 
+		|| m_state == STA_FLY || m_state == STA_JUMP 
+		|| ( m_state == STA_CLIMB && !pKeyboard->isKeyPress(pPreferences->m_key_up) ) )
 	{
 		m_up_key_time = speedfactor_fps / 4;
 	}
@@ -1326,7 +1329,7 @@ void cLevel_Player :: Start_Jump( float deaccel /* = 0.08f */ )
 	bool jump_key = 0;
 
 	// if jump key pressed
-	if( pKeyboard->m_keys[pPreferences->m_key_jump] || ( pPreferences->m_joy_analog_jump && pJoystick->m_up ) || pJoystick->Button( pPreferences->m_joy_button_jump ) )
+	if( pKeyboard->isKeyPress(pPreferences->m_key_jump) || ( pPreferences->m_joy_analog_jump && pJoystick->m_up ) || pJoystick->Button( pPreferences->m_joy_button_jump ) )
 	{
 		jump_key = 1;
 	}
@@ -1420,7 +1423,7 @@ void cLevel_Player :: Update_Jump( void )
 	}
 
 	// jumping physics
-	if( pKeyboard->m_keys[pPreferences->m_key_jump] || ( pPreferences->m_joy_analog_jump && pJoystick->m_up ) || pJoystick->Button( pPreferences->m_joy_button_jump ) )
+	if( pKeyboard->isKeyPress(pPreferences->m_key_jump) || ( pPreferences->m_joy_analog_jump && pJoystick->m_up ) || pJoystick->Button( pPreferences->m_joy_button_jump ) )
 	{
 		Add_Velocity_Y( -( m_jump_accel_up + ( m_vely * m_jump_vel_deaccel ) / Get_Vel_Modifier() ) );
 		m_jump_power -= pFramerate->m_speed_factor;
@@ -1432,7 +1435,7 @@ void cLevel_Player :: Update_Jump( void )
 	}
 	
 	// left right physics
-	if( ( pKeyboard->m_keys[pPreferences->m_key_left] || pJoystick->m_left ) && !m_ducked_counter )
+	if( ( pKeyboard->isKeyPress(pPreferences->m_key_left) || pJoystick->m_left ) && !m_ducked_counter )
 	{
 		const float max_vel = -10.0f * Get_Vel_Modifier();
 
@@ -1442,7 +1445,7 @@ void cLevel_Player :: Update_Jump( void )
 		}
 		
 	}	
-	else if( ( pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_right ) && !m_ducked_counter )
+	else if( ( pKeyboard->isKeyPress(pPreferences->m_key_right) || pJoystick->m_right ) && !m_ducked_counter )
 	{
 		const float max_vel = 10.0f * Get_Vel_Modifier();
 
@@ -1520,7 +1523,7 @@ void cLevel_Player :: Update_Item( void )
 	}
 
 	// if control is pressed search for items in front of the player
-	if( pKeyboard->m_keys[pPreferences->m_key_action] || pJoystick->Button( pPreferences->m_joy_button_action ) )
+	if( pKeyboard->isKeyPress(pPreferences->m_key_action) || pJoystick->Button( pPreferences->m_joy_button_action ) )
 	{
 		// next position velocity with extra size
 		float check_x = ( m_velx > 0.0f ) ? ( m_velx + 5.0f ) : ( m_velx - 5.0f );
@@ -3269,7 +3272,7 @@ float cLevel_Player :: Get_Vel_Modifier( void ) const
 	float vel_mod = 1.0f;
 
 	// if running key is pressed or always run
-	if( pPreferences->m_always_run || pKeyboard->m_keys[pPreferences->m_key_action] || pJoystick->Button( pPreferences->m_joy_button_action ) )
+	if( pPreferences->m_always_run || pKeyboard->isKeyPress(pPreferences->m_key_action) || pJoystick->Button( pPreferences->m_joy_button_action ) )
 	{
 		vel_mod = 1.5f;
 	}
@@ -3645,7 +3648,7 @@ void cLevel_Player :: Action_Stop_Interact( input_identifier key_type )
 	else if( key_type == INP_LEFT )
 	{
 		// if key in opposite direction is still pressed only change direction
-		if( pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_right )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_right) || pJoystick->m_right )
 		{
 			m_direction = DIR_RIGHT;
 		}
@@ -3658,7 +3661,7 @@ void cLevel_Player :: Action_Stop_Interact( input_identifier key_type )
 	else if( key_type == INP_RIGHT )
 	{
 		// if key in opposite direction is still pressed only change direction
-		if( pKeyboard->m_keys[pPreferences->m_key_left] || pJoystick->m_left )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_left) || pJoystick->m_left )
 		{
 			m_direction = DIR_LEFT;
 		}
@@ -4047,7 +4050,7 @@ Col_Valid_Type cLevel_Player :: Validate_Collision( cSprite *obj )
 	else if( obj->m_massive_type == MASS_HALFMASSIVE )
 	{
 		// fall through
-		if( pKeyboard->m_keys[pPreferences->m_key_down] )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_down) )
 		{
 			return COL_VTYPE_NOT_VALID;
 		}
@@ -4107,28 +4110,28 @@ Col_Valid_Type cLevel_Player :: Validate_Collision( cSprite *obj )
 				if( levelexit->m_exit_type == LEVEL_EXIT_WARP )
 				{
 					// joystick events are sent as keyboard keys
-					if( pKeyboard->m_keys[pPreferences->m_key_up] )
+					if( pKeyboard->isKeyPress(pPreferences->m_key_up) )
 					{
 						if( levelexit->m_start_direction == DIR_UP )
 						{
 							Action_Interact( INP_UP );
 						}
 					}
-					else if( pKeyboard->m_keys[pPreferences->m_key_down] )
+					else if( pKeyboard->isKeyPress(pPreferences->m_key_down) )
 					{
 						if( levelexit->m_start_direction == DIR_DOWN )
 						{
 							Action_Interact( INP_DOWN );
 						}
 					}
-					else if( pKeyboard->m_keys[pPreferences->m_key_right] )
+					else if( pKeyboard->isKeyPress(pPreferences->m_key_right) )
 					{
 						if( levelexit->m_start_direction == DIR_RIGHT )
 						{
 							Action_Interact( INP_RIGHT );
 						}
 					}
-					else if( pKeyboard->m_keys[pPreferences->m_key_left] )
+					else if( pKeyboard->isKeyPress(pPreferences->m_key_left) )
 					{
 						if( levelexit->m_start_direction == DIR_LEFT )
 						{
@@ -4323,7 +4326,8 @@ void cLevel_Player :: Handle_Collision_Massive( cObjectCollision *collision )
 	if( col_obj->m_massive_type == MASS_CLIMBABLE && m_state != STA_CLIMB && m_state != STA_FLY )
 	{
 		// if not climbing and player wants to climb
-		if( pKeyboard->m_keys[pPreferences->m_key_up] || pJoystick->m_up || ( ( pKeyboard->m_keys[pPreferences->m_key_down] || pJoystick->m_down ) && !m_ground_object ) )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_up) || pJoystick->m_up 
+			|| ( ( pKeyboard->isKeyPress(pPreferences->m_key_down) || pJoystick->m_down ) && !m_ground_object ) )
 		{
 			// start climbing
 			Start_Climbing();

@@ -58,24 +58,23 @@ public:
 	// Is the CTRL key pressed
 	inline bool Is_Ctrl_Down( void ) const
 	{
-		return m_keys[SDLK_RCTRL] || m_keys[SDLK_LCTRL];
+		return isKeyPress(SDLK_RCTRL) || isKeyPress(SDLK_LCTRL);
 	};
 	// Is the SHIFT key pressed
 	inline bool Is_Shift_Down( void ) const
 	{
-		return m_keys[SDLK_RSHIFT] || m_keys[SDLK_LSHIFT];
+		return isKeyPress(SDLK_RSHIFT) || isKeyPress(SDLK_LSHIFT);
 	};
 	// Is the ALT key pressed
 	inline bool Is_Alt_Down( void ) const
 	{
-		return m_keys[SDLK_RALT] || m_keys[SDLK_LALT];
+		return isKeyPress(SDLK_RALT) || isKeyPress(SDLK_LALT);
 	};
+
+	bool isKeyPress(SDL_Keycode key) const;
 
 	// Translate a SDLKey to the proper CEGUI::Key
 	unsigned int SDLKey_to_CEGUIKey( const SDLKey key ) const;
-
-	// Pressed keys
-	Uint8 m_keys[SDLK_LAST];
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
