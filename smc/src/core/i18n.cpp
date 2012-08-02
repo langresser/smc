@@ -25,29 +25,6 @@ namespace SMC
 
 void I18N_Init( void )
 {
-	const char *sys_locale = setlocale( LC_ALL, "" );
-
-	if( sys_locale == NULL )
-	{
-		debug_print( "Failed to set translation locale\n" );
-	}
-	else
-	{
-		debug_print( "Translation locale is %s\n", sys_locale );
-	}
-
-	const char *textdomain_directory = bindtextdomain( CAPTION, DATA_DIR "/" GAME_TRANSLATION_DIR );
-
-	if( !textdomain_directory )
-	{
-		printf( "Warning: bindtextdomain failed for %s\n", DATA_DIR "/" GAME_TRANSLATION_DIR );
-	}
-
-	const char *textdomain_codeset = bind_textdomain_codeset( CAPTION, "UTF-8" );
-	const char *textdomain_default = textdomain( CAPTION );
-
-	debug_print( "Translation support with gettext set to:\n\tDirectory %s\n\tCodeset: %s\n\tText domain: %s\n",
-		textdomain_directory, textdomain_codeset, textdomain_default );
 }
 
 #ifdef _WIN32

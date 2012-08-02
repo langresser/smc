@@ -397,9 +397,8 @@ animation_end:
 				}
 			}
 
-			Uint8 *keys = SDL_GetKeyboardState( NULL );
 			// Escape stops
-			if( keys[SDLK_ESCAPE] || keys[SDLK_RETURN] || keys[SDLK_SPACE] || keys[pPreferences->m_key_action] )
+			if( pKeyboard->isKeyPress(SDLK_ESCAPE) || pKeyboard->isKeyPress(SDLK_RETURN) || pKeyboard->isKeyPress(SDLK_SPACE) || pKeyboard->isKeyPress(pPreferences->m_key_action) )
 			{
 				break;
 			}

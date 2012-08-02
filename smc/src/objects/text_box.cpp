@@ -195,7 +195,6 @@ void cText_Box :: Activate( void )
 			}
 		}
 
-		Uint8 *keys = SDL_GetKeyboardState( NULL );
 		Sint16 joy_ver_axis = 0;
 
 		// if joystick enabled
@@ -205,12 +204,12 @@ void cText_Box :: Activate( void )
 		}
 
 		// down
-		if( keys[pPreferences->m_key_down] || joy_ver_axis > pPreferences->m_joy_axis_threshold )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_down) || joy_ver_axis > pPreferences->m_joy_axis_threshold )
 		{
 			editbox->getVertScrollbar()->setScrollPosition( editbox->getVertScrollbar()->getScrollPosition() + ( editbox->getVertScrollbar()->getStepSize() * 0.25f * pFramerate->m_speed_factor ) );
 		}
 		// up
-		if( keys[pPreferences->m_key_up] || joy_ver_axis < -pPreferences->m_joy_axis_threshold )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_up) || joy_ver_axis < -pPreferences->m_joy_axis_threshold )
 		{
 			editbox->getVertScrollbar()->setScrollPosition( editbox->getVertScrollbar()->getScrollPosition() - ( editbox->getVertScrollbar()->getStepSize() * 0.25f * pFramerate->m_speed_factor ) );
 		}

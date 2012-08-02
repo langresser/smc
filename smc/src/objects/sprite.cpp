@@ -726,7 +726,7 @@ void cSprite :: Set_Color_Combine( const float red, const float green, const flo
 
 void cSprite :: Update_Rect_Rotation_Z( void )
 {
-	// rotate 270°
+	// rotate 270?
 	if( m_rot_z >= 270.0f )
 	{
 		// rotate collision position
@@ -749,7 +749,7 @@ void cSprite :: Update_Rect_Rotation_Z( void )
 		m_col_pos.m_x = m_rect.m_w - ( m_col_rect.m_w + m_col_pos.m_x );
 		m_col_pos.m_y = m_rect.m_h - ( m_col_rect.m_h + m_col_pos.m_y );
 	}
-	// rotate 90°
+	// rotate 90?
 	else if( m_rot_z >= 0.00001f )
 	{
 		// rotate collision position
