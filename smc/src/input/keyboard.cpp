@@ -126,12 +126,6 @@ bool cKeyboard :: Key_Down( SDLKey key )
 		game_exit = 1;
 		return 1;
 	}
-	// fullscreen toggle
-	else if( key == SDLK_RETURN && pKeyboard->Is_Alt_Down() )
-	{
-		pVideo->Toggle_Fullscreen();
-		return 1;
-	}
 	// GUI copy
 	else if( key == SDLK_c && pKeyboard->Is_Ctrl_Down() )
 	{

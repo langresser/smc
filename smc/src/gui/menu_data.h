@@ -216,7 +216,6 @@ public:
 	// video
 	bool Video_Resolution_Select( const CEGUI::EventArgs &event );
 	bool Video_Bpp_Select( const CEGUI::EventArgs &event );
-	bool Video_Fullscreen_Select( const CEGUI::EventArgs &event );
 	bool Video_Vsync_Select( const CEGUI::EventArgs &event );
 	bool Video_FPS_Limit_Select( const CEGUI::EventArgs &event );
 	bool Video_Slider_Geometry_Quality_Changed( const CEGUI::EventArgs &event );
@@ -264,7 +263,6 @@ public:
 	// video
 	CEGUI::Combobox *m_video_combo_resolution;
 	CEGUI::Combobox *m_video_combo_bpp;
-	CEGUI::Combobox *m_video_combo_fullscreen;
 	CEGUI::Combobox *m_video_combo_vsync;
 	CEGUI::Spinner *m_video_spinner_fps_limit;
 	CEGUI::Slider *m_video_slider_geometry_quality;
@@ -273,7 +271,6 @@ public:
 	unsigned int m_vid_w;
 	unsigned int m_vid_h;
 	unsigned int m_vid_bpp;
-	bool m_vid_fullscreen;
 	bool m_vid_vsync;
 	float m_vid_geometry_detail;
 	float m_vid_texture_detail;

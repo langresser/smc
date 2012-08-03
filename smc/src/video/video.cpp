@@ -257,15 +257,15 @@ void cVideo :: Init_SDL( void )
 
 void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_preferences /* = 1 */ )
 {
-	Render_Finish();
-
 	// set the video flags
 	int flags = SDL_OPENGL | SDL_SWSURFACE;
 
 	// only enter fullscreen if set in preferences
-	if( use_preferences && pPreferences->m_video_fullscreen )
+	if( use_preferences)
 	{
+#ifndef WIN32
 		flags |= SDL_FULLSCREEN;
+#endif
 	}
 
 	int screen_w, screen_h, screen_bpp;
@@ -420,17 +420,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	{
 		printf( "Error : Screen mode creation failed\nReason : %s\n", SDL_GetError() );
 		exit( EXIT_FAILURE );
-	}
-
-	// check if fullscreen got set
-	if( use_preferences && pPreferences->m_video_fullscreen )
-	{
-		bool is_fullscreen = ( ( screen->flags & SDL_FULLSCREEN ) == SDL_FULLSCREEN );
-
-		if( !is_fullscreen )
-		{
-			printf( "Warning : Fullscreen mode could not be set\n" );
-		}
 	}
 
 	// check if double buffering got set
@@ -630,8 +619,6 @@ void cVideo :: Init_OpenGL( void )
 
 void cVideo :: Init_Geometry( void )
 {
-	Render_Finish();
-
 	// Geometry Anti-Aliasing
 	if( m_geometry_quality > 0.5f )
 	{
@@ -673,8 +660,6 @@ void cVideo :: Init_Geometry( void )
 
 void cVideo :: Init_Texture_Detail( void )
 {
-	Render_Finish();
-
 	/* filter quality of generated mipmap images
 	 * only available if OpenGL version is 1.4 or greater
 	*/
@@ -915,10 +900,9 @@ int cVideo :: Test_Video( int width, int height, int bpp, int flags /* = 0 */ ) 
 		flags = SDL_OPENGL | SDL_SWSURFACE;
 
 		// if fullscreen is set
-		if( pPreferences->m_video_fullscreen )
-		{
-			flags |= SDL_FULLSCREEN;
-		}
+#ifndef WIN32
+		flags |= SDL_FULLSCREEN;
+#endif
 	}
 
 	return SDL_VideoModeOK( width, height, bpp, flags );
@@ -1019,94 +1003,22 @@ void cVideo :: Render_From_Thread( void )
 	Make_GL_Context_Inactive();
 }
 
-void cVideo :: Render( bool threaded /* = 0 */ )
+void cVideo :: Render()
 {
-	Render_Finish();
+	pRenderer->Render();
 
-	if( threaded )
-	{
-		pGuiSystem->renderGUI();
+	// update performance timer
+	pFramerate->m_perf_timer[PERF_RENDER_GAME]->Update();
 
-		// update performance timer
-		pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();
+	pGuiSystem->renderGUI();
 
-		SDL_GL_SwapBuffers();
+	// update performance timer
+	pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();
 
-		// update performance timer
-		pFramerate->m_perf_timer[PERF_RENDER_BUFFER]->Update();
+	SDL_GL_SwapBuffers();
 
-		// switch active renderer
-		cRenderQueue *new_render = pRenderer;
-		pRenderer = pRenderer_current;
-		pRenderer_current = new_render;
-
-		// move objects that should render more than once
-		if( !pRenderer->m_render_data.empty() )
-		{
-			pRenderer_current->m_render_data.insert( pRenderer_current->m_render_data.begin(), pRenderer->m_render_data.begin(), pRenderer->m_render_data.end() );
-			pRenderer->m_render_data.clear();
-		}
-		
-		// make main thread inactive
-		Make_GL_Context_Inactive();
-		// start render thread
-		m_render_thread = boost::thread(&cVideo::Render_From_Thread, this);
-	}
-	// single thread mode
-	else
-	{
-		pRenderer->Render();
-
-		// update performance timer
-		pFramerate->m_perf_timer[PERF_RENDER_GAME]->Update();
-
-		pGuiSystem->renderGUI();
-
-		// update performance timer
-		pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();
-
-		SDL_GL_SwapBuffers();
-
-		// update performance timer
-		pFramerate->m_perf_timer[PERF_RENDER_BUFFER]->Update();
-	}
-}
-
-void cVideo :: Render_Finish( void )
-{
-#ifndef SMC_RENDER_THREAD_TEST
-	return;
-#endif
-	if( m_render_thread.joinable() )
-	{
-		m_render_thread.join();
-	}
-
-	// todo : use opengl in only one thread
-	Make_GL_Context_Current();
-}
-
-void cVideo :: Toggle_Fullscreen( void )
-{
-	Render_Finish();
-
-	// toggle fullscreen
-	pPreferences->m_video_fullscreen = !pPreferences->m_video_fullscreen;
-
-	// save clear color
-	GLclampf clear_color[4];
-	glGetFloatv( GL_COLOR_CLEAR_VALUE, clear_color );
-
-#ifdef _WIN32
-	// windows needs reinitialization
-	Init_Video();
-#else
-	// works only for X11 platforms
-	SDL_WM_ToggleFullScreen( screen );
-#endif
-
-	// set back clear color
-	glClearColor( clear_color[0], clear_color[1], clear_color[2], clear_color[3] );
+	// update performance timer
+	pFramerate->m_perf_timer[PERF_RENDER_BUFFER]->Update();
 }
 
 cGL_Surface *cVideo :: Get_Surface( std::string filename, bool print_errors /* = 1 */ )
@@ -1321,7 +1233,6 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 	/* todo : Make this a render request because it forces an early thread render finish as opengl commands are used directly.
 	 * Reduces performance if the render thread is on. It's usually called from the text rendering in cTimeDisplay::Update.
 	*/
-	pVideo->Render_Finish();
 
 	// create one texture
 	GLuint image_num = 0;
@@ -1788,8 +1699,6 @@ bool cVideo :: Downscale_Image( const unsigned char* const orig, int width, int 
 
 void cVideo :: Save_Screenshot( void )
 {
-	Render_Finish();
-
 	std::string filename;
 	
 	for( unsigned int i = 1; i < 1000; i++ )

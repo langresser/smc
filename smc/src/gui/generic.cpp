@@ -126,7 +126,6 @@ void cDialogBox_Text :: Init( std::string title_text )
 
 std::string cDialogBox_Text :: Enter( std::string default_text, std::string title_text, bool auto_no_text /* = 1 */ )
 {
-	pVideo->Render_Finish();
 	Init( title_text );
 
 	box_editbox->setText( reinterpret_cast<const CEGUI::utf8*>(default_text.c_str()) );
@@ -206,7 +205,6 @@ cDialogBox_Question :: ~cDialogBox_Question( void )
 
 void cDialogBox_Question :: Init( bool with_cancel )
 {
-	pVideo->Render_Finish();
 	cDialogBox::Init();
 
 	// get window

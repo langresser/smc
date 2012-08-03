@@ -666,11 +666,6 @@ void Update_Game( void )
 		Correct_Frame_Time( pPreferences->m_video_fps_limit );
 	}
 	
-	if( Game_Action != GA_NONE )
-	{
-		pVideo->Render_Finish();
-	}
-	
 	// ## game events
 	Handle_Game_Events();
 

@@ -193,7 +193,6 @@ void cPreferences :: Save( void )
 	Write_Property( stream, "game_camera_hor_speed", m_camera_hor_speed );
 	Write_Property( stream, "game_camera_ver_speed", m_camera_ver_speed );
 	// Video
-	Write_Property( stream, "video_fullscreen", m_video_fullscreen );
 	Write_Property( stream, "video_screen_w", m_video_screen_w );
 	Write_Property( stream, "video_screen_h", m_video_screen_h );
 	Write_Property( stream, "video_screen_bpp", static_cast<int>(m_video_screen_bpp) );
@@ -289,7 +288,6 @@ void cPreferences :: Reset_Video( void )
 	m_video_screen_bpp = m_video_screen_bpp_default;
 	m_video_vsync = m_video_vsync_default;
 	m_video_fps_limit = m_video_fps_limit_default;
-	m_video_fullscreen = m_video_fullscreen_default;
 	pVideo->m_geometry_quality = m_geometry_quality_default;
 	pVideo->m_texture_quality = m_texture_quality_default;
 }
@@ -395,7 +393,6 @@ void cPreferences :: Apply_Video( Uint16 screen_w, Uint16 screen_h, Uint8 screen
 		m_video_screen_h = screen_h;
 		m_video_screen_bpp = screen_bpp;
 		m_video_vsync = vsync;
-		m_video_fullscreen = fullscreen;
 		pVideo->m_texture_quality = texture_detail;
 		pVideo->m_geometry_quality = geometry_detail;
 
@@ -410,13 +407,6 @@ void cPreferences :: Apply_Video( Uint16 screen_w, Uint16 screen_h, Uint8 screen
 		{
 			pVideo->m_geometry_quality = geometry_detail;
 			pVideo->Init_Geometry();
-		}
-
-		// fullscreen changed
-		if( m_video_fullscreen != fullscreen )
-		{
-			// toggle fullscreen and switches video_fullscreen itself
-			pVideo->Toggle_Fullscreen();
 		}
 	}
 }
@@ -560,10 +550,6 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	else if( name.compare( "video_fps_limit" ) == 0 )
 	{
 		m_video_fps_limit = attributes.getValueAsInteger( "value" );
-	}
-	else if( name.compare( "video_fullscreen" ) == 0 )
-	{
-		m_video_fullscreen = attributes.getValueAsBool( "value" );
 	}
 	else if( name.compare( "video_geometry_detail" ) == 0 || name.compare( "video_geometry_quality" ) == 0 )
 	{

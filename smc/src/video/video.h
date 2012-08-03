@@ -128,13 +128,8 @@ public:
 	// Render. Should be called from a thread
 	void Render_From_Thread( void );
 	// Render game, GUI and swap the opengl buffer
-	void Render( bool threaded = 0 );
-	// Finish thread rendering
-	void Render_Finish( void );
-
-	// Toggle fullscreen video mode ( new mode is set to preferences )
-	void Toggle_Fullscreen( void );
-
+	void Render();
+	
 	/* Check if the image was already loaded and returns a pointer to it else it will be loaded
 	 * The returned image should not be deleted or modified.
 	 */

@@ -1191,7 +1191,6 @@ void cMenu_Options :: Init( void )
 	m_vid_w = pPreferences->m_video_screen_w;
 	m_vid_h = pPreferences->m_video_screen_h;
 	m_vid_bpp = pPreferences->m_video_screen_bpp;
-	m_vid_fullscreen = pPreferences->m_video_fullscreen;
 	m_vid_vsync = pPreferences->m_video_vsync;
 	m_vid_geometry_detail = pVideo->m_geometry_quality;
 	m_vid_texture_detail = pVideo->m_texture_quality;
@@ -1439,30 +1438,6 @@ void cMenu_Options :: Init_GUI_Video( void )
 	m_video_combo_bpp->setText( int_to_string( pPreferences->m_video_screen_bpp ) );
 
 	m_video_combo_bpp->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Video_Bpp_Select, this ) );
-
-	// Fullscreen
-	CEGUI::Window *text_fullscreen = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_fullscreen" ));
-	text_fullscreen->setText( UTF8_("Fullscreen") );
-
-	m_video_combo_fullscreen = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "video_combo_fullscreen" ));
-
-	item = new CEGUI::ListboxTextItem( UTF8_("On") );
-	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
-	m_video_combo_fullscreen->addItem( item );
-	item = new CEGUI::ListboxTextItem( UTF8_("Off") );
-	item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
-	m_video_combo_fullscreen->addItem( item );
-
-	if( pPreferences->m_video_fullscreen )
-	{
-		m_video_combo_fullscreen->setText( UTF8_("On") );
-	}
-	else
-	{
-		m_video_combo_fullscreen->setText( UTF8_("Off") );
-	}
-
-	m_video_combo_fullscreen->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Video_Fullscreen_Select, this ) );
 
 	// VSync
 	CEGUI::Window *text_vsync = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_vsync" ));
@@ -1989,20 +1964,7 @@ void cMenu_Options :: Change_Video_Setting( int setting )
 
 		m_video_combo_bpp->setText( int_to_string( m_vid_bpp ).c_str() );	
 	}
-	// Fullscreen
-	else if( pMenuCore->m_handler->m_active == 7 )
-	{
-		m_vid_fullscreen = !m_vid_fullscreen;
-
-		if( m_vid_fullscreen )
-		{
-			m_video_combo_fullscreen->setText( UTF8_("On") );	
-		}
-		else
-		{
-			m_video_combo_fullscreen->setText( UTF8_("Off") );
-		}
-	}
+	
 	// VSync
 	else if( pMenuCore->m_handler->m_active == 8 )
 	{
@@ -2461,23 +2423,6 @@ bool cMenu_Options :: Video_Bpp_Select( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-bool cMenu_Options :: Video_Fullscreen_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-
-	bool bfullscreen = 0;
-
-	if( item->getText().compare( UTF8_("On") ) == 0 )
-	{
-		bfullscreen = 1;
-	}
-
-	m_vid_fullscreen = bfullscreen;
-
-	return 1;
-}
-
 bool cMenu_Options :: Video_Vsync_Select( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
@@ -2541,16 +2486,6 @@ bool cMenu_Options :: Video_Button_Reset_Clicked( const CEGUI::EventArgs &event 
 		m_vid_bpp = cPreferences::m_video_screen_bpp_default;
 	}
 
-	if( cPreferences::m_video_fullscreen_default )
-	{
-		m_video_combo_fullscreen->setText( UTF8_("On") );
-	}
-	else
-	{
-		m_video_combo_fullscreen->setText( UTF8_("Off") );
-	}
-	m_vid_fullscreen = cPreferences::m_video_fullscreen_default;
-
 	if( cPreferences::m_video_vsync_default )
 	{
 		m_video_combo_vsync->setText( UTF8_("On") );
@@ -2583,7 +2518,7 @@ bool cMenu_Options :: Video_Button_Apply_Clicked( const CEGUI::EventArgs &event 
 	SDL_GL_SwapBuffers();
 
 	// apply new settings
-	pPreferences->Apply_Video( m_vid_w, m_vid_h, m_vid_bpp, m_vid_fullscreen, m_vid_vsync, m_vid_geometry_detail, m_vid_texture_detail );
+	pPreferences->Apply_Video( m_vid_w, m_vid_h, m_vid_bpp, false, m_vid_vsync, m_vid_geometry_detail, m_vid_texture_detail );
 
 	// clear
 	Game_Action = GA_ENTER_MENU;
