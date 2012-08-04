@@ -22,7 +22,6 @@
 #include "../video/animation.h"
 #include "../input/keyboard.h"
 #include "../input/mouse.h"
-#include "../input/joystick.h"
 #include "../user/preferences.h"
 #include "../level/level.h"
 #include "../level/level_player.h"
@@ -543,7 +542,7 @@ void cEditor :: Process_Input( void )
 	}
 
 	// Camera Movement
-	if( pKeyboard->isKeyPress(SDLK_RIGHT) || pJoystick->m_right )
+	if( pKeyboard->isKeyPress(SDLK_RIGHT))
 	{
 		if( pKeyboard->Is_Shift_Down() )
 		{
@@ -554,7 +553,7 @@ void cEditor :: Process_Input( void )
 			pActive_Camera->Move( m_camera_speed * pFramerate->m_speed_factor * pPreferences->m_scroll_speed, 0.0f );
 		}
 	}
-	else if( pKeyboard->isKeyPress(SDLK_LEFT) || pJoystick->m_left )
+	else if( pKeyboard->isKeyPress(SDLK_LEFT))
 	{
 		if( pKeyboard->Is_Shift_Down() )
 		{
@@ -565,7 +564,7 @@ void cEditor :: Process_Input( void )
 			pActive_Camera->Move( -( m_camera_speed * pFramerate->m_speed_factor * pPreferences->m_scroll_speed ), 0.0f );
 		}
 	}
-	if( pKeyboard->isKeyPress(SDLK_UP) || pJoystick->m_up )
+	if( pKeyboard->isKeyPress(SDLK_UP))
 	{
 		if( pKeyboard->Is_Shift_Down() )
 		{
@@ -576,7 +575,7 @@ void cEditor :: Process_Input( void )
 			pActive_Camera->Move( 0.0f, -( m_camera_speed * pFramerate->m_speed_factor * pPreferences->m_scroll_speed ) );
 		}
 	}
-	else if( pKeyboard->isKeyPress(SDLK_DOWN) || pJoystick->m_down )
+	else if( pKeyboard->isKeyPress(SDLK_DOWN) )
 	{
 		if( pKeyboard->Is_Shift_Down() )
 		{

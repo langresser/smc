@@ -436,48 +436,6 @@ bool cMenuCore :: Key_Up( SDLKey key )
 	return 1;
 }
 
-bool cMenuCore :: Joy_Button_Down( Uint8 button )
-{
-	// Activate button
-	if( button == pPreferences->m_joy_button_action )
-	{
-		if( m_menu_data )
-		{
-			m_menu_data->m_action = 1;
-		}
-	}
-	// exit
-	else if( button == pPreferences->m_joy_button_exit )
-	{
-		m_menu_data->Exit();
-	}
-	else
-	{
-		// not processed
-		return 0;
-	}
-
-	// key got processed
-	return 1;
-}
-
-bool cMenuCore :: Joy_Button_Up( Uint8 button )
-{
-	// nothing yet
-	if( 0 )
-	{
-		//
-	}
-	else
-	{
-		// not processed
-		return 0;
-	}
-
-	// key got processed
-	return 1;
-}
-
 bool cMenuCore :: Mouse_Down( Uint8 button )
 {
 	// nothing yet

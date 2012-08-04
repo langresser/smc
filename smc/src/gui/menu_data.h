@@ -177,7 +177,6 @@ public:
 	void Init_GUI_Video( void );
 	void Init_GUI_Audio( void );
 	void Init_GUI_Keyboard( void );
-	void Init_GUI_Joystick( void );
 	void Init_GUI_Editor( void );
 	virtual void Exit( void );
 	virtual void Update( void );
@@ -231,15 +230,6 @@ public:
 	// keyboard
 	bool Keyboard_Slider_Scroll_Speed_Changed( const CEGUI::EventArgs &event );
 	bool Keyboard_Button_Reset_Clicked( const CEGUI::EventArgs &event );
-	// joystick
-	bool Joystick_Name_Click( const CEGUI::EventArgs &event );
-	bool Joystick_Name_Select( const CEGUI::EventArgs &event );
-	bool Joystick_Sensitivity_Changed( const CEGUI::EventArgs &event );
-	bool Joystick_Analog_Jump_Select( const CEGUI::EventArgs &event );
-	bool Joystick_Spinner_Axis_Hor_Changed( const CEGUI::EventArgs &event );
-	bool Joystick_Spinner_Axis_Ver_Changed( const CEGUI::EventArgs &event );
-	bool Joystick_List_Double_Click( const CEGUI::EventArgs &event );
-	bool Joystick_Button_Reset_Clicked( const CEGUI::EventArgs &event );
 	// editor
 	bool Game_Editor_Show_Item_Images_Select( const CEGUI::EventArgs &event );
 	bool Game_Editor_Item_Image_Size_Select( const CEGUI::EventArgs &event );

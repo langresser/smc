@@ -17,7 +17,6 @@
 #include "../audio/audio.h"
 #include "../input/keyboard.h"
 #include "../input/mouse.h"
-#include "../input/joystick.h"
 #include "../level/level_editor.h"
 #include "../level/level_player.h"
 #include "../video/renderer.h"
@@ -340,7 +339,6 @@ void Clear_Input_Events( void )
 	// Reset keys
 	pKeyboard->Reset_Keys();
 	pMouseCursor->Reset_Keys();
-	pJoystick->Reset_keys();
 }
 
 void Preload_Images( bool draw_gui /* = 0 */ )

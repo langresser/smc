@@ -25,7 +25,6 @@
 #include "../video/font.h"
 #include "../input/keyboard.h"
 #include "../input/mouse.h"
-#include "../input/joystick.h"
 #include "../user/savegame.h"
 #include "../overworld/world_manager.h"
 #include "../overworld/overworld.h"
@@ -535,9 +534,7 @@ void cLevel :: Leave( const GameMode next_mode /* = MODE_NOTHING */ )
 		// fade out music
 		pAudio->Fadeout_Music( 1000 );
 	}
-
-	pJoystick->Reset_keys();
-
+	
 	// hide editor window if visible
 	if( pLevel_Editor->m_enabled )
 	{
@@ -868,73 +865,6 @@ bool cLevel :: Mouse_Up( Uint8 button )
 	}
 
 	// button got processed
-	return 1;
-}
-
-bool cLevel :: Joy_Button_Down( Uint8 button )
-{
-	// Shoot
-	if( button == pPreferences->m_joy_button_shoot && !editor_enabled )
-	{
-		pLevel_Player->Action_Interact( INP_SHOOT );
-	}
-	// Jump
-	else if( button == pPreferences->m_joy_button_jump && !editor_enabled )
-	{
-		pLevel_Player->Action_Interact( INP_JUMP );
-	}
-	// Interaction keys
-	else if( button == pPreferences->m_joy_button_action && !editor_enabled )
-	{
-		pLevel_Player->Action_Interact( INP_ACTION );
-	}
-	// Request Itembox Item
-	else if( button == pPreferences->m_joy_button_item && !editor_enabled )
-	{
-		pLevel_Player->Action_Interact( INP_ITEM );
-	}
-	// Enter menu
-	else if( button == pPreferences->m_joy_button_exit )
-	{
-		pLevel_Player->Action_Interact( INP_EXIT );
-	}
-	else
-	{
-		// not processed
-		return 0;
-	}
-
-	// key got processed
-	return 1;
-}
-
-bool cLevel :: Joy_Button_Up( Uint8 button )
-{
-	// only if not in Editor
-	if( editor_level_enabled )
-	{
-		return 0;
-	}
-
-	if( button == pPreferences->m_joy_button_jump )
-	{
-		pLevel_Player->Action_Stop_Interact( INP_JUMP );
-	}
-	else if( button == pPreferences->m_joy_button_shoot )
-	{
-		pLevel_Player->Action_Stop_Interact( INP_SHOOT );
-	}
-	else if( button == pPreferences->m_joy_button_action )
-	{
-		pLevel_Player->Action_Stop_Interact( INP_ACTION );
-	}
-	else
-	{
-		// not processed
-		return 0;
-	}
-
-	// key got processed
 	return 1;
 }
 

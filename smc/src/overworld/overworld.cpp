@@ -24,7 +24,6 @@
 #include "../user/preferences.h"
 #include "../video/font.h"
 #include "../input/mouse.h"
-#include "../input/joystick.h"
 #include "../input/keyboard.h"
 #include "../level/level.h"
 #include "../core/i18n.h"
@@ -633,19 +632,19 @@ void cOverworld :: Update_Camera( void )
 	// todo : move to a Process_Input function
 	if( pOverworld_Manager->m_camera_mode )
 	{
-		if( pKeyboard->isKeyPress(pPreferences->m_key_right) || ( pJoystick->m_right && pPreferences->m_joy_enabled ) )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_right))
 		{
 			pOverworld_Manager->m_camera->Move( pFramerate->m_speed_factor * 15, 0 );
 		}
-		else if( pKeyboard->isKeyPress(pPreferences->m_key_left) || ( pJoystick->m_left && pPreferences->m_joy_enabled ) )
+		else if( pKeyboard->isKeyPress(pPreferences->m_key_left))
 		{
 			pOverworld_Manager->m_camera->Move( pFramerate->m_speed_factor * -15, 0 );
 		}
-		if( pKeyboard->isKeyPress(pPreferences->m_key_up) || ( pJoystick->m_up && pPreferences->m_joy_enabled ) )
+		if( pKeyboard->isKeyPress(pPreferences->m_key_up) )
 		{
 			pOverworld_Manager->m_camera->Move( 0, pFramerate->m_speed_factor * -15 );
 		}
-		else if( pKeyboard->isKeyPress(pPreferences->m_key_down) || ( pJoystick->m_down && pPreferences->m_joy_enabled ) )
+		else if( pKeyboard->isKeyPress(pPreferences->m_key_down))
 		{
 			pOverworld_Manager->m_camera->Move( 0, pFramerate->m_speed_factor * 15 );
 		}
@@ -794,45 +793,6 @@ bool cOverworld :: Mouse_Up( Uint8 button )
 	}
 
 	// button got processed
-	return 1;
-}
-
-bool cOverworld :: Joy_Button_Down( Uint8 button )
-{
-	// Exit
-	if( button == pPreferences->m_joy_button_exit )
-	{
-		pOverworld_Player->Action_Interact( INP_EXIT );
-	}
-	// Action
-	else if( button == pPreferences->m_joy_button_action )
-	{
-		pOverworld_Player->Action_Interact( INP_ACTION );
-	}
-	else
-	{
-		// not processed
-		return 0;
-	}
-
-	// key got processed
-	return 1;
-}
-
-bool cOverworld :: Joy_Button_Up( Uint8 button )
-{
-	// nothing yet
-	if( 0 )
-	{
-		//
-	}
-	else
-	{
-		// not processed
-		return 0;
-	}
-
-	// key got processed
 	return 1;
 }
 

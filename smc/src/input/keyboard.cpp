@@ -17,7 +17,6 @@
 #include "../gui/generic.h"
 #include "../input/keyboard.h"
 #include "../input/mouse.h"
-#include "../input/joystick.h"
 #include "../level/level_player.h"
 #include "../gui/menu.h"
 #include "../overworld/overworld.h"

@@ -17,7 +17,6 @@
 #include "../audio/audio.h"
 #include "../video/video.h"
 #include "../core/game_core.h"
-#include "../input/joystick.h"
 #include "../gui/hud.h"
 #include "../level/level_manager.h"
 #include "../core/i18n.h"
@@ -214,18 +213,6 @@ void cPreferences :: Save( void )
 	Write_Property( stream, "keyboard_key_editor_pixel_move_down", m_key_editor_pixel_move_down );
 	Write_Property( stream, "keyboard_key_editor_pixel_move_left", m_key_editor_pixel_move_left );
 	Write_Property( stream, "keyboard_key_editor_pixel_move_right", m_key_editor_pixel_move_right );
-	// Joystick/Gamepad
-	Write_Property( stream, "joy_enabled", m_joy_enabled );
-	Write_Property( stream, "joy_name", m_joy_name );
-	Write_Property( stream, "joy_analog_jump", m_joy_analog_jump );
-	Write_Property( stream, "joy_axis_hor", m_joy_axis_hor );
-	Write_Property( stream, "joy_axis_ver", m_joy_axis_ver );
-	Write_Property( stream, "joy_axis_threshold", m_joy_axis_threshold );
-	Write_Property( stream, "joy_button_jump", static_cast<int>(m_joy_button_jump) );
-	Write_Property( stream, "joy_button_item", static_cast<int>(m_joy_button_item) );
-	Write_Property( stream, "joy_button_shoot", static_cast<int>(m_joy_button_shoot) );
-	Write_Property( stream, "joy_button_action", static_cast<int>(m_joy_button_action) );
-	Write_Property( stream, "joy_button_exit", static_cast<int>(m_joy_button_exit) );
 	// Special
 	Write_Property( stream, "level_background_images", m_level_background_images );
 	Write_Property( stream, "image_cache_enabled", m_image_cache_enabled );
@@ -248,7 +235,6 @@ void cPreferences :: Reset_All( void )
 	Reset_Video();
 	Reset_Audio();
 	Reset_Keyboard();
-	Reset_Joystick();
 	Reset_Editor();
 
 	// Special
@@ -308,24 +294,6 @@ void cPreferences :: Reset_Keyboard( void )
 	m_key_editor_pixel_move_right = m_key_editor_pixel_move_right_default;
 }
 
-void cPreferences :: Reset_Joystick( void )
-{
-	m_joy_enabled = m_joy_enabled_default;
-	m_joy_name.clear();
-	m_joy_analog_jump = m_joy_analog_jump_default;
-	// axes
-	m_joy_axis_hor = m_joy_axis_hor_default;
-	m_joy_axis_ver = m_joy_axis_ver_default;
-	// axis threshold
-	m_joy_axis_threshold = m_joy_axis_threshold_default;
-	// buttons
-	m_joy_button_jump = m_joy_button_jump_default;
-	m_joy_button_shoot = m_joy_button_shoot_default;
-	m_joy_button_item = m_joy_button_item_default;
-	m_joy_button_action = m_joy_button_action_default;
-	m_joy_button_exit = m_joy_button_exit_default;
-}
-
 void cPreferences :: Reset_Editor( void )
 {
 	m_editor_mouse_auto_hide = m_editor_mouse_auto_hide_default;
@@ -340,29 +308,12 @@ void cPreferences :: Update( void )
 
 	m_audio_music = pAudio->m_music_enabled;
 	m_audio_sound = pAudio->m_sound_enabled;
-
-	// if not default joy used
-	if( pJoystick->m_current_joystick > 0 )
-	{
-		m_joy_name = pJoystick->Get_Name();
-	}
-	// using default joy
-	else
-	{
-		m_joy_name.clear();
-	}
 }
 
 void cPreferences :: Apply( void )
 {
 	pLevel_Manager->m_camera->m_hor_offset_speed = m_camera_hor_speed;
 	pLevel_Manager->m_camera->m_ver_offset_speed = m_camera_ver_speed;
-	
-	// disable joystick if the joystick initialization failed
-	if( pVideo->m_joy_init_failed )
-	{
-		m_joy_enabled = 0;
-	}
 }
 
 void cPreferences :: Apply_Video( Uint16 screen_w, Uint16 screen_h, Uint8 screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail )
@@ -685,91 +636,6 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 		if( val >= 0)
 		{
 			m_key_editor_pixel_move_right = static_cast<SDLKey>(val);
-		}
-	}
-	// Joypad
-	else if( name.compare( "joy_enabled" ) == 0 )
-	{
-		m_joy_enabled = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "joy_name" ) == 0 )
-	{
-		m_joy_name = attributes.getValueAsString( "value" ).c_str();
-	}
-	else if( name.compare( "joy_analog_jump" ) == 0 )
-	{
-		m_joy_analog_jump = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "joy_axis_hor" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_axis_hor = val;
-		}
-	}
-	else if( name.compare( "joy_axis_ver" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_axis_ver = val;
-		}
-	}
-	else if( name.compare( "joy_axis_threshold" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 32767 )
-		{
-			m_joy_axis_threshold = val;
-		}
-	}
-	else if( name.compare( "joy_button_jump" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_jump = val;
-		}
-	}
-	else if( name.compare( "joy_button_item" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_item = val;
-		}
-	}
-	else if( name.compare( "joy_button_shoot" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_shoot = val;
-		}
-	}
-	else if( name.compare( "joy_button_action" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_action = val;
-		}
-	}
-	else if( name.compare( "joy_button_exit" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_exit = val;
 		}
 	}
 	// Special

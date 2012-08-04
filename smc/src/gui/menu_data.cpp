@@ -22,7 +22,6 @@
 #include "../overworld/overworld.h"
 #include "../core/campaign_manager.h"
 #include "../user/preferences.h"
-#include "../input/joystick.h"
 #include "../input/mouse.h"
 #include "../core/framerate.h"
 #include "../user/savegame.h"
@@ -1241,7 +1240,6 @@ void cMenu_Options :: Init_GUI( void )
 	Init_GUI_Video();
 	Init_GUI_Audio();
 	Init_GUI_Keyboard();
-	Init_GUI_Joystick();
 	Init_GUI_Editor();
 }
 
@@ -1552,120 +1550,6 @@ void cMenu_Options :: Init_GUI_Keyboard( void )
 	CEGUI::PushButton *button_reset_keyboard = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "keyboard_button_reset" ));
 	button_reset_keyboard->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Keyboard_Button_Reset_Clicked, this ) );
 	button_reset_keyboard->setText( UTF8_("Reset") );
-}
-
-void cMenu_Options :: Init_GUI_Joystick( void )
-{
-	// get the CEGUI window manager
-	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-
-	// Joystick sensitivity text
-	CEGUI::Window *text_joystick_sensitivity = wmgr.getWindow( "joystick_text_sensitivity" );
-	text_joystick_sensitivity->setText( UTF8_("Sensitivity") );	
-
-	// Joystick analog jump text
-	CEGUI::Window *text_joystick_analog_jump = wmgr.getWindow( "joystick_text_analog_jump" );
-	text_joystick_analog_jump->setText( UTF8_("Analog Jump") );
-	
-	// Joystick name
-	CEGUI::Window *text_joystick_name = wmgr.getWindow( "joystick_text_name" );
-	text_joystick_name->setText( UTF8_("Joystick") );
-
-	text_joystick_name->subscribeEvent( CEGUI::Window::EventMouseClick, CEGUI::Event::Subscriber( &cMenu_Options::Joystick_Name_Click, this ) );
-
-	CEGUI::Combobox *combo_joy = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "joystick_combo" ));
-
-	// Add None
-	CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( UTF8_("None") );
-	item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
-	combo_joy->addItem( item );
-
-	// Add all Joy names
-	vector<std::string> joy_names = pJoystick->Get_Names();
-
-	for( unsigned int i = 0; i < joy_names.size(); i++ )
-	{
-		item = new CEGUI::ListboxTextItem( joy_names[i] );
-		item->setTextColours( CEGUI::colour( 0.3f, 1, 0.3f ) );
-		combo_joy->addItem( item );
-	}
-
-	// Selected Item
-	CEGUI::ListboxTextItem *selected_item = NULL;
-
-	// Set current Joy name
-	if( pPreferences->m_joy_enabled )
-	{
-		selected_item = static_cast<CEGUI::ListboxTextItem *>( combo_joy->findItemWithText( pJoystick->Get_Name(), NULL ) );
-	}
-	// disabled
-	else
-	{
-		selected_item = static_cast<CEGUI::ListboxTextItem *>( combo_joy->getListboxItemFromIndex( 0 ) );
-	}
-	// set Item
-	combo_joy->setText( selected_item->getText() );
-
-	combo_joy->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Joystick_Name_Select, this ) );
-
-	// Joystick Sensitivity
-	CEGUI::Slider *slider_joy_sensitivity = static_cast<CEGUI::Slider *>(wmgr.getWindow( "joystick_slider_sensitivity" ));
-	slider_joy_sensitivity->setCurrentValue( pPreferences->m_joy_axis_threshold );
-	slider_joy_sensitivity->subscribeEvent( CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber( &cMenu_Options::Joystick_Sensitivity_Changed, this ) );
-
-	// Joystick analog jump
-	CEGUI::Combobox *combo_joy_analog_jump = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "joystick_combo_analog_jump" ));
-
-	item = new CEGUI::ListboxTextItem( UTF8_("On") );
-	item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
-	combo_joy_analog_jump->addItem( item );
-	item = new CEGUI::ListboxTextItem( UTF8_("Off") );
-	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
-	combo_joy_analog_jump->addItem( item );
-
-	if( pPreferences->m_joy_analog_jump )
-	{
-		combo_joy_analog_jump->setText( UTF8_("On") );
-	}
-	else
-	{
-		combo_joy_analog_jump->setText( UTF8_("Off") );
-	}
-
-	combo_joy_analog_jump->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Joystick_Analog_Jump_Select, this ) );
-
-	// Joystick axis horizontal
-	CEGUI::Window *text_joystick_axis_hor = wmgr.getWindow( "joystick_text_axis_hor" );
-	text_joystick_axis_hor->setText( UTF8_("Axis Hor") );
-
-	CEGUI::Spinner *spinner_joystick_axis_hor = static_cast<CEGUI::Spinner *>(wmgr.getWindow( "joystick_spinner_axis_hor" ));
-	spinner_joystick_axis_hor->setCurrentValue( static_cast<float>(pPreferences->m_joy_axis_hor) );
-	spinner_joystick_axis_hor->subscribeEvent( CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber( &cMenu_Options::Joystick_Spinner_Axis_Hor_Changed, this ) );
-
-	// Joystick axis vertical
-	CEGUI::Window *text_joystick_axis_ver = wmgr.getWindow( "joystick_text_axis_ver" );
-	text_joystick_axis_ver->setText( UTF8_("Ver") );
-
-	CEGUI::Spinner *spinner_joystick_axis_ver = static_cast<CEGUI::Spinner *>(wmgr.getWindow( "joystick_spinner_axis_ver" ));
-	spinner_joystick_axis_ver->setCurrentValue( static_cast<float>(pPreferences->m_joy_axis_ver) );
-	spinner_joystick_axis_ver->subscribeEvent( CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber( &cMenu_Options::Joystick_Spinner_Axis_Ver_Changed, this ) );
-
-	// Joystick shortcut listbox
-	CEGUI::Window *text_joystick_shortcuts = wmgr.getWindow( "joystick_text_shortcuts" );
-	text_joystick_shortcuts->setText( UTF8_("Shortcuts") );
-
-	CEGUI::MultiColumnList *listbox_joystick = static_cast<CEGUI::MultiColumnList *>(wmgr.getWindow( "joystick_listbox" ));
-
-	listbox_joystick->addColumn( UTF8_("Name"), 0, CEGUI::UDim( 0.47f, 0 ) );
-	listbox_joystick->addColumn( UTF8_("Button"), 1, CEGUI::UDim( 0.47f, 0 ) );
-	Build_Shortcut_List( 1 );
-
-	listbox_joystick->subscribeEvent( CEGUI::MultiColumnList::EventMouseDoubleClick, CEGUI::Event::Subscriber( &cMenu_Options::Joystick_List_Double_Click, this ) );
-
-	// Reset Joystick
-	CEGUI::PushButton *button_reset_joystick = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "joystick_button_reset" ));
-	button_reset_joystick->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Joystick_Button_Reset_Clicked, this ) );
-	button_reset_joystick->setText( UTF8_("Reset") );
 }
 
 void cMenu_Options :: Init_GUI_Editor( void )
@@ -2033,16 +1917,6 @@ void cMenu_Options :: Build_Shortcut_List( bool joystick /* = 0 */ )
 		shortcuts.push_back( cShortcut_item( UTF8_("Editor pixel move left"), &pPreferences->m_key_editor_pixel_move_left, &pPreferences->m_key_editor_pixel_move_left_default ) );
 		shortcuts.push_back( cShortcut_item( UTF8_("Editor pixel move right"), &pPreferences->m_key_editor_pixel_move_right, &pPreferences->m_key_editor_pixel_move_right_default ) );
 	}
-	// Joystick
-	else
-	{
-		shortcuts.push_back( cShortcut_item( UTF8_("Jump"), &pPreferences->m_joy_button_jump, &pPreferences->m_joy_button_jump_default ) );
-		shortcuts.push_back( cShortcut_item( UTF8_("Shoot"), &pPreferences->m_joy_button_shoot, &pPreferences->m_joy_button_shoot_default ) );
-		shortcuts.push_back( cShortcut_item( UTF8_("Action"), &pPreferences->m_joy_button_action, &pPreferences->m_joy_button_action_default ) );
-		shortcuts.push_back( cShortcut_item( UTF8_("Item"), &pPreferences->m_joy_button_item, &pPreferences->m_joy_button_item_default ) );
-		shortcuts.push_back( cShortcut_item( UTF8_("Exit"), &pPreferences->m_joy_button_exit, &pPreferences->m_joy_button_exit_default ) );
-	}
-
 
 	// add all available shortcuts
 	for( vector<cShortcut_item>::iterator itr = shortcuts.begin(); itr != shortcuts.end(); ++itr )
@@ -2155,24 +2029,6 @@ void cMenu_Options :: Set_Shortcut( std::string name, void *data, bool joystick 
 	}
 
 	Build_Shortcut_List( joystick );
-}
-
-void cMenu_Options :: Joy_Default( unsigned int index )
-{
-	pPreferences->m_joy_enabled = 1;
-	pPreferences->m_joy_name = SDL_JoystickName( index );
-
-	// initialize and if no joystick available disable
-	pJoystick->Init();
-}
-
-void cMenu_Options :: Joy_Disable( void )
-{
-	pPreferences->m_joy_enabled = 0;
-	pPreferences->m_joy_name.clear();
-
-	// close the joystick
-	pJoystick->Stick_Close();
 }
 
 bool cMenu_Options :: Button_Back_Click( const CEGUI::EventArgs &event )
@@ -2515,155 +2371,6 @@ bool cMenu_Options :: Keyboard_Slider_Scroll_Speed_Changed( const CEGUI::EventAr
 bool cMenu_Options :: Keyboard_Button_Reset_Clicked( const CEGUI::EventArgs &event )
 {
 	pPreferences->Reset_Keyboard();
-
-	// clear
-	Game_Action = GA_ENTER_MENU;
-	Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_OPTIONS ) );
-	if( m_exit_to_gamemode != MODE_NOTHING )
-	{
-		Game_Action_Data_Middle.add( "menu_exit_back_to", int_to_string( m_exit_to_gamemode ) );
-	}
-
-	return 1;
-}
-
-bool cMenu_Options :: Joystick_Name_Click( const CEGUI::EventArgs &event )
-{
-	// Get Joystick Combo
-	CEGUI::Combobox *combo_joy = static_cast<CEGUI::Combobox *>( CEGUI::WindowManager::getSingleton().getWindow( "combo_joy" ) );
-	
-	// selected item id
-	int selected_item = 0;
-	// current list item
-	CEGUI::ListboxTextItem *list_item = static_cast<CEGUI::ListboxTextItem *>( combo_joy->findItemWithText( combo_joy->getText(), NULL ) );
-
-	// if selected
-	if( list_item )
-	{
-		selected_item = combo_joy->getItemIndex( list_item );
-	}
-
-	// select first
-	if( selected_item >= SDL_NumJoysticks() )
-	{
-		selected_item = 0;
-	}
-	// select next item
-	else
-	{
-		selected_item++;
-	}
-
-	// Disable Joy
-	if( selected_item == 0 )
-	{
-		Joy_Disable();
-	}
-	// Select Joy
-	else
-	{
-		Joy_Default( selected_item - 1 );
-	}
-
-	// check if initialization succeeded
-	if( selected_item )
-	{
-		// initialized
-		if( pPreferences->m_joy_enabled )
-		{
-			Draw_Static_Text( _("Enabled : ") + pJoystick->Get_Name(), &yellow );
-		}
-		// failed
-		else
-		{
-			selected_item = 0;
-		}
-	}
-
-	combo_joy->setText( combo_joy->getListboxItemFromIndex( selected_item )->getText() );
-
-	return 1;
-}
-
-bool cMenu_Options :: Joystick_Name_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::Combobox *combo = static_cast<CEGUI::Combobox*>( windowEventArgs.window );
-	CEGUI::ListboxItem *item = combo->getSelectedItem();
-
-	if( item->getText().compare( _("None") ) == 0 )
-	{
-		Joy_Disable();
-	}
-	else
-	{
-		Joy_Default( combo->getItemIndex( item ) - 1 );
-	}
-
-	return 1;
-}
-
-bool cMenu_Options :: Joystick_Sensitivity_Changed( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	// set new value
-	pPreferences->m_joy_axis_threshold = static_cast<Sint16>(static_cast<CEGUI::Slider *>( windowEventArgs.window )->getCurrentValue());
-
-	return 1;
-}
-
-bool cMenu_Options :: Joystick_Analog_Jump_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox*>( windowEventArgs.window )->getSelectedItem();
-
-	bool analog_jump = 0;
-
-	if( item->getText().compare( _("On") ) == 0 )
-	{
-		analog_jump = 1;
-	}
-
-	pPreferences->m_joy_analog_jump = analog_jump;
-
-	return 1;
-}
-
-bool cMenu_Options :: Joystick_Spinner_Axis_Hor_Changed( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	// set new value
-	pPreferences->m_joy_axis_hor = static_cast<int>(static_cast<CEGUI::Spinner *>( windowEventArgs.window )->getCurrentValue());
-
-	return 1;
-}
-
-bool cMenu_Options :: Joystick_Spinner_Axis_Ver_Changed( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	// set new value
-	pPreferences->m_joy_axis_ver = static_cast<int>(static_cast<CEGUI::Spinner *>( windowEventArgs.window )->getCurrentValue());
-
-	return 1;
-}
-
-bool cMenu_Options :: Joystick_List_Double_Click( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::ListboxItem *item = static_cast<CEGUI::MultiColumnList *>( windowEventArgs.window )->getFirstSelectedItem();
-
-	// set shortcut
-	if( item )
-	{
-		Set_Shortcut( item->getText().c_str(), item->getUserData(), 1 );
-	}
-
-	return 1;
-}
-
-bool cMenu_Options :: Joystick_Button_Reset_Clicked( const CEGUI::EventArgs &event )
-{
-	pPreferences->Reset_Joystick();
 
 	// clear
 	Game_Action = GA_ENTER_MENU;

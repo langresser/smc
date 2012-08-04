@@ -45,7 +45,6 @@ public:
 	void Reset_Video( void );
 	void Reset_Audio( void );
 	void Reset_Keyboard( void );
-	void Reset_Joystick( void );
 	void Reset_Editor( void );
 	 // Get settings from current game settings
 	void Update( void );
@@ -102,23 +101,6 @@ public:
 	SDLKey m_key_editor_pixel_move_right;
 	// scroll speed
 	float m_scroll_speed;
-	// Joystick
-	bool m_joy_enabled;
-	// active joy name
-	std::string m_joy_name;
-	// jump with upwards
-	bool m_joy_analog_jump;
-	// hor/ver axis used
-	int m_joy_axis_hor;
-	int m_joy_axis_ver;
-	// axis threshold
-	Sint16 m_joy_axis_threshold;
-	// button definitions
-	Uint8 m_joy_button_jump;
-	Uint8 m_joy_button_shoot;
-	Uint8 m_joy_button_item;
-	Uint8 m_joy_button_action;
-	Uint8 m_joy_button_exit;
 
 	// Editor
 	// hide mouse if clicked on an object

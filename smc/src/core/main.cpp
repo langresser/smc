@@ -27,7 +27,6 @@
 #include "../audio/audio.h"
 #include "../level/level_editor.h"
 #include "../overworld/world_editor.h"
-#include "../input/joystick.h"
 #include "../overworld/world_manager.h"
 #include "../overworld/overworld.h"
 #include "../core/campaign_manager.h"
@@ -323,7 +322,6 @@ void Init_Game( void )
 	pWorld_Editor = new cEditor_World( pActive_Level->m_sprite_manager, NULL );
 	pMouseCursor = new cMouseCursor( pActive_Level->m_sprite_manager );
 	pKeyboard = new cKeyboard();
-	pJoystick = new cJoystick();
 	pLevel_Manager->Init();
 	// note : set any sprite manager as cOverworld_Manager::Load sets it again
 	pOverworld_Player = new cOverworld_Player( pActive_Level->m_sprite_manager, NULL );
@@ -403,12 +401,6 @@ void Exit_Game( void )
 	{
 		delete pMouseCursor;
 		pMouseCursor = NULL;
-	}
-
-	if( pJoystick )
-	{
-		delete pJoystick;
-		pJoystick = NULL;
 	}
 
 	if( pKeyboard )
@@ -548,32 +540,6 @@ bool Handle_Input_Global( SDL_Event *ev )
 			{
 				return 1;
 			}
-			break;
-		}
-		case SDL_JOYBUTTONDOWN:
-		{
-			if( pJoystick->Handle_Button_Down_Event( ev ) )
-			{
-				return 1;
-			}
-			break;
-		}
-		case SDL_JOYBUTTONUP:
-		{
-			if( pJoystick->Handle_Button_Up_Event( ev ) )
-			{
-				return 1;
-			}
-			break;
-		}
-		case SDL_JOYHATMOTION:
-		{
-			pJoystick->Handle_Hat( ev );
-			break;
-		}
-		case SDL_JOYAXISMOTION:
-		{
-			pJoystick->Handle_Motion( ev );
 			break;
 		}
 		case SDL_ACTIVEEVENT:
