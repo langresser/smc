@@ -659,9 +659,9 @@ void Update_Game( void )
 		Correct_Frame_Time( 100 );
 	}
 	// if fps limit is set
-	else if( pPreferences->m_video_fps_limit )
+	else
 	{
-		Correct_Frame_Time( pPreferences->m_video_fps_limit );
+		Correct_Frame_Time( 60 );
 	}
 	
 	// ## game events

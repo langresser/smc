@@ -151,27 +151,6 @@ void cGL_Surface :: Blit_Data( cSurface_Request *request ) const
 	request->m_rot_z += m_base_rot_z;
 }
 
-void cGL_Surface :: Save( const std::string &filename )
-{
-	if( !m_image )
-	{
-		printf( "Couldn't save cGL_Surface : No Image Texture ID set\n" );
-		return;
-	}
-
-	// bind the texture
-	glBindTexture( GL_TEXTURE_2D, m_image );
-
-	// create image data
-	GLubyte *data = new GLubyte[m_tex_w * m_tex_h * 4];
-	// read texture
-	glGetTexImage( GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, static_cast<GLvoid *>(data) );
-	// save
-	pVideo->Save_Surface( filename, data, m_tex_w, m_tex_h );
-	// clear data
-	delete[] data;
-}
-
 void cGL_Surface :: Set_Ground_Type( GroundType gtype )
 {
 	m_ground_type = gtype;

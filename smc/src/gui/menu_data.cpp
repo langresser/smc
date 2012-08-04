@@ -1190,7 +1190,6 @@ void cMenu_Options :: Init( void )
 	// video settings
 	m_vid_w = pPreferences->m_video_screen_w;
 	m_vid_h = pPreferences->m_video_screen_h;
-	m_vid_bpp = pPreferences->m_video_screen_bpp;
 	m_vid_geometry_detail = pVideo->m_geometry_quality;
 	m_vid_texture_detail = pVideo->m_texture_quality;
 
@@ -1421,32 +1420,6 @@ void cMenu_Options :: Init_GUI_Video( void )
 
 	m_video_combo_resolution->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Video_Resolution_Select, this ) );
 
-	// Bpp
-	CEGUI::Window *text_bpp = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_bpp" ));
-	text_bpp->setText( UTF8_("Bpp") );
-
-	m_video_combo_bpp = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "video_combo_bpp" ));
-
-	item = new CEGUI::ListboxTextItem( "16" );
-	item->setTextColours( CEGUI::colour( 1, 0.6f, 0.3f ) );
-	m_video_combo_bpp->addItem( item );
-	item = new CEGUI::ListboxTextItem( "32" );
-	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
-	m_video_combo_bpp->addItem( item );
-
-	m_video_combo_bpp->setText( int_to_string( pPreferences->m_video_screen_bpp ) );
-
-	m_video_combo_bpp->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Video_Bpp_Select, this ) );
-
-	// FPS Limit
-	CEGUI::Window *text_fps_limit = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_fps_limit" ));
-	text_fps_limit->setText( UTF8_("FPS Limit") );
-
-	m_video_spinner_fps_limit = static_cast<CEGUI::Spinner *>(wmgr.getWindow( "video_spinner_fps_limit" ));
-	m_video_spinner_fps_limit->setCurrentValue( pPreferences->m_video_fps_limit );
-
-	m_video_spinner_fps_limit->subscribeEvent( CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber( &cMenu_Options::Video_FPS_Limit_Select, this ) );
-
 	// Geometry quality
 	CEGUI::Window *text_geometry_quality = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_geometry_quality" ));
 	text_geometry_quality->setText( UTF8_("Geometry Quality") );
@@ -1479,29 +1452,6 @@ void cMenu_Options :: Init_GUI_Audio( void )
 	// get the CEGUI window manager
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 
-	// Audio Hz
-	CEGUI::Window *text_hz = static_cast<CEGUI::Window *>(wmgr.getWindow( "audio_text_hz" ));
-	text_hz->setText( UTF8_("Hertz (Hz)") );
-	text_hz->setTooltipText( UTF8_("You should only change the value if the audio is scratchy.") );
-
-	m_audio_combo_hz = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "audio_combo_hz" ));
-
-	CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( "22050" );
-	item->setTextColours( CEGUI::colour( 1, 0, 0 ) );
-	m_audio_combo_hz->addItem( item );
-	item = new CEGUI::ListboxTextItem( "44100" );
-	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
-	m_audio_combo_hz->addItem( item );
-	item = new CEGUI::ListboxTextItem( "48000" );
-	item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
-	m_audio_combo_hz->addItem( item );
-
-	// Set current value
-	m_audio_combo_hz->setText( int_to_string( pPreferences->m_audio_hz ) );
-
-	m_audio_combo_hz->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Audio_Hz_Select, this ) );
-
-
 	// Music
 	CEGUI::Window *text_music = static_cast<CEGUI::Window *>(wmgr.getWindow( "audio_text_music" ));
 	text_music->setText( UTF8_("Music") );
@@ -1509,7 +1459,7 @@ void cMenu_Options :: Init_GUI_Audio( void )
 
 	m_audio_combo_music = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "audio_combo_music" ));
 
-	item = new CEGUI::ListboxTextItem( UTF8_("On") );
+	CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem( UTF8_("On") );
 	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
 	m_audio_combo_music->addItem( item );
 	item = new CEGUI::ListboxTextItem( UTF8_("Off") );
@@ -1958,30 +1908,8 @@ void cMenu_Options :: Change_Video_Setting( int setting )
 
 void cMenu_Options :: Change_Audio_Setting( int setting )
 {
-	// Hz
-	if( pMenuCore->m_handler->m_active == 5 )
-	{
-		unsigned int selected = m_audio_combo_hz->getItemIndex( m_audio_combo_hz->findItemWithText( m_audio_combo_hz->getText(), NULL ) );
-
-		CEGUI::ListboxItem *new_selected = NULL;
-
-		// last item selected
-		if( selected == m_audio_combo_hz->getItemCount() - 1 )
-		{
-			new_selected = m_audio_combo_hz->getListboxItemFromIndex( 0 );
-		}
-		// select next item
-		else
-		{
-			new_selected = m_audio_combo_hz->getListboxItemFromIndex( selected + 1 );
-		}
-		
-		m_audio_combo_hz->setText( new_selected->getText() );
-		m_audio_combo_hz->setItemSelectState( new_selected, 1 );
-		Audio_Hz_Select( CEGUI::WindowEventArgs( m_audio_combo_hz ) );
-	}
 	// Music
-	else if( pMenuCore->m_handler->m_active == 6 )
+	if( pMenuCore->m_handler->m_active == 6 )
 	{
 		pAudio->Toggle_Music();
 
@@ -2393,33 +2321,6 @@ bool cMenu_Options :: Video_Bpp_Select( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-bool cMenu_Options :: Video_Vsync_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-
-	bool bvsync = 0;
-
-	if( item->getText().compare( UTF8_("On") ) == 0 )
-	{
-		bvsync = 1;
-	}
-
-	m_vid_vsync = bvsync;
-
-	return 1;
-}
-
-bool cMenu_Options :: Video_FPS_Limit_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::Spinner *spinner_fps_limit = static_cast<CEGUI::Spinner *>( windowEventArgs.window );
-	
-	pPreferences->m_video_fps_limit = spinner_fps_limit->getCurrentValue();
-
-	return 1;
-}
-
 bool cMenu_Options :: Video_Slider_Geometry_Quality_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
@@ -2455,19 +2356,6 @@ bool cMenu_Options :: Video_Button_Reset_Clicked( const CEGUI::EventArgs &event 
 		m_video_combo_bpp->setItemSelectState( list_item, 1 );
 		m_vid_bpp = cPreferences::m_video_screen_bpp_default;
 	}
-
-	if( cPreferences::m_video_vsync_default )
-	{
-		m_video_combo_vsync->setText( UTF8_("On") );
-	}
-	else
-	{
-		m_video_combo_vsync->setText( UTF8_("Off") );
-	}
-	m_vid_vsync = cPreferences::m_video_vsync_default;
-
-	m_video_spinner_fps_limit->setCurrentValue( cPreferences::m_video_fps_limit_default );
-	pPreferences->m_video_fps_limit = cPreferences::m_video_fps_limit_default;
 
 	m_video_slider_geometry_quality->setCurrentValue( cPreferences::m_geometry_quality_default );
 	m_vid_geometry_detail = cPreferences::m_geometry_quality_default;
@@ -2512,25 +2400,6 @@ bool cMenu_Options :: Video_Button_Recreate_Cache_Clicked( const CEGUI::EventArg
 	pImage_Manager->Restore_Textures( 1 );
 
 	Loading_Screen_Exit();
-
-	return 1;
-}
-
-bool cMenu_Options :: Audio_Hz_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-
-	pPreferences->m_audio_hz = string_to_int( item->getText().c_str() );
-
-	// draw reloading text
-	Draw_Static_Text( _("Reloading"), &green, NULL, 0 );
-	// reload
-	pAudio->Close();
-	pSound_Manager->Delete_All();
-	pAudio->Init();
-	// todo : add sound manager function to reload sounds and music when needed
-	Preload_Sounds();
 
 	return 1;
 }

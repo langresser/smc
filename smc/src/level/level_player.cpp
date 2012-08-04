@@ -277,10 +277,6 @@ void cLevel_Player :: DownGrade_Player( bool delayed /* = 1 */, bool force /* = 
 				{
 					goto animation_end;
 				}
-				else if( input_event.key.keysym.sym == pPreferences->m_key_screenshot )
-				{
-					pVideo->Save_Screenshot();
-				}
 			}
 			else if( input_event.type == SDL_JOYBUTTONDOWN )
 			{
@@ -315,10 +311,6 @@ void cLevel_Player :: DownGrade_Player( bool delayed /* = 1 */, bool force /* = 
 				if( input_event.key.keysym.sym == SDLK_ESCAPE )
 				{
 					goto animation_end;
-				}
-				else if( input_event.key.keysym.sym == pPreferences->m_key_screenshot )
-				{
-					pVideo->Save_Screenshot();
 				}
 			}
 			else if( input_event.type == SDL_JOYBUTTONDOWN )
@@ -388,13 +380,6 @@ animation_end:
 		{
 			while( SDL_PollEvent( &input_event ) )
 			{
-				if( input_event.type == SDL_KEYDOWN )
-				{
-					if( input_event.key.keysym.sym == pPreferences->m_key_screenshot )
-					{
-						pVideo->Save_Screenshot();
-					}
-				}
 			}
 
 			// Escape stops

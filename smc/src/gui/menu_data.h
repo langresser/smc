@@ -216,15 +216,12 @@ public:
 	// video
 	bool Video_Resolution_Select( const CEGUI::EventArgs &event );
 	bool Video_Bpp_Select( const CEGUI::EventArgs &event );
-	bool Video_Vsync_Select( const CEGUI::EventArgs &event );
-	bool Video_FPS_Limit_Select( const CEGUI::EventArgs &event );
 	bool Video_Slider_Geometry_Quality_Changed( const CEGUI::EventArgs &event );
 	bool Video_Slider_Texture_Quality_Changed( const CEGUI::EventArgs &event );
 	bool Video_Button_Reset_Clicked( const CEGUI::EventArgs &event );
 	bool Video_Button_Apply_Clicked( const CEGUI::EventArgs &event );
 	bool Video_Button_Recreate_Cache_Clicked( const CEGUI::EventArgs &event );
 	// audio
-	bool Audio_Hz_Select( const CEGUI::EventArgs &event );
 	bool Audio_Music_Select( const CEGUI::EventArgs &event );
 	bool Audio_Music_Volume_Changed( const CEGUI::EventArgs &event );
 	bool Audio_Sound_Select( const CEGUI::EventArgs &event );

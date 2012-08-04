@@ -76,13 +76,10 @@ public:
 	// Audio
 	bool m_audio_music;
 	bool m_audio_sound;
-	unsigned int m_audio_hz;
 
 	// Video
 	Uint16 m_video_screen_w;
 	Uint16 m_video_screen_h;
-	Uint8 m_video_screen_bpp;
-	Uint16 m_video_fps_limit;
 
 	// Keyboard
 	// key definitions

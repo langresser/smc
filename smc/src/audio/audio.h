@@ -19,6 +19,8 @@
 #include "../core/global_basic.h"
 #include "../audio/sound_manager.h"
 
+#define AUDIO_HZ 44100
+
 namespace SMC
 {
 

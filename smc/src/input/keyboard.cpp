@@ -208,11 +208,6 @@ bool cKeyboard :: Key_Down( SDLKey key )
 			pHud_Debug->Set_Text( "Fixed speed factor enabled" );
 		}
 	}
-	// take a screenshot
-	else if( key == pPreferences->m_key_screenshot )
-	{
-		pVideo->Save_Screenshot();
-	}
 	// pause the game
 	else if( key == SDLK_PAUSE )
 	{

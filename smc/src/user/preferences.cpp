@@ -188,8 +188,6 @@ void cPreferences :: Save( void )
 	// Video
 	Write_Property( stream, "video_screen_w", m_video_screen_w );
 	Write_Property( stream, "video_screen_h", m_video_screen_h );
-	Write_Property( stream, "video_screen_bpp", static_cast<int>(m_video_screen_bpp) );
-	Write_Property( stream, "video_fps_limit", m_video_fps_limit );
 	Write_Property( stream, "video_geometry_quality", pVideo->m_geometry_quality );
 	Write_Property( stream, "video_texture_quality", pVideo->m_texture_quality );
 	// Audio
@@ -197,7 +195,6 @@ void cPreferences :: Save( void )
 	Write_Property( stream, "audio_sound", m_audio_sound );
 	Write_Property( stream, "audio_sound_volume", static_cast<int>(pAudio->m_sound_volume) );
 	Write_Property( stream, "audio_music_volume", static_cast<int>(pAudio->m_music_volume) );
-	Write_Property( stream, "audio_hz", m_audio_hz );
 	// Keyboard
 	Write_Property( stream, "keyboard_key_up", m_key_up );
 	Write_Property( stream, "keyboard_key_down", m_key_down );
@@ -276,8 +273,6 @@ void cPreferences :: Reset_Video( void )
 	// Video
 	m_video_screen_w = m_video_screen_w_default;
 	m_video_screen_h = m_video_screen_h_default;
-	m_video_screen_bpp = m_video_screen_bpp_default;
-	m_video_fps_limit = m_video_fps_limit_default;
 	pVideo->m_geometry_quality = m_geometry_quality_default;
 	pVideo->m_texture_quality = m_texture_quality_default;
 }
@@ -287,7 +282,6 @@ void cPreferences :: Reset_Audio( void )
 	// Audio
 	m_audio_music = m_audio_music_default;
 	m_audio_sound = m_audio_sound_default;
-	m_audio_hz = m_audio_hz_default;
 	pAudio->m_sound_volume = m_sound_volume_default;
 	pAudio->m_music_volume = m_music_volume_default;
 }
@@ -376,12 +370,11 @@ void cPreferences :: Apply_Video( Uint16 screen_w, Uint16 screen_h, Uint8 screen
 	/* if resolution, bpp, vsync or texture detail changed
 	 * a texture reload is necessary
 	*/
-	if( m_video_screen_w != screen_w || m_video_screen_h != screen_h || m_video_screen_bpp != screen_bpp || !Is_Float_Equal( pVideo->m_texture_quality, texture_detail ) )
+	if( m_video_screen_w != screen_w || m_video_screen_h != screen_h || !Is_Float_Equal( pVideo->m_texture_quality, texture_detail ) )
 	{
 		// new settings
 		m_video_screen_w = screen_w;
 		m_video_screen_h = screen_h;
-		m_video_screen_bpp = screen_bpp;
 		pVideo->m_texture_quality = texture_detail;
 		pVideo->m_geometry_quality = geometry_detail;
 
@@ -501,25 +494,6 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 
 		m_video_screen_w = val;
 	}
-	else if( name.compare( "video_screen_bpp" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val < 8 )
-		{
-			val = 8;
-		}
-		else if( val > 32 )
-		{
-			val = 32;
-		}
-
-		m_video_screen_bpp = val;
-	}
-	else if( name.compare( "video_fps_limit" ) == 0 )
-	{
-		m_video_fps_limit = attributes.getValueAsInteger( "value" );
-	}
 	else if( name.compare( "video_geometry_detail" ) == 0 || name.compare( "video_geometry_quality" ) == 0 )
 	{
 		pVideo->m_geometry_quality = attributes.getValueAsFloat( "value" );
@@ -553,15 +527,6 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 		if( val >= 0 && val <= MIX_MAX_VOLUME )
 		{
 			pAudio->m_sound_volume = val;
-		}
-	}
-	else if( name.compare( "audio_hz" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 96000 )
-		{
-			m_audio_hz = val;
 		}
 	}
 	// Keyboard

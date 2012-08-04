@@ -210,11 +210,6 @@ public:
 	*/
 	bool Downscale_Image( const unsigned char *const orig, int width, int height, int channels, unsigned char *resampled, int block_size_x, int block_size_y ) const;
 
-	// Save an image of the current screen
-	void Save_Screenshot( void );
-	// Save data as png image
-	void Save_Surface( const std::string &filename, const unsigned char *data, unsigned int width, unsigned int height, unsigned int bpp = 4, bool reverse_data = 0 ) const;
-
 	// available OpenGL version
 	float m_opengl_version;
 

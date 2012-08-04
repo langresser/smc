@@ -167,7 +167,7 @@ bool cAudio :: Init( void )
 	bool music = pPreferences->m_audio_music;
 
 	// if no change
-	if( numtimesopened && m_music_enabled == music && m_sound_enabled == sound && dev_frequency == pPreferences->m_audio_hz )
+	if( numtimesopened && m_music_enabled == music && m_sound_enabled == sound)
 	{
 		return 1;
 	}
@@ -185,7 +185,7 @@ bool cAudio :: Init( void )
 	{
 		if( m_debug )
 		{
-			printf( "Initializing Audio System - Buffer %i, Frequency %i, Speaker Channels %i\n", m_audio_buffer, pPreferences->m_audio_hz, m_audio_channels );
+			printf( "Initializing Audio System - Buffer %i, Frequency %i, Speaker Channels %i\n", m_audio_buffer, AUDIO_HZ, m_audio_channels );
 		}
 
 		/*	Initializing preferred Audio System specs with Mixer Standard format (Stereo)
@@ -196,7 +196,7 @@ bool cAudio :: Init( void )
 		*	chunk size	: Bytes used per output sample.
 		*/
 
-		if( Mix_OpenAudio( pPreferences->m_audio_hz, MIX_DEFAULT_FORMAT, m_audio_channels, m_audio_buffer ) < 0 ) 
+		if( Mix_OpenAudio( AUDIO_HZ, MIX_DEFAULT_FORMAT, m_audio_channels, m_audio_buffer ) < 0 ) 
 		{
 			printf( "Warning : Could not init 16-bit Audio\n- Reason : %s\n", SDL_GetError() );
 			return 0;
@@ -210,12 +210,6 @@ bool cAudio :: Init( void )
 		}
 		else
 		{
-			// different frequency
-			if( pPreferences->m_audio_hz != dev_frequency )
-			{
-				printf( "Warning : different frequency got %d but requested %d\n", dev_frequency, pPreferences->m_audio_hz );
-			}
-
 			// different format
 			if( dev_format != MIX_DEFAULT_FORMAT )
 			{
