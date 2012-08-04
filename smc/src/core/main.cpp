@@ -311,8 +311,6 @@ void Init_Game( void )
 
 	// draw generic loading screen
 	Loading_Screen_Init();
-	// initialize image cache
-	pVideo->Init_Image_Cache( 0, 1 );
 
 	// Init Stage 3 - game classes
 	// note : set any sprite manager as it is set again on game mode switch
@@ -656,7 +654,7 @@ void Update_Game( void )
 	}
 
 	// if in menu and vsync is disabled then limit the fps to reduce the load for CPU/GPU
-	if( Game_Mode == MODE_MENU && !pPreferences->m_video_vsync )
+	if( Game_Mode == MODE_MENU)
 	{
 		Correct_Frame_Time( 100 );
 	}

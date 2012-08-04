@@ -82,7 +82,6 @@ public:
 	Uint16 m_video_screen_w;
 	Uint16 m_video_screen_h;
 	Uint8 m_video_screen_bpp;
-	bool m_video_vsync;
 	Uint16 m_video_fps_limit;
 
 	// Keyboard

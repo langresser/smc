@@ -102,11 +102,6 @@ public:
 	void Init_Texture_Detail( void );
 	// initialize the up/down scaling value for the current resolution ( image/mouse scale )
 	void Init_Resolution_Scale( void ) const;
-	/* Initialize the image cache and recreates cache if game version changed
-	 * recreate : if set force cache recreation
-	 * draw_gui : if set use the loading screen gui for drawing
-	*/
-	void Init_Image_Cache( bool recreate = 0, bool draw_gui = 0 );
 
 	/* Test if the given resolution and bits per pixel are valid
 	 * if flags aren't set they are auto set from the preferences
@@ -125,8 +120,6 @@ public:
 	// make the opengl context inactive for the current thread
 	void Make_GL_Context_Inactive( void );
 
-	// Render. Should be called from a thread
-	void Render_From_Thread( void );
 	// Render game, GUI and swap the opengl buffer
 	void Render();
 	

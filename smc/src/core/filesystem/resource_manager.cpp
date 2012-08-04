@@ -66,11 +66,6 @@ void cResource_Manager :: Init_User_Directory( void )
 	{
 		Create_Directory( user_data_dir + USER_CAMPAIGN_DIR );
 	}
-	// Create cache directory
-	if( !Dir_Exists( user_data_dir + USER_IMGCACHE_DIR ) )
-	{
-		Create_Directory( user_data_dir + USER_IMGCACHE_DIR );
-	}
 }
 
 bool cResource_Manager :: Set_User_Directory( const std::string &dir )

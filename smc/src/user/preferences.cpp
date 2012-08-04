@@ -154,12 +154,6 @@ bool cPreferences :: Load( const std::string &filename /* = "" */ )
 		pHud_Debug->Set_Text( _("Preferences Loading failed : ") + (const std::string)ex.getMessage().c_str() );
 	}
 
-	// if user data dir is set
-	if( !m_force_user_data_dir.empty() )
-	{
-		pResource_Manager->Set_User_Directory( m_force_user_data_dir );
-	}
-
 	return 1;
 }
 
@@ -189,14 +183,12 @@ void cPreferences :: Save( void )
 	Write_Property( stream, "game_language", m_language );
 	Write_Property( stream, "game_always_run", m_always_run );
 	Write_Property( stream, "game_menu_level", m_menu_level );
-	Write_Property( stream, "game_user_data_dir", m_force_user_data_dir );
 	Write_Property( stream, "game_camera_hor_speed", m_camera_hor_speed );
 	Write_Property( stream, "game_camera_ver_speed", m_camera_ver_speed );
 	// Video
 	Write_Property( stream, "video_screen_w", m_video_screen_w );
 	Write_Property( stream, "video_screen_h", m_video_screen_h );
 	Write_Property( stream, "video_screen_bpp", static_cast<int>(m_video_screen_bpp) );
-	Write_Property( stream, "video_vsync", m_video_vsync );
 	Write_Property( stream, "video_fps_limit", m_video_fps_limit );
 	Write_Property( stream, "video_geometry_quality", pVideo->m_geometry_quality );
 	Write_Property( stream, "video_texture_quality", pVideo->m_texture_quality );
@@ -254,7 +246,6 @@ void cPreferences :: Reset_All( void )
 {
 	// Game
 	m_game_version = smc_version;
-	m_force_user_data_dir.clear();
 
 	Reset_Game();
 	Reset_Video();
@@ -286,7 +277,6 @@ void cPreferences :: Reset_Video( void )
 	m_video_screen_w = m_video_screen_w_default;
 	m_video_screen_h = m_video_screen_h_default;
 	m_video_screen_bpp = m_video_screen_bpp_default;
-	m_video_vsync = m_video_vsync_default;
 	m_video_fps_limit = m_video_fps_limit_default;
 	pVideo->m_geometry_quality = m_geometry_quality_default;
 	pVideo->m_texture_quality = m_texture_quality_default;
@@ -386,13 +376,12 @@ void cPreferences :: Apply_Video( Uint16 screen_w, Uint16 screen_h, Uint8 screen
 	/* if resolution, bpp, vsync or texture detail changed
 	 * a texture reload is necessary
 	*/
-	if( m_video_screen_w != screen_w || m_video_screen_h != screen_h || m_video_screen_bpp != screen_bpp || m_video_vsync != vsync || !Is_Float_Equal( pVideo->m_texture_quality, texture_detail ) )
+	if( m_video_screen_w != screen_w || m_video_screen_h != screen_h || m_video_screen_bpp != screen_bpp || !Is_Float_Equal( pVideo->m_texture_quality, texture_detail ) )
 	{
 		// new settings
 		m_video_screen_w = screen_w;
 		m_video_screen_h = screen_h;
 		m_video_screen_bpp = screen_bpp;
-		m_video_vsync = vsync;
 		pVideo->m_texture_quality = texture_detail;
 		pVideo->m_geometry_quality = geometry_detail;
 
@@ -473,22 +462,6 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	{
 		m_menu_level = attributes.getValueAsString( "value" ).c_str();
 	}
-	else if( name.compare( "game_user_data_dir" ) == 0 || name.compare( "user_data_dir" ) == 0 )
-	{
-		m_force_user_data_dir = attributes.getValueAsString( "value" ).c_str();
-
-		// if user data dir is set
-		if( !m_force_user_data_dir.empty() ) 
-		{
-			Convert_Path_Separators( m_force_user_data_dir );
-
-			// add trailing slash if missing
-			if( *(m_force_user_data_dir.end() - 1) != '/' )
-			{
-				m_force_user_data_dir.insert( m_force_user_data_dir.length(), "/" );
-			}
-		}
-	}
 	else if( name.compare( "game_camera_hor_speed" ) == 0 || name.compare( "camera_hor_speed" ) == 0 )
 	{
 		m_camera_hor_speed = attributes.getValueAsFloat( "value" );
@@ -542,10 +515,6 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 		}
 
 		m_video_screen_bpp = val;
-	}
-	else if( name.compare( "video_vsync" ) == 0 )
-	{
-		m_video_vsync = attributes.getValueAsBool( "value" );
 	}
 	else if( name.compare( "video_fps_limit" ) == 0 )
 	{

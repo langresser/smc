@@ -1191,7 +1191,6 @@ void cMenu_Options :: Init( void )
 	m_vid_w = pPreferences->m_video_screen_w;
 	m_vid_h = pPreferences->m_video_screen_h;
 	m_vid_bpp = pPreferences->m_video_screen_bpp;
-	m_vid_vsync = pPreferences->m_video_vsync;
 	m_vid_geometry_detail = pVideo->m_geometry_quality;
 	m_vid_texture_detail = pVideo->m_texture_quality;
 
@@ -1439,30 +1438,6 @@ void cMenu_Options :: Init_GUI_Video( void )
 
 	m_video_combo_bpp->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Video_Bpp_Select, this ) );
 
-	// VSync
-	CEGUI::Window *text_vsync = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_vsync" ));
-	text_vsync->setText( UTF8_("VSync") );
-
-	m_video_combo_vsync = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "video_combo_vsync" ));
-
-	item = new CEGUI::ListboxTextItem( UTF8_("On") );
-	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
-	m_video_combo_vsync->addItem( item );
-	item = new CEGUI::ListboxTextItem( UTF8_("Off") );
-	item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
-	m_video_combo_vsync->addItem( item );
-
-	if( pPreferences->m_video_vsync )
-	{
-		m_video_combo_vsync->setText( UTF8_("On") );
-	}
-	else
-	{
-		m_video_combo_vsync->setText( UTF8_("Off") );
-	}
-
-	m_video_combo_vsync->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Video_Vsync_Select, this ) );
-
 	// FPS Limit
 	CEGUI::Window *text_fps_limit = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_fps_limit" ));
 	text_fps_limit->setText( UTF8_("FPS Limit") );
@@ -1497,11 +1472,6 @@ void cMenu_Options :: Init_GUI_Video( void )
 	CEGUI::PushButton *button_apply = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "video_button_apply" ));
 	button_apply->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Video_Button_Apply_Clicked, this ) );
 	button_apply->setText( UTF8_("Apply") );
-
-	// Recreate Cache
-	CEGUI::PushButton *button_recreate_cache = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "video_button_recreate_cache" ));
-	button_recreate_cache->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Video_Button_Recreate_Cache_Clicked, this ) );
-	button_recreate_cache->setText( UTF8_("Recreate Cache") );
 }
 
 void cMenu_Options :: Init_GUI_Audio( void )
@@ -2537,9 +2507,6 @@ bool cMenu_Options :: Video_Button_Recreate_Cache_Clicked( const CEGUI::EventArg
 
 	// save textures for reloading from file
 	pImage_Manager->Grab_Textures( 1, 1 );
-
-	// recreate cache
-	pVideo->Init_Image_Cache( 1, 1 );
 
 	// restore textures
 	pImage_Manager->Restore_Textures( 1 );
@@ -3629,11 +3596,7 @@ void cMenu_Credits :: Menu_Fade( bool fade_in /* = 1 */ )
 
 		// # framerate
 		pFramerate->Update();
-		// if vsync is disabled then limit the fps to reduce the CPU usage
-		if( !pPreferences->m_video_vsync )
-		{
-			Correct_Frame_Time( 100 );
-		}
+		Correct_Frame_Time( 100 );
 	}
 }
 

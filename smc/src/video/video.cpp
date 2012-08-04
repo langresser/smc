@@ -382,11 +382,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	// not yet needed
 	//SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-	// if vertical synchronization is enabled
-	if( use_preferences && pPreferences->m_video_vsync )
-	{
-//		SDL_GL_SetAttribute( SDL_GL_SWAP_CONTROL, 1 );
-	}
 
 	// if reinitialization
 	if( m_initialised )
@@ -433,19 +428,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		if( use_preferences )
 		{
 			printf( "Warning : Double Buffering could not be set\n" );
-		}
-	}
-
-	// check if vertical synchronization got set
-	if( use_preferences && pPreferences->m_video_vsync )
-	{
-		int is_vsync;
-		// seems to return always true even if not available
-//		SDL_GL_GetAttribute( SDL_GL_SWAP_CONTROL, &is_vsync );
-
-		if( !is_vsync )
-		{
-			printf( "Warning : VSync could not be set\n" );
 		}
 	}
 
@@ -518,12 +500,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		if( cegui_initialized )
 		{
 			Loading_Screen_Init();
-		}
-
-		// initialize new image cache
-		if( reload_textures_from_file )
-		{
-			Init_Image_Cache( 0, cegui_initialized );
 		}
 
 		// restore textures
@@ -686,212 +662,6 @@ void cVideo :: Init_Resolution_Scale( void ) const
 	global_downscaley = static_cast<float>(game_res_h) / static_cast<float>(pPreferences->m_video_screen_h);
 }
 
-void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 */ )
-{
-	m_imgcache_dir = pResource_Manager->user_data_dir + USER_IMGCACHE_DIR;
-	std::string imgcache_dir_active = m_imgcache_dir + "/" + int_to_string( pPreferences->m_video_screen_w ) + "x" + int_to_string( pPreferences->m_video_screen_h );
-
-	// if cache is disabled
-	if( !pPreferences->m_image_cache_enabled )
-	{
-		return;
-	}
-
-	// if not the same game version
-	if( recreate || pPreferences->m_game_version != smc_version )
-	{
-		// delete all caches
-		if( Dir_Exists( m_imgcache_dir ) )
-		{
-			try
-			{
-				Delete_Dir_And_Content( m_imgcache_dir );
-			}
-			// could happen if a file is locked or we have no write rights
-			catch( const std::exception &ex )
-			{
-				printf( "%s\n", ex.what() );
-
-				if( draw_gui )
-				{
-					// caching failed
-					Loading_Screen_Draw_Text( _("Caching Images failed : Could not remove old images") );
-					SDL_Delay( 2000 );
-				}
-			}
-		}
-		
-		Create_Directory( m_imgcache_dir );
-	}
-
-	// no cache available
-	if( !Dir_Exists( imgcache_dir_active ) )
-	{
-		Create_Directories( imgcache_dir_active + "/" GAME_PIXMAPS_DIR );
-	}
-	// cache available
-	else
-	{
-		m_imgcache_dir = imgcache_dir_active;
-		return;
-	}
-
-	// texture detail should be maximum for caching
-	float real_texture_detail = m_texture_quality;
-	m_texture_quality = 1;
-
-	CEGUI::ProgressBar *progress_bar = NULL;
-
-	if( draw_gui )
-	{
-		// get progress bar
-		progress_bar = static_cast<CEGUI::ProgressBar *>(CEGUI::WindowManager::getSingleton().getWindow( "progress_bar" ));
-		progress_bar->setProgress( 0 );
-
-		// set loading screen text
-		Loading_Screen_Draw_Text( _("Caching Images") );
-	}
-
-	// get all files
-	vector<std::string> image_files = Get_Directory_Files( DATA_DIR "/" GAME_PIXMAPS_DIR, ".settings", 1 );
-
-	unsigned int loaded_files = 0;
-	unsigned int file_count = image_files.size();
-
-	// create directories, load images and save to cache
-	for( vector<std::string>::iterator itr = image_files.begin(); itr != image_files.end(); ++itr )
-	{
-		// get filename
-		std::string filename = (*itr);
-
-		// remove data dir
-		std::string cache_filename = filename.substr( strlen( DATA_DIR "/" ) );
-
-		// if directory
-		if( filename.rfind( "." ) == std::string::npos )
-		{
-			if( !Dir_Exists( imgcache_dir_active + "/" + cache_filename ) )
-			{
-				Create_Directory( imgcache_dir_active + "/" + cache_filename );
-			}
-
-			loaded_files++;
-			continue;
-		}
-
-		bool settings_file = 0;
-
-		// Don't use .settings file type directly for image loading
-		if( filename.rfind( ".settings" ) != std::string::npos )
-		{
-			settings_file = 1;
-			filename.erase( filename.rfind( ".settings" ) );
-			filename.insert( filename.length(), ".png" );
-		}
-
-		// load software image
-		cSoftware_Image software_image = Load_Image( filename );
-		SDL_Surface *sdl_surface = software_image.m_sdl_surface;
-		cImage_Settings_Data *settings = software_image.m_settings;
-
-		// failed to load image
-		if( !sdl_surface )
-		{
-			continue;
-		}
-
-		/* don't cache if no image settings or images without the width and height set
-		 * as there is currently no support to get the old and real image size
-		 * and thus the scaled down (cached) image size is used which is wrong
-		*/
-		if( !settings || !settings->m_width || !settings->m_height )
-		{
-			if( settings )
-			{
-				debug_print( "Info : %s has no image settings image size set and will not get cached\n", cache_filename.c_str() );
-			}
-			else
-			{
-				debug_print( "Info : %s has no image settings and will not get cached\n", cache_filename.c_str() );
-			}
-			SDL_FreeSurface( sdl_surface );
-			continue;
-		}
-
-		// create final image
-		sdl_surface = Convert_To_Final_Software_Image( sdl_surface );
-
-		// get final size for this resolution
-		cSize_Int size = settings->Get_Surface_Size( sdl_surface );
-		delete settings;
-		int new_width = size.m_width;
-		int new_height = size.m_height;
-
-		// apply maximum texture size
-		Apply_Max_Texture_Size( new_width, new_height );
-
-		// does not need to be downsampled
-		if( new_width >= sdl_surface->w && new_height >= sdl_surface->h )
-		{
-			SDL_FreeSurface( sdl_surface );
-			continue;
-		}
-
-		// calculate block reduction
-		int reduce_block_x = sdl_surface->w / new_width;
-		int reduce_block_y = sdl_surface->h / new_height;
-
-		// create downsampled image
-		unsigned int image_bpp = sdl_surface->format->BytesPerPixel;
-		unsigned char *image_downsampled = new unsigned char[new_width * new_height * image_bpp];
-		bool downsampled = Downscale_Image( static_cast<unsigned char*>(sdl_surface->pixels), sdl_surface->w, sdl_surface->h, image_bpp, image_downsampled, reduce_block_x, reduce_block_y );
-		
-		SDL_FreeSurface( sdl_surface );
-
-		// if image is available
-		if( downsampled )
-		{
-			// save as png
-			if( settings_file )
-			{
-				cache_filename.insert( cache_filename.length(), ".png" );
-			}
-
-			// save image
-			Save_Surface( imgcache_dir_active + "/" + cache_filename, image_downsampled, new_width, new_height, image_bpp );
-		}
-
-		delete[] image_downsampled;
-
-		// count files
-		loaded_files++;
-
-		// draw
-		if( draw_gui )
-		{
-			// update progress
-			progress_bar->setProgress( static_cast<float>(loaded_files) / static_cast<float>(file_count) );
-
-		#ifdef _DEBUG
-			// update filename
-			cGL_Surface *surface_filename = pFont->Render_Text( pFont->m_font_small, filename, white );
-			// draw filename
-			surface_filename->Blit( game_res_w * 0.2f, game_res_h * 0.8f, 0.1f );
-		#endif
-			Loading_Screen_Draw();
-		#ifdef _DEBUG
-			// delete
-			delete surface_filename;
-		#endif
-		}
-	}
-
-	// set back texture detail
-	m_texture_quality = real_texture_detail;
-	// set directory after surfaces got loaded from Load_GL_Surface()
-	m_imgcache_dir = imgcache_dir_active;
-}
-
 int cVideo :: Test_Video( int width, int height, int bpp, int flags /* = 0 */ ) const
 {
 	// auto set the video flags
@@ -988,19 +758,6 @@ void cVideo :: Make_GL_Context_Inactive( void )
 
 	// update info (needed?)
 	SDL_GetWMInfo( &wm_info );
-}
-
-void cVideo :: Render_From_Thread( void )
-{
-	Make_GL_Context_Current();
-
-	pRenderer_current->Render();
-	// under linux with sofware mesa 7.9 it only showed the rendered output with SDL_GL_SwapBuffers()
-
-	// update performance timer
-	//pFramerate->m_perf_timer[PERF_RENDER_GAME]->Update();
-
-	Make_GL_Context_Inactive();
 }
 
 void cVideo :: Render()

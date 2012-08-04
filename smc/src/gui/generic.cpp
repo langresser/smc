@@ -406,11 +406,8 @@ void Draw_Static_Text( const std::string &text, const Color *color_text /* = &wh
 				}
 			}
 
-			// if vsync is disabled then limit the fps to reduce the CPU usage
-			if( !pPreferences->m_video_vsync )
-			{
-				Correct_Frame_Time( 100 );
-			}
+			// reduce the CPU usage
+			Correct_Frame_Time( 100 );
 		}
 		else
 		{

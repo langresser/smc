@@ -249,24 +249,7 @@ std::string Get_Temp_Directory( void )
 std::string Get_User_Directory( void )
 {
 #ifdef _WIN32
-	TCHAR path_appdata[MAX_PATH + 1];
-
-	if( FAILED( SHGetFolderPath( NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path_appdata ) ) )
-	{
-		printf( "Error : Couldn't get Windows user data directory. Defaulting to the Application directory.\n" );
-		return "";
-	}
-
-	std::string str_path = ucs2_to_utf8( path_appdata );
-	Convert_Path_Separators( str_path );
-
-	/*std::wstring str = utf8_to_ucs2( str_path );
-	str.insert( str.length(), L"\n" );
-	HANDLE std_out = GetStdHandle( STD_OUTPUT_HANDLE );
-	unsigned long chars;
-	WriteConsole( std_out, str.c_str(), lstrlen(str.c_str()), &chars, NULL );*/
-
-	return str_path + "/smc/";
+	return "./smc/";
 #elif __unix__
 	return (std::string)getenv( "HOME" ) + "/.smc/";
 #elif __APPLE__
