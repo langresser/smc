@@ -249,20 +249,14 @@ public:
 	CEGUI::Combobox *m_game_combo_editor_mouse_auto_hide;
 	// video
 	CEGUI::Combobox *m_video_combo_resolution;
-	CEGUI::Combobox *m_video_combo_bpp;
-	CEGUI::Combobox *m_video_combo_vsync;
-	CEGUI::Spinner *m_video_spinner_fps_limit;
 	CEGUI::Slider *m_video_slider_geometry_quality;
 	CEGUI::Slider *m_video_slider_texture_quality;
 	// video settings
 	unsigned int m_vid_w;
 	unsigned int m_vid_h;
-	unsigned int m_vid_bpp;
-	bool m_vid_vsync;
 	float m_vid_geometry_detail;
 	float m_vid_texture_detail;
 	// audio
-	CEGUI::Combobox *m_audio_combo_hz;
 	CEGUI::Combobox *m_audio_combo_music;
 	CEGUI::Slider *m_audio_slider_music;
 	CEGUI::Combobox *m_audio_combo_sounds;

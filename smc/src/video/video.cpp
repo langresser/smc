@@ -268,7 +268,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 #endif
 	}
 
-	int screen_w, screen_h, screen_bpp;
+	int screen_w, screen_h;
 
 	// full initialization
 	if( use_preferences )
@@ -281,7 +281,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	{
 		screen_w = 800;
 		screen_h = 600;
-		screen_bpp = 16;
 	}
 
 	// first initialization
@@ -303,73 +302,10 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		}
 	}
 
-	// test screen mode
-	int screen_test = Test_Video( screen_w, screen_h, screen_bpp, flags );
-
-	// failed
-	if( screen_test == 0 )
-	{
-		printf( "Warning : Video Resolution %dx%d is not supported\n", screen_w, screen_h );
-
-		// set lowest available settings
-		screen_w = 640;
-		screen_h = 480;
-		screen_bpp = 0;
-
-		// overwrite user settings
-		if( use_preferences )
-		{
-			pPreferences->m_video_screen_w = screen_w;
-			pPreferences->m_video_screen_h = screen_h;
-		}
-	}
-	// can not handle bits per pixel
-	else if( screen_test > 1 && screen_bpp > 0 && screen_test < screen_bpp )
-	{
-		printf( "Warning : Video Bpp %d is not supported but %d is\n", screen_bpp, screen_test );
-		// set closest supported bpp
-		screen_bpp = screen_test;
-	}
-
-	int screen_rgb_size[3];
-
-	// set bit per pixel sizes
-	if( screen_bpp == 8 )
-	{
-		screen_rgb_size[0] = 3;
-		screen_rgb_size[1] = 3;
-		screen_rgb_size[2] = 2;
-	}
-	else if( screen_bpp == 15 )
-	{
-		screen_rgb_size[0] = 5;
-		screen_rgb_size[1] = 5;
-		screen_rgb_size[2] = 5;
-	}
-	else if( screen_bpp == 24 )
-	{
-		screen_rgb_size[0] = 8;
-		screen_rgb_size[1] = 8;
-		screen_rgb_size[2] = 8;
-	}
-	// same as 24...
-	else if( screen_bpp == 32 )
-	{
-		screen_rgb_size[0] = 8;
-		screen_rgb_size[1] = 8;
-		screen_rgb_size[2] = 8;
-	}
-	else // 16 and default
-	{
-		screen_rgb_size[0] = 5;
-		screen_rgb_size[1] = 6;
-		screen_rgb_size[2] = 5;
-	}
-
 	// request settings
-	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, screen_rgb_size[0] );
-	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, screen_rgb_size[1] );
-	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, screen_rgb_size[2] );
+	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8);
 	// hangs on 16 bit
 	//SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 ); 
 	// not yet needed
@@ -402,7 +338,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	}
 
 	// Note: As of SDL 1.2.10, if width and height are both 0, SDL_SetVideoMode will use the desktop resolution.
-	screen = SDL_SetVideoMode( screen_w, screen_h, screen_bpp, flags );
+	screen = SDL_SetVideoMode( screen_w, screen_h, 32, flags );
 
 	if( !screen )
 	{
@@ -428,25 +364,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	SDL_GL_GetAttribute( SDL_GL_RED_SIZE, &m_rgb_size[0] );
 	SDL_GL_GetAttribute( SDL_GL_GREEN_SIZE, &m_rgb_size[1] );
 	SDL_GL_GetAttribute( SDL_GL_BLUE_SIZE, &m_rgb_size[2] );
-
-	// check if color bit size is set as wanted
-	if( use_preferences )
-	{
-		if( m_rgb_size[0] < screen_rgb_size[0] )
-		{
-			printf( "Warning : smaller red bit size %d as requested %d\n", m_rgb_size[0], screen_rgb_size[0] );
-		}
-
-		if( m_rgb_size[1] < screen_rgb_size[1] )
-		{
-			printf( "Warning : smaller green bit size %d as requested %d\n", m_rgb_size[1], screen_rgb_size[1] );
-		}
-
-		if( m_rgb_size[2] < screen_rgb_size[2] )
-		{
-			printf( "Warning : smaller blue bit size %d as requested %d\n", m_rgb_size[2], screen_rgb_size[2] );
-		}
-	}
 
 	// remember default buffer
 	glGetIntegerv( GL_DRAW_BUFFER, &m_default_buffer );
@@ -653,22 +570,6 @@ void cVideo :: Init_Resolution_Scale( void ) const
 	// down scale
 	global_downscalex = static_cast<float>(game_res_w) / static_cast<float>(pPreferences->m_video_screen_w);
 	global_downscaley = static_cast<float>(game_res_h) / static_cast<float>(pPreferences->m_video_screen_h);
-}
-
-int cVideo :: Test_Video( int width, int height, int bpp, int flags /* = 0 */ ) const
-{
-	// auto set the video flags
-	if( !flags )
-	{
-		flags = SDL_OPENGL | SDL_SWSURFACE;
-
-		// if fullscreen is set
-#ifndef WIN32
-		flags |= SDL_FULLSCREEN;
-#endif
-	}
-
-	return SDL_VideoModeOK( width, height, bpp, flags );
 }
 
 vector<cSize_Int> cVideo :: Get_Supported_Resolutions( int flags /* = 0 */ ) const

@@ -36,12 +36,7 @@
 #include "../video/renderer.h"
 #include "../core/i18n.h"
 #include "../gui/generic.h"
-
-#ifdef __APPLE__
-// needed for datapath detection
-#include <CoreFoundation/CoreFoundation.h>
-#include <unistd.h>
-#endif
+#include "../input/joystick.h"
 
 // CEGUI
 #include "CEGUIDefaultLogger.h"
@@ -58,125 +53,6 @@ using namespace SMC;
 
 int main( int argc, char **argv )
 {
-// todo : remove this apple hack
-#ifdef __APPLE__
-	// dynamic datapath detection for OS X
-	// change CWD to point inside bundle so it finds its data (if necessary)
-	char path[1024];
-	CFBundleRef mainBundle = CFBundleGetMainBundle();
-	assert(mainBundle);
-	CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
-	assert(mainBundleURL);
-	CFStringRef cfStringRef = CFURLCopyFileSystemPath( mainBundleURL, kCFURLPOSIXPathStyle);
-	assert(cfStringRef);
-	CFStringGetCString(cfStringRef, path, 1024, kCFStringEncodingASCII);
-	CFRelease(mainBundleURL);
-	CFRelease(cfStringRef);
-
-	std::string contents = std::string(path) + std::string("/Contents");
-	std::string datapath;
-
-	if( contents.find(".app") != std::string::npos )
-	{
-		// executable is inside an app bundle, use app bundle-relative paths
-		datapath = contents + std::string("/Resources/data/");
-	}
-	else if( contents.find("/bin") != std::string::npos )
-	{
-		// executable is installed Unix-way
-		datapath = contents.substr( 0, contents.find("/bin") ) + "/share/smc";
-	}
-	else
-	{
-		std::cerr << "Warning: Could not determine installation type\n";
-	}
-
-	if( !datapath.empty() )
-	{
-		std::cout << "setting CWD to " << datapath.c_str() << std::endl;
-		if( chdir( datapath.c_str() ) != 0 )
-		{
-			std::cerr << "Warning: Failed changing CWD\n";
-		}
-	}
-#endif
-
-	// convert arguments to a vector string
-	vector<std::string> arguments( argv, argv + argc );
-
-	if( argc >= 2 )
-	{
-		for( unsigned int i = 1; i < arguments.size(); i++ )
-		{
-			// help
-			if( arguments[i] == "--help" || arguments[i] == "-h" )
-			{
-				printf( "Usage: %s [OPTIONS]\n", arguments[0].c_str() );
-				printf( "Where OPTIONS is one of the following:\n" );
-				printf( "-h, --help\tDisplay this message\n" );
-				printf( "-v, --version\tShow the version of %s\n", CAPTION );
-				printf( "-d, --debug\tEnable debug modes with the options : game performance\n" );
-				printf( "-l, --level\tLoad the given level\n" );
-				printf( "-w, --world\tLoad the given world\n" );
-				return EXIT_SUCCESS;
-			}
-			// version
-			else if( arguments[i] == "--version" || arguments[i] == "-v" )
-			{
-				printf( "%s %d.%d.%d\n", CAPTION, SMC_VERSION_MAJOR, SMC_VERSION_MINOR, SMC_VERSION_PATCH );
-				return EXIT_SUCCESS;
-			}
-			// debug
-			else if( arguments[i] == "--debug" || arguments[i] == "-d" )
-			{
-				// no value
-				if( i + 1 >= arguments.size() )
-				{
-					printf( "%s requires a value\n", arguments[i].c_str() );
-					return EXIT_FAILURE;
-				}
-				// with value
-				else
-				{
-					for( unsigned int option = i + i; i < arguments.size(); i++ )
-					{
-						std::string option_str = arguments[option];
-
-						if( option_str == "game" )
-						{
-							game_debug = 1;
-						}
-						else if( option_str == "performance" )
-						{
-							game_debug_performance = 1;
-						}
-						else
-						{
-							printf( "Unknown debug option %s\n", option_str.c_str() );
-							return EXIT_FAILURE;
-						}
-					}
-				}
-			}
-			// level loading is handled later
-			else if( arguments[i] == "--level" || arguments[i] == "-l" )
-			{
-				// skip
-			}
-			// world loading is handled later
-			else if( arguments[1] == "--world" || arguments[1] == "-w" )
-			{
-				// skip
-			}
-			// unknown argument
-			else if( arguments[i].substr( 0, 1 ) == "-" )
-			{
-				printf( "Unknown argument %s\nUse -h to list all possible arguments\n", arguments[i].c_str() );
-				return EXIT_FAILURE;
-			}
-		}
-	}
-
 	try
 	{
 		// initialize everything
@@ -188,25 +64,19 @@ int main( int argc, char **argv )
 		return EXIT_FAILURE;
 	}
 
-	// command line level entering
-	if( argc > 2 && ( arguments[1] == "--level" || arguments[1] == "-l" ) && !arguments[2].empty() )
-	{
-		Game_Action = GA_ENTER_LEVEL;
-		Game_Mode_Type = MODE_TYPE_LEVEL_CUSTOM;
-		Game_Action_Data_Middle.add( "load_level", arguments[2] );
-	}
-	// command line world entering
-	else if( argc > 2 && ( arguments[1] == "--world" || arguments[1] == "-w" ) && !arguments[2].empty() )
-	{
-		Game_Action = GA_ENTER_WORLD;
-		Game_Action_Data_Middle.add( "enter_world", arguments[2] );
-	}
-	// enter main menu
-	else
-	{
-		Game_Action = GA_ENTER_MENU;
-		Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_MAIN ) );
-	}
+#if 0
+	// enter world
+ 	Game_Action = GA_ENTER_WORLD;
+ 	Game_Action_Data_Middle.add( "enter_world", "3" );
+
+	// enter level
+	Game_Action = GA_ENTER_LEVEL;
+ 	Game_Mode_Type = MODE_TYPE_LEVEL_CUSTOM;
+ 	Game_Action_Data_Middle.add( "load_level", arguments[2] );
+#endif
+
+	Game_Action = GA_ENTER_MENU;
+ 	Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_MAIN ) );
 
 	Game_Action_Data_Start.add( "screen_fadeout", CEGUI::PropertyHelper::intToString( EFFECT_OUT_BLACK ) );
 	Game_Action_Data_Start.add( "screen_fadeout_speed", "3" );
@@ -222,11 +92,7 @@ int main( int argc, char **argv )
 		Draw_Game();
 
 		// render
-#ifdef SMC_RENDER_THREAD_TEST
-		pVideo->Render( 1 );
-#else
 		pVideo->Render();
-#endif
 
 		// update speedfactor
 		pFramerate->Update();
@@ -322,6 +188,9 @@ void Init_Game( void )
 	pWorld_Editor = new cEditor_World( pActive_Level->m_sprite_manager, NULL );
 	pMouseCursor = new cMouseCursor( pActive_Level->m_sprite_manager );
 	pKeyboard = new cKeyboard();
+
+	Joystick::Instance().createJoystick(pActive_Level->m_sprite_manager);
+
 	pLevel_Manager->Init();
 	// note : set any sprite manager as cOverworld_Manager::Load sets it again
 	pOverworld_Player = new cOverworld_Player( pActive_Level->m_sprite_manager, NULL );
@@ -334,8 +203,8 @@ void Init_Game( void )
 	pSavegame = new cSavegame();
 
 	// cache
-	Preload_Images( 1 );
-	Preload_Sounds( 1 );
+// 	Preload_Images( 1 );
+// 	Preload_Sounds( 1 );
 	Loading_Screen_Exit();
 }
 
@@ -699,6 +568,7 @@ void Draw_Game( void )
 		pLevel_Editor->m_settings_screen->Draw();
 	}
 
+	Joystick::Instance().show();
 	// Mouse
 	pMouseCursor->Draw();
 

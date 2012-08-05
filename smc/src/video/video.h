@@ -103,13 +103,6 @@ public:
 	// initialize the up/down scaling value for the current resolution ( image/mouse scale )
 	void Init_Resolution_Scale( void ) const;
 
-	/* Test if the given resolution and bits per pixel are valid
-	 * if flags aren't set they are auto set from the preferences
-	 * returns 0 if the requested mode is not supported under any bit depth,
-	 * or returns the bits-per-pixel of the closest available mode
-	*/
-	int Test_Video( int width, int height, int bpp, int flags = 0 ) const;
-
 	/* Get the supported resolutions for the current screen pixel format
 	 * if flags aren't set they are set to the default
 	*/

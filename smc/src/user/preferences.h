@@ -66,8 +66,6 @@ public:
 	bool m_always_run;
 	// menu level name to load
 	std::string m_menu_level;
-	// force the given user data directory
-	std::string m_force_user_data_dir;
 	// smart camera speed
 	float m_camera_hor_speed;
 	float m_camera_ver_speed;

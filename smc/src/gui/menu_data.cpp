@@ -1754,40 +1754,6 @@ void cMenu_Options :: Change_Video_Setting( int setting )
 		m_video_combo_resolution->setItemSelectState( new_selected, 1 );
 		Video_Resolution_Select( CEGUI::WindowEventArgs( m_video_combo_resolution ) );
 	}
-	// BPP
-	else if( pMenuCore->m_handler->m_active == 6 )
-	{
-		if( m_vid_bpp == 16 )
-		{
-			m_vid_bpp = 32;
-		}
-		else if( m_vid_bpp == 32 )
-		{
-			m_vid_bpp = 16;
-		}
-
-		m_video_combo_bpp->setText( int_to_string( m_vid_bpp ).c_str() );	
-	}
-	
-	// VSync
-	else if( pMenuCore->m_handler->m_active == 8 )
-	{
-		m_vid_vsync = !m_vid_vsync;
-
-		if( m_vid_vsync )
-		{
-			m_video_combo_vsync->setText( UTF8_("On") );	
-		}
-		else
-		{
-			m_video_combo_vsync->setText( UTF8_("Off") );
-		}
-	}
-	// FPS Limit
-	else if( pMenuCore->m_handler->m_active == 8 )
-	{
-		// nothing
-	}
 }
 
 void cMenu_Options :: Change_Audio_Setting( int setting )
@@ -2147,32 +2113,9 @@ bool cMenu_Options :: Video_Resolution_Select( const CEGUI::EventArgs &event )
 	unsigned int w = string_to_int( temp.substr( 0, temp.find( "x" ) ) );
 	unsigned int h = string_to_int( temp.substr( temp.find( "x" ) + 1, height_end ) );
 
-	// is it supported
-	if( !pVideo->Test_Video( w, h, m_vid_bpp ) )
-	{
-		return 0;
-	}
-
 	// set new selected resolution
 	m_vid_w = w;
 	m_vid_h = h;
-
-	return 1;
-}
-
-bool cMenu_Options :: Video_Bpp_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-
-	unsigned int bpp = string_to_int( item->getText().c_str() );
-
-	if( !pVideo->Test_Video( m_vid_w, m_vid_h, bpp ) )
-	{
-		return 0;
-	}
-
-	m_vid_bpp = bpp;
 
 	return 1;
 }
@@ -2206,13 +2149,6 @@ bool cMenu_Options :: Video_Button_Reset_Clicked( const CEGUI::EventArgs &event 
 		m_vid_h = cPreferences::m_video_screen_h_default;
 	}
 
-	list_item = m_video_combo_bpp->findItemWithText( int_to_string( cPreferences::m_video_screen_bpp_default ), NULL );
-	if( list_item )
-	{
-		m_video_combo_bpp->setItemSelectState( list_item, 1 );
-		m_vid_bpp = cPreferences::m_video_screen_bpp_default;
-	}
-
 	m_video_slider_geometry_quality->setCurrentValue( cPreferences::m_geometry_quality_default );
 	m_vid_geometry_detail = cPreferences::m_geometry_quality_default;
 
@@ -2232,7 +2168,7 @@ bool cMenu_Options :: Video_Button_Apply_Clicked( const CEGUI::EventArgs &event 
 	SDL_GL_SwapBuffers();
 
 	// apply new settings
-	pPreferences->Apply_Video( m_vid_w, m_vid_h, m_vid_bpp, false, m_vid_vsync, m_vid_geometry_detail, m_vid_texture_detail );
+	pPreferences->Apply_Video( m_vid_w, m_vid_h, 32, false, false, m_vid_geometry_detail, m_vid_texture_detail );
 
 	// clear
 	Game_Action = GA_ENTER_MENU;
@@ -2241,21 +2177,6 @@ bool cMenu_Options :: Video_Button_Apply_Clicked( const CEGUI::EventArgs &event 
 	{
 		Game_Action_Data_Middle.add( "menu_exit_back_to", int_to_string( m_exit_to_gamemode ) );
 	}
-
-	return 1;
-}
-
-bool cMenu_Options :: Video_Button_Recreate_Cache_Clicked( const CEGUI::EventArgs &event )
-{
-	Loading_Screen_Init();
-
-	// save textures for reloading from file
-	pImage_Manager->Grab_Textures( 1, 1 );
-
-	// restore textures
-	pImage_Manager->Restore_Textures( 1 );
-
-	Loading_Screen_Exit();
 
 	return 1;
 }
