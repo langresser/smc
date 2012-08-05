@@ -177,6 +177,8 @@ void Init_Game( void )
 	// draw generic loading screen
 	Loading_Screen_Init();
 
+//	pVideo->Init_Image_Cache( 0, 1 );
+
 	// Init Stage 3 - game classes
 	// note : set any sprite manager as it is set again on game mode switch
 	pHud_Manager = new cHud_Manager( pActive_Level->m_sprite_manager );

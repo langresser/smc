@@ -103,6 +103,11 @@ public:
 	// initialize the up/down scaling value for the current resolution ( image/mouse scale )
 	void Init_Resolution_Scale( void ) const;
 
+	
+	void Init_Image_Cache( bool recreate = false, bool draw_gui = false);
+	void Save_Screenshot();
+	void Save_Surface(const std::string &filename, const unsigned char *data, unsigned int width, unsigned int height, unsigned int bpp = 4, bool reverse_data = 0) const;
+
 	/* Get the supported resolutions for the current screen pixel format
 	 * if flags aren't set they are set to the default
 	*/

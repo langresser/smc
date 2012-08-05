@@ -572,6 +572,326 @@ void cVideo :: Init_Resolution_Scale( void ) const
 	global_downscaley = static_cast<float>(game_res_h) / static_cast<float>(pPreferences->m_video_screen_h);
 }
 
+void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 */ )
+{
+	m_imgcache_dir = pResource_Manager->user_data_dir + "cached";
+	std::string imgcache_dir_active = m_imgcache_dir + "/" + int_to_string( pPreferences->m_video_screen_w ) + "x" + int_to_string( pPreferences->m_video_screen_h );
+
+	// if cache is disabled
+	if( !pPreferences->m_image_cache_enabled )
+	{
+		return;
+	}
+
+	// if not the same game version
+	if( recreate || pPreferences->m_game_version != smc_version )
+	{
+		// delete all caches
+		if( Dir_Exists( m_imgcache_dir ) )
+		{
+			try
+			{
+				Delete_Dir_And_Content( m_imgcache_dir );
+			}
+			// could happen if a file is locked or we have no write rights
+			catch( const std::exception &ex )
+			{
+				printf( "%s\n", ex.what() );
+
+				if( draw_gui )
+				{
+					// caching failed
+					Loading_Screen_Draw_Text( _("Caching Images failed : Could not remove old images") );
+					SDL_Delay( 2000 );
+				}
+			}
+		}
+		
+		Create_Directory( m_imgcache_dir );
+	}
+
+	// no cache available
+	if( !Dir_Exists( imgcache_dir_active ) )
+	{
+		Create_Directories( imgcache_dir_active + "/" GAME_PIXMAPS_DIR );
+	}
+	// cache available
+	else
+	{
+		m_imgcache_dir = imgcache_dir_active;
+		return;
+	}
+
+	// texture detail should be maximum for caching
+	float real_texture_detail = m_texture_quality;
+	m_texture_quality = 1;
+
+	CEGUI::ProgressBar *progress_bar = NULL;
+
+	if( draw_gui )
+	{
+		// get progress bar
+		progress_bar = static_cast<CEGUI::ProgressBar *>(CEGUI::WindowManager::getSingleton().getWindow( "progress_bar" ));
+		progress_bar->setProgress( 0 );
+
+		// set loading screen text
+		Loading_Screen_Draw_Text( _("Caching Images") );
+	}
+
+	// get all files
+	vector<std::string> image_files = Get_Directory_Files( DATA_DIR "/" GAME_PIXMAPS_DIR, ".settings", 1 );
+
+	unsigned int loaded_files = 0;
+	unsigned int file_count = image_files.size();
+
+	// create directories, load images and save to cache
+	for( vector<std::string>::iterator itr = image_files.begin(); itr != image_files.end(); ++itr )
+	{
+		// get filename
+		std::string filename = (*itr);
+
+		// remove data dir
+		std::string cache_filename = filename.substr( strlen( DATA_DIR "/" ) );
+
+		// if directory
+		if( filename.rfind( "." ) == std::string::npos )
+		{
+			if( !Dir_Exists( imgcache_dir_active + "/" + cache_filename ) )
+			{
+				Create_Directory( imgcache_dir_active + "/" + cache_filename );
+			}
+
+			loaded_files++;
+			continue;
+		}
+
+		bool settings_file = 0;
+
+		// Don't use .settings file type directly for image loading
+		if( filename.rfind( ".settings" ) != std::string::npos )
+		{
+			settings_file = 1;
+			filename.erase( filename.rfind( ".settings" ) );
+			filename.insert( filename.length(), ".png" );
+		}
+
+		// load software image
+		cSoftware_Image software_image = Load_Image( filename );
+		SDL_Surface *sdl_surface = software_image.m_sdl_surface;
+		cImage_Settings_Data *settings = software_image.m_settings;
+
+		// failed to load image
+		if( !sdl_surface )
+		{
+			continue;
+		}
+
+		/* don't cache if no image settings or images without the width and height set
+		 * as there is currently no support to get the old and real image size
+		 * and thus the scaled down (cached) image size is used which is wrong
+		*/
+		if( !settings || !settings->m_width || !settings->m_height )
+		{
+			if( settings )
+			{
+				debug_print( "Info : %s has no image settings image size set and will not get cached\n", cache_filename.c_str() );
+			}
+			else
+			{
+				debug_print( "Info : %s has no image settings and will not get cached\n", cache_filename.c_str() );
+			}
+			SDL_FreeSurface( sdl_surface );
+			continue;
+		}
+
+		// create final image
+		sdl_surface = Convert_To_Final_Software_Image( sdl_surface );
+
+		// get final size for this resolution
+		cSize_Int size = settings->Get_Surface_Size( sdl_surface );
+		delete settings;
+		int new_width = size.m_width;
+		int new_height = size.m_height;
+
+		// apply maximum texture size
+		Apply_Max_Texture_Size( new_width, new_height );
+
+		// does not need to be downsampled
+		if( new_width >= sdl_surface->w && new_height >= sdl_surface->h )
+		{
+			SDL_FreeSurface( sdl_surface );
+			continue;
+		}
+
+		// calculate block reduction
+		int reduce_block_x = sdl_surface->w / new_width;
+		int reduce_block_y = sdl_surface->h / new_height;
+
+		// create downsampled image
+		unsigned int image_bpp = sdl_surface->format->BytesPerPixel;
+		unsigned char *image_downsampled = new unsigned char[new_width * new_height * image_bpp];
+		bool downsampled = Downscale_Image( static_cast<unsigned char*>(sdl_surface->pixels), sdl_surface->w, sdl_surface->h, image_bpp, image_downsampled, reduce_block_x, reduce_block_y );
+		
+		SDL_FreeSurface( sdl_surface );
+
+		// if image is available
+		if( downsampled )
+		{
+			// save as png
+			if( settings_file )
+			{
+				cache_filename.erase(cache_filename.rfind(".settings"));
+				cache_filename.insert( cache_filename.length(), ".png" );
+			}
+
+			// save image
+			Save_Surface( imgcache_dir_active + "/" + cache_filename, image_downsampled, new_width, new_height, image_bpp );
+		}
+
+		delete[] image_downsampled;
+
+		// count files
+		loaded_files++;
+
+		// draw
+		if( draw_gui )
+		{
+			// update progress
+			progress_bar->setProgress( static_cast<float>(loaded_files) / static_cast<float>(file_count) );
+
+		#ifdef _DEBUG
+			// update filename
+			cGL_Surface *surface_filename = pFont->Render_Text( pFont->m_font_small, filename, white );
+			// draw filename
+			surface_filename->Blit( game_res_w * 0.2f, game_res_h * 0.8f, 0.1f );
+		#endif
+			Loading_Screen_Draw();
+		#ifdef _DEBUG
+			// delete
+			delete surface_filename;
+		#endif
+		}
+	}
+
+	// set back texture detail
+	m_texture_quality = real_texture_detail;
+	// set directory after surfaces got loaded from Load_GL_Surface()
+	m_imgcache_dir = imgcache_dir_active;
+}
+
+void cVideo :: Save_Screenshot( void )
+{
+	std::string filename;
+	
+	for( unsigned int i = 1; i < 1000; i++ )
+	{
+		filename = pResource_Manager->user_data_dir + USER_SCREENSHOT_DIR "/" + int_to_string( i ) + ".png";
+
+		if( !File_Exists( filename ) )
+		{
+			// create image data
+			GLubyte *data = new GLubyte[pPreferences->m_video_screen_w * pPreferences->m_video_screen_h * 3];
+			// read opengl screen
+			glReadPixels( 0, 0, pPreferences->m_video_screen_w, pPreferences->m_video_screen_h, GL_RGB, GL_UNSIGNED_BYTE, static_cast<GLvoid *>(data) );
+			// save
+			Save_Surface( filename, data, pPreferences->m_video_screen_w, pPreferences->m_video_screen_h, 3, 1 );
+			// clear data
+			delete[] data;
+
+			// show info
+			pHud_Debug->Set_Text( "Screenshot " + int_to_string( i ) + _(" saved"), speedfactor_fps * 2.5f );
+
+			// finished
+			return;
+		}
+	}
+}
+
+void cVideo :: Save_Surface( const std::string &filename, const unsigned char *data, unsigned int width, unsigned int height, unsigned int bpp /* = 4 */, bool reverse_data /* = 0 */ ) const
+{
+	FILE *fp = NULL;
+
+	// fixme : Check if there is a more portable way f.e. with imbue()
+	#ifdef _WIN32
+		fp = _wfopen( utf8_to_ucs2( filename ).c_str(), L"wb" );
+	#else
+		fp = fopen( filename.c_str(), "wb" );
+	#endif
+
+	if( !fp )
+	{
+		printf( "Warning: cVideo :: Save_Surface : Could not create file for writing\n" );
+		return;
+	}
+
+	int png_color_type;
+
+	if( bpp == 4 )
+	{
+		png_color_type = PNG_COLOR_TYPE_RGBA;
+	}
+	else if( bpp == 3 )
+	{
+		png_color_type = PNG_COLOR_TYPE_RGB;
+	}
+	else
+	{
+		printf( "Warning: cVideo :: Save_Surface : %s Unknown bytes per pixel %d\n", filename.c_str(), bpp );
+		fclose( fp );
+		return;
+	}
+
+	png_structp png_ptr = png_create_write_struct( PNG_LIBPNG_VER_STRING, NULL, NULL, NULL );
+	png_infop info_ptr = png_create_info_struct( png_ptr );
+
+	png_init_io( png_ptr, fp );
+
+	png_set_IHDR( png_ptr, info_ptr,
+		width, height, 8 /* bit depth */, png_color_type,
+		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT );
+
+	png_write_info( png_ptr, info_ptr );
+
+	png_uint_32 png_height = height;
+	png_uint_32 row_bytes = width * bpp;
+
+	png_byte *image = new png_byte[png_height * row_bytes];
+	png_bytep *row_pointers = new png_bytep[png_height];
+
+	// create image data
+	int img_size = png_height * row_bytes;
+	for( int i = 0; i < img_size; ++i )
+	{
+		image[i] = data[i];
+	}
+
+	// create row pointers
+	if( reverse_data )
+	{
+		for( unsigned int i = 0; i < png_height; i++ )
+		{
+			// reverse direction because of opengl glReadPixels
+			row_pointers[png_height - 1 - i] = image + (i * row_bytes);
+		}
+	}
+	else
+	{
+		for( unsigned int i = 0; i < png_height; i++ )
+		{
+			row_pointers[i] = image + (i * row_bytes);
+		}
+	}
+
+	png_write_image( png_ptr, row_pointers );
+	png_write_end( png_ptr, info_ptr );
+	png_destroy_write_struct( &png_ptr, &info_ptr );
+
+	delete []image;
+	delete []row_pointers;
+
+	fclose( fp );
+}
+
 vector<cSize_Int> cVideo :: Get_Supported_Resolutions( int flags /* = 0 */ ) const
 {
 	vector<cSize_Int> valid_resolutions;
