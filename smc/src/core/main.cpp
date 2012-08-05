@@ -40,6 +40,11 @@
 
 // CEGUI
 #include "CEGUIDefaultLogger.h"
+#ifdef WIN32
+#include "RendererModules/OpenGL/CEGUIOpenGLRenderer.h"
+#else
+#include "RendererModules/OpenGLES/Renderer.h"
+#endif
 
 // SMC namespace is set later to exclude main() from it
 using namespace SMC;
@@ -50,6 +55,9 @@ using namespace SMC;
 #endif
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
+extern "C" void SDL_mainLoop()
+{
+}
 
 int main( int argc, char **argv )
 {

@@ -29,16 +29,25 @@
 #ifdef __unix__
 	#define NO_SDL_GLEXT
 #endif
+
+#ifdef WIN32
 #include "SDL_opengl.h"
+#else
+#include "SDL_opengles.h"
+#endif
+
 #ifdef __unix__
 	#undef NO_SDL_GLEXT
 #endif
 #include "SDL_syswm.h"
 // CEGUI
 #include "CEGUISystem.h"
+
+#ifdef WIN32
 #include "RendererModules/OpenGL/CEGUIOpenGLRenderer.h"
-// boost thread
-#include <boost/thread/thread.hpp>
+#else
+#include "RendererModules/OpenGLES/Renderer.h"
+#endif
 
 namespace SMC
 {
@@ -243,9 +252,6 @@ public:
 	// current opengl context
 	GLXContext glx_context;
 #endif
-	// rendering thread
-	boost::thread m_render_thread;
-
 private:
 	// if set video is initialized successfully
 	bool m_initialised;
@@ -276,7 +282,11 @@ void Loading_Screen_Exit( void );
 extern cVideo *pVideo;
 
 // GUI System
+#ifdef WIN32
 extern CEGUI::OpenGLRenderer *pGuiRenderer;
+#else
+extern CEGUI::OpenGLESRenderer *pGuiRenderer;  
+#endif
 extern CEGUI::System *pGuiSystem;
 
 // Screen

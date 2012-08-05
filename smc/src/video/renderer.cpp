@@ -18,7 +18,12 @@
 #include <algorithm>
 // SDL
 #include "SDL.h"
+
+#ifdef WIN32
 #include "SDL_opengl.h"
+#else
+#include "SDL_opengles.h"
+#endif
 
 namespace SMC
 {
@@ -159,9 +164,11 @@ void cRender_Request_Advanced :: Render_Advanced( void )
 	{
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE );
 		glTexEnvi( GL_TEXTURE_ENV, GL_COMBINE_RGB, m_combine_type );
+#ifdef WIN32
 		glTexEnvi( GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_CONSTANT );
+        glTexEnvi( GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_TEXTURE );
+#endif
 		glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, m_combine_color );
-		glTexEnvi( GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_TEXTURE );
 	}
 }
 
@@ -196,6 +203,8 @@ cLine_Request :: ~cLine_Request( void )
 
 void cLine_Request :: Draw( void )
 {
+#if 0
+#warning TODO DRAW LINE
 	Render_Basic();
 
 	// set camera position
@@ -258,6 +267,7 @@ void cLine_Request :: Draw( void )
 
 	Render_Advanced_Clear();
 	Render_Basic_Clear();
+#endif
 }
 
 /* *** *** *** *** *** *** cRect_Request *** *** *** *** *** *** *** *** *** *** *** */
@@ -285,6 +295,8 @@ cRect_Request :: ~cRect_Request( void )
 
 void cRect_Request :: Draw( void )
 {
+#if 0
+#warning TODO DRAW LINE
 	Render_Basic();
 
 	// get half the size
@@ -371,6 +383,7 @@ void cRect_Request :: Draw( void )
 
 	Render_Advanced_Clear();
 	Render_Basic_Clear();
+#endif
 }
 
 /* *** *** *** *** *** *** cGradient_Request *** *** *** *** *** *** *** *** *** *** *** */
@@ -392,6 +405,8 @@ cGradient_Request :: ~cGradient_Request( void )
 
 void cGradient_Request :: Draw( void )
 {
+#if 0
+#warning TODO DRAW LINE
 	Render_Basic();
 
 	// set camera position
@@ -441,6 +456,7 @@ void cGradient_Request :: Draw( void )
 
 	Render_Advanced_Clear();
 	Render_Basic_Clear();
+#endif
 }
 
 /* *** *** *** *** *** *** cCircle_Request *** *** *** *** *** *** *** *** *** *** *** */
@@ -463,6 +479,8 @@ cCircle_Request :: ~cCircle_Request( void )
 
 void cCircle_Request :: Draw( void )
 {
+#if 0
+#warning TODO DRAW LINE
 	Render_Basic();
 
 	// set camera position
@@ -543,6 +561,7 @@ void cCircle_Request :: Draw( void )
 
 	Render_Advanced_Clear();
 	Render_Basic_Clear();
+#endif
 }
 
 /* *** *** *** *** *** *** cSurface_Request *** *** *** *** *** *** *** *** *** *** *** */
@@ -664,7 +683,8 @@ void cSurface_Request :: Draw( void )
 		glBindTexture( GL_TEXTURE_2D, m_texture_id );
 		last_bind_texture = m_texture_id;
 	}
-
+#if 0
+#warning TODO DRAW LINE
 	/* vertex arrays should not be used to draw simple primitives as it
 	 * does have no positive performance gain
 	*/
@@ -683,6 +703,7 @@ void cSurface_Request :: Draw( void )
 		glTexCoord2f( 0.0f, 1.0f );
 		glVertex2f( -half_w, half_h );
 	glEnd();
+#endif
 
 	// clear color
 	if( m_color.red != 255 || m_color.green != 255 || m_color.blue != 255 || m_color.alpha != 255 )

@@ -27,7 +27,7 @@
 	#  include <SDL_syswm.h>
 #elif __APPLE__
 	// needed for the clipboard access
-	#include <Carbon/Carbon.h>
+//	#include <Carbon/Carbon.h>
 #endif
 
 // CEGUI
@@ -494,27 +494,6 @@ std::string Get_Clipboard_Content( void )
 		CloseClipboard();
 	}
 #elif __APPLE__
-	// not tested
-	ScrapRef scrap;
-	if( ::GetCurrentScrap( &scrap ) != noErr )
-	{
-		return false;
-	}
-
-	Size bytecount = 0;
-	OSStatus status = ::GetScrapFlavorSize( scrap, kScrapFlavorTypeText, &bytecount );
-	if( status != noErr )
-	{
-		return false;
-	}
-
-	char *buffer = new char[bytecount];
-	if( ::GetScrapFlavorData( scrap, kScrapFlavorTypeText, &bytecount, buffer ) == noErr )
-	{
-		content = static_cast<char *>(buffer);
-	}
-
-	delete[] buffer;
 #elif __unix__
 	// only works with the cut-buffer method (xterm) and not with the more recent selections method
 	SDL_SysWMinfo sdlinfo;

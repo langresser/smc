@@ -26,7 +26,6 @@
 #include "elements/CEGUIListbox.h"
 #include "elements/CEGUIListboxTextItem.h"
 #include "CEGUIImageset.h"
-#include "RendererModules/OpenGL/CEGUIOpenGLTexture.h"
 
 namespace SMC
 {
@@ -48,7 +47,7 @@ public:
 };
 
 /* *** *** *** *** *** *** *** *** cEditor_CEGUI_Texture *** *** *** *** *** *** *** *** *** */
-
+#if 0
 // Todo : Needed for CEGUI 0.7.5 to not delete our opengl texture. Remove this if CEGUI 0.8 has an option for it.
 class cEditor_CEGUI_Texture : public CEGUI::OpenGLTexture
 {
@@ -58,6 +57,7 @@ public:
 
 	void cleanupOpenGLTexture( void );
 };
+#endif
 
 /* *** *** *** *** *** *** *** *** cEditor_Item_Object *** *** *** *** *** *** *** *** *** */
 

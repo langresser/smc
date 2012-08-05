@@ -186,10 +186,13 @@ cSaved_Texture *cGL_Surface :: Get_Software_Texture( bool only_filename /* = 0 *
 		// bind the texture
 		glBindTexture( GL_TEXTURE_2D, m_image );
 
+#if 0
+#warning TODO DRAW LINE
 		// texture settings
 		glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &soft_tex->m_width );
 		glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &soft_tex->m_height );
 		glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &soft_tex->m_format );
+#endif
 
 		glGetTexParameteriv( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, &soft_tex->m_wrap_s );
 		glGetTexParameteriv( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, &soft_tex->m_wrap_t );
@@ -215,7 +218,10 @@ cSaved_Texture *cGL_Surface :: Get_Software_Texture( bool only_filename /* = 0 *
 		// texture data
 		soft_tex->m_pixels = new GLubyte[soft_tex->m_width * soft_tex->m_height * bpp];
 
+#if 0
+#warning TODO DRAW LINE
 		glGetTexImage( GL_TEXTURE_2D, 0, soft_tex->m_format, GL_UNSIGNED_BYTE, soft_tex->m_pixels );
+#endif
 	}
 
 	// surface pointer

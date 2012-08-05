@@ -30,7 +30,11 @@
 #include "../core/filesystem/resource_manager.h"
 #include "../gui/spinner.h"
 // SDL
+#ifdef WIN32
 #include "SDL_opengl.h"
+#else
+#include "SDL_opengles.h"
+#endif
 // CEGUI
 #include "CEGUIResourceProvider.h"
 #include "CEGUIDefaultLogger.h"
@@ -43,6 +47,8 @@
 #include "falagard/CEGUIFalWidgetLookManager.h"
 #include "elements/CEGUIProgressBar.h"
 #include "RendererModules/Null/CEGUINullRenderer.h"
+
+
 // png
 #include <png.h>
 #ifndef PNG_COLOR_TYPE_RGBA
@@ -76,7 +82,6 @@ cVideo :: cVideo( void )
 #ifdef __unix__
 	glx_context = NULL;
 #endif
-	m_render_thread = boost::thread();
 
 	m_initialised = 0;
 }
@@ -123,7 +128,11 @@ void cVideo :: Init_CEGUI( void ) const
 	// create renderer
 	try
 	{
+#ifdef WIN32
 		pGuiRenderer = &CEGUI::OpenGLRenderer::create( CEGUI::Size( screen->w, screen->h ) );
+#else
+        pGuiRenderer = &CEGUI::OpenGLESRenderer::create( CEGUI::Size( screen->w, screen->h ) );
+#endif
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
@@ -355,8 +364,11 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	SDL_GL_GetAttribute( SDL_GL_GREEN_SIZE, &m_rgb_size[1] );
 	SDL_GL_GetAttribute( SDL_GL_BLUE_SIZE, &m_rgb_size[2] );
 
+#if 0
+#warning TODO OPENGL
 	// remember default buffer
 	glGetIntegerv( GL_DRAW_BUFFER, &m_default_buffer );
+#endif
 	// get maximum texture size
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_max_texture_size );
 
@@ -448,9 +460,13 @@ void cVideo :: Init_OpenGL( void )
 	glMatrixMode( GL_PROJECTION );
 	// clear it
 	glLoadIdentity();
+    
+#if 0
+#warning TODO OPENGL
 	// Set up the orthographic projection matrix
 	glOrtho( 0, static_cast<float>(m_width), static_cast<float>(m_height), 0, -1, 1 );
-	
+#endif
+    
 	// select the orthographic projection matrix
 	glMatrixMode( GL_MODELVIEW );
 	// clear it
@@ -467,8 +483,12 @@ void cVideo :: Init_OpenGL( void )
 
 	// Depth function
 	glDepthFunc( GL_LEQUAL );
+    
+#if 0
+#warning TODO OPENGL
 	// Depth Buffer Setup
 	glClearDepth( 1 );
+#endif
 
 	// Blending
 	glEnable( GL_BLEND );
@@ -1245,7 +1265,10 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 	// set SDL_image pixel store mode
 	else
 	{
+#if 0
+#warning TODO OPENGL
 		glPixelStorei( GL_UNPACK_ROW_LENGTH, surface->pitch / surface->format->BytesPerPixel );
+#endif
 	}
 
 	// use the generated texture
@@ -1259,9 +1282,12 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 	// upload to OpenGL texture
 	Create_GL_Texture( texture_width, texture_height, surface->pixels, mipmap );
 
+#if 0
+#warning TODO OPENGL
 	// unset pixel store mode
 	glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
-
+#endif
+    
 	SDL_FreeSurface( surface );
 
 	// create OpenGL surface class
@@ -1310,8 +1336,11 @@ void cVideo :: Create_GL_Texture( unsigned int width, unsigned int height, const
 		// OpenGL below 1.4
 		else
 		{
+#if 0
+#warning TODO OPENGL
 			// use glu to create Mipmaps
 			gluBuild2DMipmaps( GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
+#endif
 		}
 	}
 	// no mipmaps
@@ -2241,7 +2270,11 @@ void Loading_Screen_Exit( void )
 
 cVideo *pVideo = NULL;
 
+#ifdef WIN32
 CEGUI::OpenGLRenderer *pGuiRenderer = NULL;
+#else
+CEGUI::OpenGLESRenderer *pGuiRenderer = NULL;
+#endif
 CEGUI::System *pGuiSystem = NULL;
 
 SDL_Surface *screen = NULL;

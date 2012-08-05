@@ -69,3 +69,8 @@ Thumbs.db
 /smc/src/*.o
 /smc/src/smc
 /smc/stamp-h1
+
+smc/smcios/.DS_Store
+smc/makefiles/.DS_Store
+smc/smcios/smcios.xcodeproj/xcuserdata/
+smc/smcios/smcios.xcodeproj/project.xcworkspace/

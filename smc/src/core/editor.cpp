@@ -12,7 +12,6 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #include "../core/editor.h"
 #include "../core/game_core.h"
 #include "../gui/generic.h"
@@ -40,6 +39,12 @@
 #include "elements/CEGUIScrollbar.h"
 #include "CEGUIGeometryBuffer.h"
 
+#ifdef WIN32
+#include "RendererModules/OpenGL/CEGUIOpenGLTexture.h"
+#else
+#include "RendererModules/OpenGLES/Texture.h"
+#endif
+
 namespace SMC
 {
 
@@ -60,6 +65,7 @@ cEditor_Object_Settings_Item :: ~cEditor_Object_Settings_Item( void )
 	wmgr.destroyWindow( window_setting );
 }
 
+#if 0
 /* *** *** *** *** *** *** *** *** cEditor_CEGUI_Texture *** *** *** *** *** *** *** *** *** */
 
 cEditor_CEGUI_Texture :: cEditor_CEGUI_Texture( CEGUI::OpenGLRenderer& owner, GLuint tex, const CEGUI::Size& size )
@@ -87,7 +93,7 @@ void cEditor_CEGUI_Texture :: cleanupOpenGLTexture( void )
         d_ogltexture = 0;
     }
 }
-
+#endif
 /* *** *** *** *** *** *** *** *** cEditor_Item_Object *** *** *** *** *** *** *** *** *** */
 
 cEditor_Item_Object :: cEditor_Item_Object( const std::string &text, const CEGUI::Listbox *parent )
@@ -143,12 +149,13 @@ void cEditor_Item_Object :: Init( cSprite *sprite )
 
 	// get scale
 	preview_scale = pVideo->Get_Scale( sprite_obj->m_start_image, static_cast<float>(pPreferences->m_editor_item_image_size) * 2.0f, static_cast<float>(pPreferences->m_editor_item_image_size) );
-
+#if 0 
 	// create CEGUI link
 	cEditor_CEGUI_Texture *texture = new cEditor_CEGUI_Texture( *pGuiRenderer, sprite_obj->m_start_image->m_image, CEGUI::Size( sprite_obj->m_start_image->m_tex_w, sprite_obj->m_start_image->m_tex_h ) );
 	CEGUI::String imageset_name = "editor_item " + list_text->getText() + " " + CEGUI::PropertyHelper::uintToString( m_parent->getItemCount() );
 	m_image = &CEGUI::ImagesetManager::getSingleton().create( imageset_name, *texture );
 	m_image->defineImage( "default", CEGUI::Point(0, 0), texture->getSize(), CEGUI::Point(0, 0) );
+#endif
 }
 
 CEGUI::Size cEditor_Item_Object :: getPixelSize( void ) const
