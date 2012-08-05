@@ -36,7 +36,7 @@ void Joystick::createJoystick(cSprite_Manager *sprite_manager)
 	m_menu->Set_Pos(2, 2, 1);
 
 	m_menuClick = new cHudSprite(sprite_manager);
-	m_menuClick->Set_Image(pVideo->Get_Surface("extern/menunclick.png"));
+	m_menuClick->Set_Image(pVideo->Get_Surface("extern/menuclick.png"));
 	m_menuClick->Set_Pos(2, 2, 1);
 
 	m_jump = new cHudSprite(sprite_manager);

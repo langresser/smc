@@ -214,6 +214,8 @@ public:
 	// using double buffering
 	bool m_double_buffer;
 
+	int m_width, m_height;
+
 	// screen red, green and blue color bit size
 	int m_rgb_size[3];
 

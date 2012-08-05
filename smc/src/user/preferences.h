@@ -74,10 +74,6 @@ public:
 	bool m_audio_music;
 	bool m_audio_sound;
 
-	// Video
-	Uint16 m_video_screen_w;
-	Uint16 m_video_screen_h;
-
 	// Keyboard
 	// key definitions
 	SDLKey m_key_up;

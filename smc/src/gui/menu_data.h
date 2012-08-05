@@ -181,7 +181,6 @@ public:
 	virtual void Exit( void );
 	virtual void Update( void );
 	void Change_Game_Setting( int setting );
-	void Change_Video_Setting( int setting );
 	void Change_Audio_Setting( int setting );
 	void Change_Keyboard_Setting( int setting );
 	void Change_Joystick_Setting( int setting );
@@ -213,7 +212,6 @@ public:
 	bool Game_Menu_Level_Text_Changed( const CEGUI::EventArgs &event );
 	bool Game_Button_Reset_Game_Clicked( const CEGUI::EventArgs &event );
 	// video
-	bool Video_Resolution_Select( const CEGUI::EventArgs &event );
 	bool Video_Bpp_Select( const CEGUI::EventArgs &event );
 	bool Video_Slider_Geometry_Quality_Changed( const CEGUI::EventArgs &event );
 	bool Video_Slider_Texture_Quality_Changed( const CEGUI::EventArgs &event );
@@ -248,12 +246,9 @@ public:
 	CEGUI::Spinner *m_game_spinner_editor_item_image_size;
 	CEGUI::Combobox *m_game_combo_editor_mouse_auto_hide;
 	// video
-	CEGUI::Combobox *m_video_combo_resolution;
 	CEGUI::Slider *m_video_slider_geometry_quality;
 	CEGUI::Slider *m_video_slider_texture_quality;
 	// video settings
-	unsigned int m_vid_w;
-	unsigned int m_vid_h;
 	float m_vid_geometry_detail;
 	float m_vid_texture_detail;
 	// audio

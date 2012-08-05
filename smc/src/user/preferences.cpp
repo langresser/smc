@@ -185,8 +185,6 @@ void cPreferences :: Save( void )
 	Write_Property( stream, "game_camera_hor_speed", m_camera_hor_speed );
 	Write_Property( stream, "game_camera_ver_speed", m_camera_ver_speed );
 	// Video
-	Write_Property( stream, "video_screen_w", m_video_screen_w );
-	Write_Property( stream, "video_screen_h", m_video_screen_h );
 	Write_Property( stream, "video_geometry_quality", pVideo->m_geometry_quality );
 	Write_Property( stream, "video_texture_quality", pVideo->m_texture_quality );
 	// Audio
@@ -257,8 +255,6 @@ void cPreferences :: Reset_Game( void )
 void cPreferences :: Reset_Video( void )
 {
 	// Video
-	m_video_screen_w = m_video_screen_w_default;
-	m_video_screen_h = m_video_screen_h_default;
 	pVideo->m_geometry_quality = m_geometry_quality_default;
 	pVideo->m_texture_quality = m_texture_quality_default;
 }
@@ -321,11 +317,9 @@ void cPreferences :: Apply_Video( Uint16 screen_w, Uint16 screen_h, Uint8 screen
 	/* if resolution, bpp, vsync or texture detail changed
 	 * a texture reload is necessary
 	*/
-	if( m_video_screen_w != screen_w || m_video_screen_h != screen_h || !Is_Float_Equal( pVideo->m_texture_quality, texture_detail ) )
+	if(!Is_Float_Equal( pVideo->m_texture_quality, texture_detail ) )
 	{
 		// new settings
-		m_video_screen_w = screen_w;
-		m_video_screen_h = screen_h;
 		pVideo->m_texture_quality = texture_detail;
 		pVideo->m_geometry_quality = geometry_detail;
 
@@ -413,37 +407,6 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	else if( name.compare( "game_camera_ver_speed" ) == 0 || name.compare( "camera_ver_speed" ) == 0 )
 	{
 		m_camera_ver_speed = attributes.getValueAsFloat( "value" );
-	}
-	// Video
-	else if( name.compare( "video_screen_h" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val < 200 )
-		{
-			val = 200;
-		}
-		else if( val > 2560 )
-		{
-			val = 2560;
-		}
-		
-		m_video_screen_h = val;
-	}
-	else if( name.compare( "video_screen_w" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val < 200 )
-		{
-			val = 200;
-		}
-		else if( val > 2560 )
-		{
-			val = 2560;
-		}
-
-		m_video_screen_w = val;
 	}
 	else if( name.compare( "video_geometry_detail" ) == 0 || name.compare( "video_geometry_quality" ) == 0 )
 	{

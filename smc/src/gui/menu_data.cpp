@@ -1187,8 +1187,6 @@ void cMenu_Options :: Init( void )
 	m_layout_file = "menu/options_main.layout";
 
 	// video settings
-	m_vid_w = pPreferences->m_video_screen_w;
-	m_vid_h = pPreferences->m_video_screen_h;
 	m_vid_geometry_detail = pVideo->m_geometry_quality;
 	m_vid_texture_detail = pVideo->m_texture_quality;
 
@@ -1359,64 +1357,6 @@ void cMenu_Options :: Init_GUI_Video( void )
 {
 	// get the CEGUI window manager
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-
-	// Resolution
-	CEGUI::Window *text_resolution = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_resolution" ));
-	text_resolution->setText( UTF8_("Resolution") );
-
-	m_video_combo_resolution = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "video_combo_resolution" ));
-	
-	vector<cSize_Int> valid_resolutions = pVideo->Get_Supported_Resolutions();
-	CEGUI::ListboxTextItem *item;
-
-	// add to listbox
-	for( vector<cSize_Int>::iterator itr = valid_resolutions.begin(); itr != valid_resolutions.end(); ++itr )
-	{
-		// get resolution
-		cSize_Int res = (*itr);
-
-		if( res.m_width <= 0 || res.m_height <= 0 )
-		{
-			continue;
-		}
-
-		// calculate aspect ratio
-		float ar = static_cast<float>(res.m_width) / static_cast<float>(res.m_height);
-
-		item = new CEGUI::ListboxTextItem( int_to_string( res.m_width ) + "x" + int_to_string( res.m_height ) );
-		CEGUI::colour color( 0, 0, 0 );
-		// if a badly stretched resolution, display it in red
-		if( ar < 1.1f || ar > 1.5f )
-		{
-			color.setGreen( 0 );
-			color.setRed( 1 );
-		}
-		// good resolution
-		else
-		{
-			// calculate difference from a default 1.333 resolution
-			float diff_from_default;
-
-			if( ar > 1.333f )
-			{
-				diff_from_default = ( ar - 1.333f ) * 4;
-			}
-			else
-			{
-				diff_from_default = -( ar - 1.333f ) * 4;
-			}
-
-			color.setGreen( 1 - diff_from_default );
-			color.setRed( diff_from_default );
-		}
-		item->setTextColours( color );
-		m_video_combo_resolution->addItem( item );
-	}
-
-	std::string temp = int_to_string( pPreferences->m_video_screen_w ) + "x" + int_to_string( pPreferences->m_video_screen_h );
-	m_video_combo_resolution->setText( temp.c_str() );
-
-	m_video_combo_resolution->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Video_Resolution_Select, this ) );
 
 	// Geometry quality
 	CEGUI::Window *text_geometry_quality = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_geometry_quality" ));
@@ -1650,7 +1590,6 @@ void cMenu_Options :: Update( void )
 
 	// todo : use this functionality again
 	Change_Game_Setting( pMenuCore->m_handler->m_active );
-	Change_Video_Setting( pMenuCore->m_handler->m_active );
 	Change_Audio_Setting( pMenuCore->m_handler->m_active );
 	Change_Keyboard_Setting( pMenuCore->m_handler->m_active );
 	Change_Joystick_Setting( pMenuCore->m_handler->m_active );
@@ -1726,33 +1665,6 @@ void cMenu_Options :: Change_Game_Setting( int setting )
 		m_game_combo_menu_level->setText( new_selected->getText() );
 		m_game_combo_menu_level->setItemSelectState( new_selected, 1 );
 		Game_Menu_Level_Select( CEGUI::WindowEventArgs( m_game_combo_menu_level ) );
-	}
-}
-
-void cMenu_Options :: Change_Video_Setting( int setting )
-{
-	// Resolution
-	if( pMenuCore->m_handler->m_active == 5 )
-	{
-		// Resolution
-		unsigned int selected = m_video_combo_resolution->getItemIndex( m_video_combo_resolution->findItemWithText( m_video_combo_resolution->getText(), NULL ) );
-
-		CEGUI::ListboxItem *new_selected = NULL;
-
-		// last item selected
-		if( selected == m_video_combo_resolution->getItemCount() - 1 )
-		{
-			new_selected = m_video_combo_resolution->getListboxItemFromIndex( 0 );
-		}
-		// select next item
-		else
-		{
-			new_selected = m_video_combo_resolution->getListboxItemFromIndex( selected + 1 );
-		}
-		
-		m_video_combo_resolution->setText( new_selected->getText() );
-		m_video_combo_resolution->setItemSelectState( new_selected, 1 );
-		Video_Resolution_Select( CEGUI::WindowEventArgs( m_video_combo_resolution ) );
 	}
 }
 
@@ -2094,32 +2006,6 @@ bool cMenu_Options :: Game_Button_Reset_Game_Clicked( const CEGUI::EventArgs &ev
 	return 1;
 }
 
-bool cMenu_Options :: Video_Resolution_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-
-	std::string temp = item->getText().c_str();
-
-	// get end of height value if text is after resolution string
-	std::string::size_type height_end = temp.find( " " );
-
-	if( height_end == std::string::npos )
-	{
-		height_end = temp.length();
-	}
-
-	// get resolution
-	unsigned int w = string_to_int( temp.substr( 0, temp.find( "x" ) ) );
-	unsigned int h = string_to_int( temp.substr( temp.find( "x" ) + 1, height_end ) );
-
-	// set new selected resolution
-	m_vid_w = w;
-	m_vid_h = h;
-
-	return 1;
-}
-
 bool cMenu_Options :: Video_Slider_Geometry_Quality_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
@@ -2140,15 +2026,6 @@ bool cMenu_Options :: Video_Slider_Texture_Quality_Changed( const CEGUI::EventAr
 
 bool cMenu_Options :: Video_Button_Reset_Clicked( const CEGUI::EventArgs &event )
 {
-	CEGUI::ListboxItem *list_item = m_video_combo_resolution->findItemWithText( int_to_string( cPreferences::m_video_screen_w_default ) + "x" + int_to_string( cPreferences::m_video_screen_h_default ), NULL );
-	if( list_item )
-	{
-		m_video_combo_resolution->setItemSelectState( list_item, 1 );
-
-		m_vid_w = cPreferences::m_video_screen_w_default;
-		m_vid_h = cPreferences::m_video_screen_h_default;
-	}
-
 	m_video_slider_geometry_quality->setCurrentValue( cPreferences::m_geometry_quality_default );
 	m_vid_geometry_detail = cPreferences::m_geometry_quality_default;
 
@@ -2168,7 +2045,7 @@ bool cMenu_Options :: Video_Button_Apply_Clicked( const CEGUI::EventArgs &event 
 	SDL_GL_SwapBuffers();
 
 	// apply new settings
-	pPreferences->Apply_Video( m_vid_w, m_vid_h, 32, false, false, m_vid_geometry_detail, m_vid_texture_detail );
+	pPreferences->Apply_Video( 0, 0, 32, false, false, m_vid_geometry_detail, m_vid_texture_detail );
 
 	// clear
 	Game_Action = GA_ENTER_MENU;

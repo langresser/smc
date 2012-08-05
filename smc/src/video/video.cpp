@@ -32,7 +32,7 @@
 // SDL
 #include "SDL_opengl.h"
 // CEGUI
-#include "CEGUIDefaultResourceProvider.h"
+#include "CEGUIResourceProvider.h"
 #include "CEGUIDefaultLogger.h"
 #include "CEGUIExceptions.h"
 #include "CEGUIWindowFactoryManager.h"
@@ -89,7 +89,7 @@ cVideo :: ~cVideo( void )
 void cVideo :: Init_CEGUI_Fake( void ) const
 {
 	// create fake Resource Provider
-	CEGUI::DefaultResourceProvider *rp = new CEGUI::DefaultResourceProvider();
+	CEGUI::ResourceProvider *rp = new CEGUI::ResourceProvider();
 	// set Resource Provider directories
 	if( CEGUI::System::getDefaultXMLParserName().compare( "XercesParser" ) == 0 )
 	{
@@ -135,7 +135,7 @@ void cVideo :: Init_CEGUI( void ) const
 	pGuiRenderer->enableExtraStateSettings( 1 );
 
 	// create Resource Provider
-	CEGUI::DefaultResourceProvider *rp = new CEGUI::DefaultResourceProvider();
+	CEGUI::ResourceProvider *rp = new CEGUI::ResourceProvider();
 
 	// set Resource Provider directories
 	rp->setResourceGroupDirectory( "schemes", DATA_DIR "/" GUI_SCHEME_DIR "/" );
@@ -267,21 +267,11 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		flags |= SDL_FULLSCREEN;
 #endif
 	}
-
-	int screen_w, screen_h;
-
-	// full initialization
-	if( use_preferences )
-	{
-		screen_w = pPreferences->m_video_screen_w;
-		screen_h = pPreferences->m_video_screen_h;
-	}
-	// initialization with SDL defaults
-	else
-	{
-		screen_w = 800;
-		screen_h = 600;
-	}
+	
+#ifdef WIN32
+	m_width = 480;
+	m_height = 320;
+#endif
 
 	// first initialization
 	if( !m_initialised )
@@ -338,7 +328,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	}
 
 	// Note: As of SDL 1.2.10, if width and height are both 0, SDL_SetVideoMode will use the desktop resolution.
-	screen = SDL_SetVideoMode( screen_w, screen_h, 32, flags );
+	screen = SDL_SetVideoMode( m_width, m_height, 32, flags );
 
 	if( !screen )
 	{
@@ -401,7 +391,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		pFont->Restore_Textures();
 
 		// send new size to CEGUI
-		pGuiSystem->notifyDisplaySizeChanged( CEGUI::Size( static_cast<float>(screen_w), static_cast<float>(screen_h) ) );
+		pGuiSystem->notifyDisplaySizeChanged( CEGUI::Size( static_cast<float>(m_width), static_cast<float>(m_height) ) );
 
 		// check if CEGUI is initialized
 		bool cegui_initialized = pGuiSystem->getGUISheet() != NULL;
@@ -452,14 +442,14 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 void cVideo :: Init_OpenGL( void )
 {
 	// viewport should cover the whole screen
-	glViewport( 0, 0, pPreferences->m_video_screen_w, pPreferences->m_video_screen_h );
+	glViewport( 0, 0, m_width, m_height);
 
 	// select the projection matrix
 	glMatrixMode( GL_PROJECTION );
 	// clear it
 	glLoadIdentity();
 	// Set up the orthographic projection matrix
-	glOrtho( 0, static_cast<float>(pPreferences->m_video_screen_w), static_cast<float>(pPreferences->m_video_screen_h), 0, -1, 1 );
+	glOrtho( 0, static_cast<float>(m_width), static_cast<float>(m_height), 0, -1, 1 );
 	
 	// select the orthographic projection matrix
 	glMatrixMode( GL_MODELVIEW );
@@ -565,17 +555,17 @@ void cVideo :: Init_Texture_Detail( void )
 void cVideo :: Init_Resolution_Scale( void ) const
 {
 	// up scale
-	global_upscalex = static_cast<float>(pPreferences->m_video_screen_w) / static_cast<float>(game_res_w);
-	global_upscaley = static_cast<float>(pPreferences->m_video_screen_h) / static_cast<float>(game_res_h);
+	global_upscalex = static_cast<float>(m_width) / static_cast<float>(game_res_w);
+	global_upscaley = static_cast<float>(m_height) / static_cast<float>(game_res_h);
 	// down scale
-	global_downscalex = static_cast<float>(game_res_w) / static_cast<float>(pPreferences->m_video_screen_w);
-	global_downscaley = static_cast<float>(game_res_h) / static_cast<float>(pPreferences->m_video_screen_h);
+	global_downscalex = static_cast<float>(game_res_w) / static_cast<float>(m_width);
+	global_downscaley = static_cast<float>(game_res_h) / static_cast<float>(m_height);
 }
 
 void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 */ )
 {
 	m_imgcache_dir = pResource_Manager->user_data_dir + "cached";
-	std::string imgcache_dir_active = m_imgcache_dir + "/" + int_to_string( pPreferences->m_video_screen_w ) + "x" + int_to_string( pPreferences->m_video_screen_h );
+	std::string imgcache_dir_active = m_imgcache_dir + "/" + int_to_string(m_width) + "x" + int_to_string(m_height);
 
 	// if cache is disabled
 	if( !pPreferences->m_image_cache_enabled )
@@ -782,7 +772,6 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 void cVideo :: Save_Screenshot( void )
 {
 	std::string filename;
-	
 	for( unsigned int i = 1; i < 1000; i++ )
 	{
 		filename = pResource_Manager->user_data_dir + USER_SCREENSHOT_DIR "/" + int_to_string( i ) + ".png";
@@ -790,11 +779,11 @@ void cVideo :: Save_Screenshot( void )
 		if( !File_Exists( filename ) )
 		{
 			// create image data
-			GLubyte *data = new GLubyte[pPreferences->m_video_screen_w * pPreferences->m_video_screen_h * 3];
+			GLubyte *data = new GLubyte[m_width * m_height * 3];
 			// read opengl screen
-			glReadPixels( 0, 0, pPreferences->m_video_screen_w, pPreferences->m_video_screen_h, GL_RGB, GL_UNSIGNED_BYTE, static_cast<GLvoid *>(data) );
+			glReadPixels( 0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, static_cast<GLvoid *>(data) );
 			// save
-			Save_Surface( filename, data, pPreferences->m_video_screen_w, pPreferences->m_video_screen_h, 3, 1 );
+			Save_Surface( filename, data, m_width, m_height, 3, 1 );
 			// clear data
 			delete[] data;
 
