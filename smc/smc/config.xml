@@ -32,7 +32,6 @@
     <property name="keyboard_key_editor_pixel_move_left" value="1073741916" />
     <property name="keyboard_key_editor_pixel_move_right" value="1073741918" />
     <property name="level_background_images" value="1" />
-    <property name="image_cache_enabled" value="1" />
     <property name="editor_mouse_auto_hide" value="0" />
     <property name="editor_show_item_images" value="1" />
     <property name="editor_item_image_size" value="40" />

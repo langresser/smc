@@ -107,8 +107,6 @@ public:
 	// Special
 	// level background images enabled
 	bool m_level_background_images;
-	// image cache enabled
-	bool m_image_cache_enabled;
 
 	/* *** *** *** *** *** *** *** */
 

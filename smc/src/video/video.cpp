@@ -567,12 +567,6 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 	m_imgcache_dir = pResource_Manager->user_data_dir + "cached";
 	std::string imgcache_dir_active = m_imgcache_dir + "/" + int_to_string(m_width) + "x" + int_to_string(m_height);
 
-	// if cache is disabled
-	if( !pPreferences->m_image_cache_enabled )
-	{
-		return;
-	}
-
 	// if not the same game version
 	if( recreate || pPreferences->m_game_version != smc_version )
 	{

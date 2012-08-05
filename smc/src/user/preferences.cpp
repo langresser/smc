@@ -213,7 +213,6 @@ void cPreferences :: Save( void )
 	Write_Property( stream, "keyboard_key_editor_pixel_move_right", m_key_editor_pixel_move_right );
 	// Special
 	Write_Property( stream, "level_background_images", m_level_background_images );
-	Write_Property( stream, "image_cache_enabled", m_image_cache_enabled );
 	// Editor
 	Write_Property( stream, "editor_mouse_auto_hide", m_editor_mouse_auto_hide );
 	Write_Property( stream, "editor_show_item_images", m_editor_show_item_images );
@@ -237,7 +236,6 @@ void cPreferences :: Reset_All( void )
 
 	// Special
 	m_level_background_images = 1;
-	m_image_cache_enabled = 1;
 
 	// filename
 	m_config_filename = "config.xml";
@@ -605,10 +603,6 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	else if( name.compare( "level_background_images" ) == 0 )
 	{
 		m_level_background_images = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "image_cache_enabled" ) == 0 )
-	{
-		m_image_cache_enabled = attributes.getValueAsBool( "value" );
 	}
 	// Editor
 	else if( name.compare( "editor_mouse_auto_hide" ) == 0 )
