@@ -29,6 +29,13 @@ namespace SMC
 		cHudSprite* m_down;
 		cHudSprite* m_left;
 		cHudSprite* m_right;
+
+		cHudSprite* m_menu;
+		cHudSprite* m_menuClick;
+		cHudSprite* m_jump;
+		cHudSprite* m_jumpClick;
+		cHudSprite* m_fire;
+		cHudSprite* m_fireClick;
 		cSprite_Manager* m_spriteManager;
 	};
 }

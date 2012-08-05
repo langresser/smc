@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config >
+    <property name="game_version" value="2.0.0" />
+    <property name="game_language" value="" />
+    <property name="game_always_run" value="0" />
+    <property name="game_menu_level" value="menu_green_1" />
+    <property name="game_camera_hor_speed" value="0.3" />
+    <property name="game_camera_ver_speed" value="0.2" />
+    <property name="video_screen_w" value="480" />
+    <property name="video_screen_h" value="320" />
+    <property name="video_geometry_quality" value="0.5" />
+    <property name="video_texture_quality" value="0.75" />
+    <property name="audio_music" value="1" />
+    <property name="audio_sound" value="1" />
+    <property name="audio_sound_volume" value="100" />
+    <property name="audio_music_volume" value="80" />
+    <property name="keyboard_key_up" value="1073741906" />
+    <property name="keyboard_key_down" value="1073741905" />
+    <property name="keyboard_key_left" value="1073741904" />
+    <property name="keyboard_key_right" value="1073741903" />
+    <property name="keyboard_key_jump" value="115" />
+    <property name="keyboard_key_shoot" value="32" />
+    <property name="keyboard_key_item" value="13" />
+    <property name="keyboard_key_action" value="97" />
+    <property name="keyboard_scroll_speed" value="1" />
+    <property name="keyboard_key_screenshot" value="1073741894" />
+    <property name="keyboard_key_editor_fast_copy_up" value="1073741920" />
+    <property name="keyboard_key_editor_fast_copy_down" value="1073741914" />
+    <property name="keyboard_key_editor_fast_copy_left" value="1073741916" />
+    <property name="keyboard_key_editor_fast_copy_right" value="1073741918" />
+    <property name="keyboard_key_editor_pixel_move_up" value="1073741920" />
+    <property name="keyboard_key_editor_pixel_move_down" value="1073741914" />
+    <property name="keyboard_key_editor_pixel_move_left" value="1073741916" />
+    <property name="keyboard_key_editor_pixel_move_right" value="1073741918" />
+    <property name="level_background_images" value="1" />
+    <property name="image_cache_enabled" value="1" />
+    <property name="editor_mouse_auto_hide" value="0" />
+    <property name="editor_show_item_images" value="1" />
+    <property name="editor_item_image_size" value="40" />
+</config>
