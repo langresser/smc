@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<savegame >
+    <information >
+        <property name="version" value="12" />
+        <property name="level_engine_version" value="40" />
+        <property name="save_time" value="1344157052" />
+        <property name="description" value="wqasd" />
+    </information>
+    <player >
+        <property name="lives" value="3" />
+        <property name="points" value="6896" />
+        <property name="goldpieces" value="41" />
+        <property name="type" value="3" />
+        <property name="state" value="0" />
+        <property name="itembox_item" value="25" />
+        <property name="overworld_active" value="World 1" />
+        <property name="overworld_current_waypoint" value="4" />
+    </player>
+    <overworld >
+        <property name="name" value="Test 1" />
+        <waypoint >
+            <property name="destination" value="lvl_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_2" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_3" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_4" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_5" />
+            <property name="access" value="0" />
+        </waypoint>
+    </overworld>
+    <overworld >
+        <property name="name" value="World 1" />
+        <waypoint >
+            <property name="destination" value="lvl_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_2" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_3" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_4" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_5" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_6" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_7" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_9" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="pasol_3" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="stephane_1" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="tower_1" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="world_2" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_8" />
+            <property name="access" value="0" />
+        </waypoint>
+    </overworld>
+    <overworld >
+        <property name="name" value="World 2" />
+        <waypoint >
+            <property name="destination" value="world_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_10" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="pasol_1" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="flippa_3" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="world_3" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="eatomania" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="dj_kirby_1" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="jungle_1" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="keywest_1" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="underground" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="clear_night" />
+            <property name="access" value="0" />
+        </waypoint>
+    </overworld>
+    <overworld >
+        <property name="name" value="World 3" />
+        <waypoint >
+            <property name="destination" value="world_2" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_01" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_02" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_03" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_04" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_05" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_06" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_07" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="world_4" />
+            <property name="access" value="0" />
+        </waypoint>
+    </overworld>
+    <overworld >
+        <property name="name" value="World 4" />
+        <waypoint >
+            <property name="destination" value="world_3" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_2" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_3" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_4" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_5" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_6" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_7" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="credits" />
+            <property name="access" value="0" />
+        </waypoint>
+    </overworld>
+</savegame>
