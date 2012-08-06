@@ -29,12 +29,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../gui/spinner.h"
-// SDL
-#ifdef WIN32
-#include "SDL_opengl.h"
-#else
-#include "SDL_opengles.h"
-#endif
+
 // CEGUI
 #include "CEGUIResourceProvider.h"
 #include "CEGUIDefaultLogger.h"
@@ -102,12 +97,9 @@ void cVideo :: Init_CEGUI_Fake( void ) const
 		rp->setResourceGroupDirectory( "schemas", DATA_DIR "/" GAME_SCHEMA_DIR "/" );
 	}
 	// get a directory to dump the CEGUI log
-#ifdef _WIN32
 	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
 	CEGUI::String log_dump_dir = (const CEGUI::utf8*)((Get_Temp_Directory() + "cegui.log").c_str());
-#else
-	CEGUI::String log_dump_dir = "/dev/null";
-#endif
+
 	// create fake system and renderer
 	pGuiSystem = &CEGUI::System::create( CEGUI::NullRenderer::create(), rp, NULL, NULL, NULL, "", log_dump_dir );
 }
@@ -269,13 +261,9 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	// set the video flags
 	int flags = SDL_OPENGL | SDL_SWSURFACE;
 
-	// only enter fullscreen if set in preferences
-	if( use_preferences)
-	{
 #ifndef WIN32
-		flags |= SDL_FULLSCREEN;
+    flags |= SDL_FULLSCREEN;
 #endif
-	}
 	
 #ifdef WIN32
 	m_width = 960;
@@ -382,10 +370,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	{
 		printf( "Error: SDL_GetWMInfo not implemented\n" );
 	}
-#ifdef __unix__
-	// get context
-	glx_context = glXGetCurrentContext();
-#endif
 
 	// initialize opengl
 	Init_OpenGL();
@@ -461,11 +445,8 @@ void cVideo :: Init_OpenGL( void )
 	// clear it
 	glLoadIdentity();
     
-#ifdef WIN32
-	//#warning TODO OPENGL
 	// Set up the orthographic projection matrix
-	glOrtho( 0, static_cast<float>(m_width), static_cast<float>(m_height), 0, -1, 1 );
-#endif
+	glOrthof( 0, static_cast<float>(m_width), static_cast<float>(m_height), 0, -1, 1 );
     
 	// select the orthographic projection matrix
 	glMatrixMode( GL_MODELVIEW );
@@ -484,11 +465,9 @@ void cVideo :: Init_OpenGL( void )
 	// Depth function
 	glDepthFunc( GL_LEQUAL );
     
-#ifdef WIN32
 	//#warning TODO OPENGL
 	// Depth Buffer Setup
-	glClearDepth( 1 );
-#endif
+	glClearDepthf( 1 );
 
 	// Blending
 	glEnable( GL_BLEND );
@@ -947,7 +926,9 @@ void cVideo :: Render()
 	// update performance timer
 	pFramerate->m_perf_timer[PERF_RENDER_GAME]->Update();
 
+#ifdef WIN32
 	pGuiSystem->renderGUI();
+#endif
 
 	// update performance timer
 	pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();

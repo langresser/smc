@@ -683,8 +683,7 @@ void cSurface_Request :: Draw( void )
 		glBindTexture( GL_TEXTURE_2D, m_texture_id );
 		last_bind_texture = m_texture_id;
 	}
-#ifdef WIN32
-//#warning TODO DRAW LINE
+
 	/* vertex arrays should not be used to draw simple primitives as it
 	 * does have no positive performance gain
 	*/
@@ -703,7 +702,6 @@ void cSurface_Request :: Draw( void )
 		glTexCoord2f( 0.0f, 1.0f );
 		glVertex2f( -half_w, half_h );
 	glEnd();
-#endif
 
 	// clear color
 	if( m_color.red != 255 || m_color.green != 255 || m_color.blue != 255 || m_color.alpha != 255 )
