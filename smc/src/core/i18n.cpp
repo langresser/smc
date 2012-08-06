@@ -17,6 +17,10 @@
 #include "../core/i18n.h"
 #include "SDL.h"
 
+#ifdef WIN32
+#include "windows.h"
+#endif
+
 namespace SMC
 {
 

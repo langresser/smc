@@ -122,11 +122,6 @@ public:
 	*/
 	vector<cSize_Int> Get_Supported_Resolutions( int flags = 0 ) const;
 
-	// make the opengl context active for the current thread
-	void Make_GL_Context_Current( void );
-	// make the opengl context inactive for the current thread
-	void Make_GL_Context_Inactive( void );
-
 	// Render game, GUI and swap the opengl buffer
 	void Render();
 	

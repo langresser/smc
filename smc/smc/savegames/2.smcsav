@@ -4,18 +4,18 @@
     <information >
         <property name="version" value="12" />
         <property name="level_engine_version" value="40" />
-        <property name="save_time" value="1344260304" />
-        <property name="description" value="wqasd" />
+        <property name="save_time" value="1344259897" />
+        <property name="description" value="sadsad" />
     </information>
     <player >
-        <property name="lives" value="5" />
-        <property name="points" value="15328" />
-        <property name="goldpieces" value="84" />
-        <property name="type" value="1" />
+        <property name="lives" value="4" />
+        <property name="points" value="11793" />
+        <property name="goldpieces" value="14" />
+        <property name="type" value="3" />
         <property name="state" value="0" />
         <property name="itembox_item" value="0" />
         <property name="overworld_active" value="World 1" />
-        <property name="overworld_current_waypoint" value="6" />
+        <property name="overworld_current_waypoint" value="5" />
     </player>
     <overworld >
         <property name="name" value="Test 1" />
@@ -68,7 +68,7 @@
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_7" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_9" />

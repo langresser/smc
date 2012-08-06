@@ -65,7 +65,20 @@ cEditor_Object_Settings_Item :: ~cEditor_Object_Settings_Item( void )
 	wmgr.destroyWindow( window_setting );
 }
 
-#if 0
+/* *** *** *** *** *** *** *** *** cEditor_CEGUI_Texture *** *** *** *** *** *** *** *** *** */
+#ifdef WIN32
+// Todo : Needed for CEGUI 0.7.5 to not delete our opengl texture. Remove this if CEGUI 0.8 has an option for it.
+class cEditor_CEGUI_Texture : public CEGUI::OpenGLTexture
+{
+public:
+	cEditor_CEGUI_Texture( CEGUI::OpenGLRenderer& owner, GLuint tex, const CEGUI::Size& size );
+	~cEditor_CEGUI_Texture( void );
+
+	void cleanupOpenGLTexture( void );
+};
+#endif
+
+#ifdef WIN32
 /* *** *** *** *** *** *** *** *** cEditor_CEGUI_Texture *** *** *** *** *** *** *** *** *** */
 
 cEditor_CEGUI_Texture :: cEditor_CEGUI_Texture( CEGUI::OpenGLRenderer& owner, GLuint tex, const CEGUI::Size& size )
@@ -149,7 +162,7 @@ void cEditor_Item_Object :: Init( cSprite *sprite )
 
 	// get scale
 	preview_scale = pVideo->Get_Scale( sprite_obj->m_start_image, static_cast<float>(pPreferences->m_editor_item_image_size) * 2.0f, static_cast<float>(pPreferences->m_editor_item_image_size) );
-#if 0 
+#ifdef WIN32
 	// create CEGUI link
 	cEditor_CEGUI_Texture *texture = new cEditor_CEGUI_Texture( *pGuiRenderer, sprite_obj->m_start_image->m_image, CEGUI::Size( sprite_obj->m_start_image->m_tex_w, sprite_obj->m_start_image->m_tex_h ) );
 	CEGUI::String imageset_name = "editor_item " + list_text->getText() + " " + CEGUI::PropertyHelper::uintToString( m_parent->getItemCount() );

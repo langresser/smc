@@ -46,19 +46,6 @@ public:
 	bool advance_row;
 };
 
-/* *** *** *** *** *** *** *** *** cEditor_CEGUI_Texture *** *** *** *** *** *** *** *** *** */
-#if 0
-// Todo : Needed for CEGUI 0.7.5 to not delete our opengl texture. Remove this if CEGUI 0.8 has an option for it.
-class cEditor_CEGUI_Texture : public CEGUI::OpenGLTexture
-{
-public:
-	cEditor_CEGUI_Texture( CEGUI::OpenGLRenderer& owner, GLuint tex, const CEGUI::Size& size );
-	~cEditor_CEGUI_Texture( void );
-
-	void cleanupOpenGLTexture( void );
-};
-#endif
-
 /* *** *** *** *** *** *** *** *** cEditor_Item_Object *** *** *** *** *** *** *** *** *** */
 
 class cEditor_Item_Object : public CEGUI::ListboxItem

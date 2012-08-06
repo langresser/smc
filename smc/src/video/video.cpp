@@ -278,8 +278,8 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	}
 	
 #ifdef WIN32
-	m_width = 480;
-	m_height = 320;
+	m_width = 960;
+	m_height = 640;
 #endif
 
 	// first initialization
@@ -364,8 +364,8 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	SDL_GL_GetAttribute( SDL_GL_GREEN_SIZE, &m_rgb_size[1] );
 	SDL_GL_GetAttribute( SDL_GL_BLUE_SIZE, &m_rgb_size[2] );
 
-#if 0
-#warning TODO OPENGL
+#ifdef WIN32
+//#warning TODO OPENGL
 	// remember default buffer
 	glGetIntegerv( GL_DRAW_BUFFER, &m_default_buffer );
 #endif
@@ -461,8 +461,8 @@ void cVideo :: Init_OpenGL( void )
 	// clear it
 	glLoadIdentity();
     
-#if 0
-#warning TODO OPENGL
+#ifdef WIN32
+	//#warning TODO OPENGL
 	// Set up the orthographic projection matrix
 	glOrtho( 0, static_cast<float>(m_width), static_cast<float>(m_height), 0, -1, 1 );
 #endif
@@ -484,8 +484,8 @@ void cVideo :: Init_OpenGL( void )
 	// Depth function
 	glDepthFunc( GL_LEQUAL );
     
-#if 0
-#warning TODO OPENGL
+#ifdef WIN32
+	//#warning TODO OPENGL
 	// Depth Buffer Setup
 	glClearDepth( 1 );
 #endif
@@ -940,43 +940,6 @@ vector<cSize_Int> cVideo :: Get_Supported_Resolutions( int flags /* = 0 */ ) con
 	return valid_resolutions;
 }
 
-void cVideo :: Make_GL_Context_Current( void )
-{
-#if 0
-	// scoped context lock here
-#ifdef _WIN32
-	if( wglGetCurrentContext() != wm_info.hglrc )
-	{
-		wglMakeCurrent( GetDC( wm_info.window ), wm_info.hglrc );
-	}
-#elif __unix__
-	if( glx_context != NULL )
-	{
-		glXMakeCurrent( wm_info.info.x11.gfxdisplay, wm_info.info.x11.window, glx_context );
-	}
-#elif __APPLE__
-	// party time
-#endif
-
-	// update info (needed?)
-	SDL_GetWMInfo( &wm_info );
-#endif
-}
-
-void cVideo :: Make_GL_Context_Inactive( void )
-{
-#ifdef _WIN32
-	wglMakeCurrent( NULL, NULL );
-#elif __unix__
-	glXMakeCurrent( wm_info.info.x11.gfxdisplay, None, NULL );
-#elif __APPLE__
-	// party time
-#endif
-
-	// update info (needed?)
-	SDL_GetWMInfo( &wm_info );
-}
-
 void cVideo :: Render()
 {
 	pRenderer->Render();
@@ -1265,8 +1228,8 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 	// set SDL_image pixel store mode
 	else
 	{
-#if 0
-#warning TODO OPENGL
+#ifdef WIN32
+//#warning TODO OPENGL
 		glPixelStorei( GL_UNPACK_ROW_LENGTH, surface->pitch / surface->format->BytesPerPixel );
 #endif
 	}
@@ -1282,8 +1245,8 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 	// upload to OpenGL texture
 	Create_GL_Texture( texture_width, texture_height, surface->pixels, mipmap );
 
-#if 0
-#warning TODO OPENGL
+#ifdef WIN32
+	//#warning TODO OPENGL
 	// unset pixel store mode
 	glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
 #endif
@@ -1337,7 +1300,7 @@ void cVideo :: Create_GL_Texture( unsigned int width, unsigned int height, const
 		else
 		{
 #if 0
-#warning TODO OPENGL
+//#warning TODO OPENGL
 			// use glu to create Mipmaps
 			gluBuild2DMipmaps( GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
 #endif

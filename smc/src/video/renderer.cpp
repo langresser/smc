@@ -203,8 +203,8 @@ cLine_Request :: ~cLine_Request( void )
 
 void cLine_Request :: Draw( void )
 {
-#if 0
-#warning TODO DRAW LINE
+#ifdef WIN32
+//#warning TODO DRAW LINE
 	Render_Basic();
 
 	// set camera position
@@ -295,8 +295,8 @@ cRect_Request :: ~cRect_Request( void )
 
 void cRect_Request :: Draw( void )
 {
-#if 0
-#warning TODO DRAW LINE
+#ifdef WIN32
+//#warning TODO DRAW LINE
 	Render_Basic();
 
 	// get half the size
@@ -405,8 +405,8 @@ cGradient_Request :: ~cGradient_Request( void )
 
 void cGradient_Request :: Draw( void )
 {
-#if 0
-#warning TODO DRAW LINE
+#ifdef WIN32
+//#warning TODO DRAW LINE
 	Render_Basic();
 
 	// set camera position
@@ -479,8 +479,8 @@ cCircle_Request :: ~cCircle_Request( void )
 
 void cCircle_Request :: Draw( void )
 {
-#if 0
-#warning TODO DRAW LINE
+#ifdef WIN32
+//#warning TODO DRAW LINE
 	Render_Basic();
 
 	// set camera position
@@ -683,8 +683,8 @@ void cSurface_Request :: Draw( void )
 		glBindTexture( GL_TEXTURE_2D, m_texture_id );
 		last_bind_texture = m_texture_id;
 	}
-#if 0
-#warning TODO DRAW LINE
+#ifdef WIN32
+//#warning TODO DRAW LINE
 	/* vertex arrays should not be used to draw simple primitives as it
 	 * does have no positive performance gain
 	*/
