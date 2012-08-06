@@ -164,18 +164,7 @@ enum LevelLandType
 };
 
 /* *** *** *** *** *** *** *** Paths *** *** *** *** *** *** *** *** *** *** */
-
-#ifdef __APPLE__
-	// always undefine data path to allow dynamic datapath detection
-	#ifdef DATA_DIR
-		#undef DATA_DIR
-	#endif
-	#define DATA_DIR "."
-#else
-	#ifndef DATA_DIR
-		#define DATA_DIR "data"
-	#endif
-#endif
+#define DATA_DIR "data"
 
 // Core
 #define GAME_OVERWORLD_DIR "world"

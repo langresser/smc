@@ -253,7 +253,7 @@ std::string Get_User_Directory( void )
 #elif __unix__
 	return (std::string)getenv( "HOME" ) + "/.smc/";
 #elif __APPLE__
-	return (std::string)getenv( "HOME" ) + "/Library/Application Support/smc/";
+	return "./smc/";
 #else
 	return "";
 #endif

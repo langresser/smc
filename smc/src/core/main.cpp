@@ -57,6 +57,22 @@ using namespace SMC;
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 extern "C" void SDL_mainLoop()
 {
+    // game loop
+	while( !game_exit )
+	{
+		// update
+		Update_Game();
+		// draw
+		Draw_Game();
+        
+		// render
+		pVideo->Render();
+        
+		// update speedfactor
+		pFramerate->Update();
+	}
+    
+	Exit_Game();
 }
 
 int main( int argc, char **argv )
@@ -91,22 +107,6 @@ int main( int argc, char **argv )
 	Game_Action_Data_End.add( "screen_fadein", CEGUI::PropertyHelper::intToString( EFFECT_IN_BLACK ) );
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 
-	// game loop
-	while( !game_exit )
-	{
-		// update
-		Update_Game();
-		// draw
-		Draw_Game();
-
-		// render
-		pVideo->Render();
-
-		// update speedfactor
-		pFramerate->Update();
-	}
-
-	Exit_Game();
 	return EXIT_SUCCESS;
 }
 
