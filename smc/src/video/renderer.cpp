@@ -16,14 +16,6 @@
 #include "../video/renderer.h"
 #include "../core/game_core.h"
 #include <algorithm>
-// SDL
-#include "SDL.h"
-
-#ifdef WIN32
-#include "SDL_opengl.h"
-#else
-#include "SDL_opengles.h"
-#endif
 
 namespace SMC
 {
@@ -138,7 +130,7 @@ void cRender_Request_Advanced :: Render_Basic_Clear( void ) const
 
 	if( error != GL_NO_ERROR )
 	{
-		printf( "RenderRequest : GL Error found : %s\n", gluErrorString( error ) );
+		printf( "RenderRequest : GL Error found : %d\n", error);
 	}
 #endif
 }
@@ -164,7 +156,7 @@ void cRender_Request_Advanced :: Render_Advanced( void )
 	{
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE );
 		glTexEnvi( GL_TEXTURE_ENV, GL_COMBINE_RGB, m_combine_type );
-#ifdef WIN32
+#ifdef USE_GL
 		glTexEnvi( GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_CONSTANT );
         glTexEnvi( GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_TEXTURE );
 #endif
@@ -203,7 +195,7 @@ cLine_Request :: ~cLine_Request( void )
 
 void cLine_Request :: Draw( void )
 {
-#ifdef WIN32
+#ifdef USE_GL
 //#warning TODO DRAW LINE
 	Render_Basic();
 
@@ -295,7 +287,7 @@ cRect_Request :: ~cRect_Request( void )
 
 void cRect_Request :: Draw( void )
 {
-#ifdef WIN32
+#ifdef USE_GL
 //#warning TODO DRAW LINE
 	Render_Basic();
 
@@ -405,7 +397,7 @@ cGradient_Request :: ~cGradient_Request( void )
 
 void cGradient_Request :: Draw( void )
 {
-#ifdef WIN32
+#ifdef USE_GL
 //#warning TODO DRAW LINE
 	Render_Basic();
 
@@ -479,7 +471,7 @@ cCircle_Request :: ~cCircle_Request( void )
 
 void cCircle_Request :: Draw( void )
 {
-#ifdef WIN32
+#ifdef USE_GL
 //#warning TODO DRAW LINE
 	Render_Basic();
 
@@ -684,6 +676,7 @@ void cSurface_Request :: Draw( void )
 		last_bind_texture = m_texture_id;
 	}
 
+#ifdef USE_GL
 	/* vertex arrays should not be used to draw simple primitives as it
 	 * does have no positive performance gain
 	*/
@@ -702,6 +695,7 @@ void cSurface_Request :: Draw( void )
 		glTexCoord2f( 0.0f, 1.0f );
 		glVertex2f( -half_w, half_h );
 	glEnd();
+#endif
 
 	// clear color
 	if( m_color.red != 255 || m_color.green != 255 || m_color.blue != 255 || m_color.alpha != 255 )

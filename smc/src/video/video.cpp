@@ -120,11 +120,7 @@ void cVideo :: Init_CEGUI( void ) const
 	// create renderer
 	try
 	{
-#ifdef WIN32
-		pGuiRenderer = &CEGUI::OpenGLRenderer::create( CEGUI::Size( screen->w, screen->h ) );
-#else
         pGuiRenderer = &CEGUI::OpenGLESRenderer::create( CEGUI::Size( screen->w, screen->h ) );
-#endif
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
@@ -352,7 +348,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	SDL_GL_GetAttribute( SDL_GL_GREEN_SIZE, &m_rgb_size[1] );
 	SDL_GL_GetAttribute( SDL_GL_BLUE_SIZE, &m_rgb_size[2] );
 
-#ifdef WIN32
+#ifdef USE_GL
 //#warning TODO OPENGL
 	// remember default buffer
 	glGetIntegerv( GL_DRAW_BUFFER, &m_default_buffer );
@@ -1209,7 +1205,7 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 	// set SDL_image pixel store mode
 	else
 	{
-#ifdef WIN32
+#ifdef USE_GL
 //#warning TODO OPENGL
 		glPixelStorei( GL_UNPACK_ROW_LENGTH, surface->pitch / surface->format->BytesPerPixel );
 #endif
@@ -1226,7 +1222,7 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 	// upload to OpenGL texture
 	Create_GL_Texture( texture_width, texture_height, surface->pixels, mipmap );
 
-#ifdef WIN32
+#ifdef USE_GL
 	//#warning TODO OPENGL
 	// unset pixel store mode
 	glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
@@ -1253,7 +1249,7 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 
 	if( error != GL_NO_ERROR )
 	{
-		printf( "CreateTexture : GL Error found : %s\n", gluErrorString( error ) );
+		printf( "CreateTexture : GL Error found : %d\n", error);
 	}
 #endif
 
@@ -2214,11 +2210,7 @@ void Loading_Screen_Exit( void )
 
 cVideo *pVideo = NULL;
 
-#ifdef WIN32
-CEGUI::OpenGLRenderer *pGuiRenderer = NULL;
-#else
 CEGUI::OpenGLESRenderer *pGuiRenderer = NULL;
-#endif
 CEGUI::System *pGuiSystem = NULL;
 
 SDL_Surface *screen = NULL;

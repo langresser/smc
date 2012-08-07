@@ -40,11 +40,7 @@
 
 // CEGUI
 #include "CEGUIDefaultLogger.h"
-#ifdef WIN32
-#include "RendererModules/OpenGL/CEGUIOpenGLRenderer.h"
-#else
 #include "RendererModules/OpenGLES/Renderer.h"
-#endif
 
 // SMC namespace is set later to exclude main() from it
 using namespace SMC;
@@ -107,6 +103,9 @@ int main( int argc, char **argv )
 	Game_Action_Data_End.add( "screen_fadein", CEGUI::PropertyHelper::intToString( EFFECT_IN_BLACK ) );
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 
+#ifdef WIN32
+	SDL_mainLoop();
+#endif
 	return EXIT_SUCCESS;
 }
 

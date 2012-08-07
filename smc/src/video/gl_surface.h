@@ -18,14 +18,8 @@
 
 #include "../core/global_basic.h"
 #include "../core/math/point.h"
-// SDL
-#include "SDL.h"
 
-#ifdef WIN32
-#include "SDL_opengl.h"
-#else
-#include "SDL_opengles.h"
-#endif
+#include "mygl.h"
 
 namespace SMC
 {

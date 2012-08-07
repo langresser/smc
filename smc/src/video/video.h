@@ -19,21 +19,12 @@
 #include "../core/global_basic.h"
 #include "../core/global_game.h"
 #include "../video/color.h"
-// glx
-#ifdef __unix__
-	#include <GL/glx.h>
-#endif
+
 // SDL
 #include "SDL.h"
 #include "SDL_image.h"
 #ifdef __unix__
 	#define NO_SDL_GLEXT
-#endif
-
-#ifdef WIN32
-#include "SDL_opengl.h"
-#else
-#include "SDL_opengles.h"
 #endif
 
 #ifdef __unix__
@@ -43,11 +34,8 @@
 // CEGUI
 #include "CEGUISystem.h"
 
-#ifdef WIN32
-#include "RendererModules/OpenGL/CEGUIOpenGLRenderer.h"
-#else
+#include "mygl.h"
 #include "RendererModules/OpenGLES/Renderer.h"
-#endif
 
 namespace SMC
 {
@@ -277,11 +265,7 @@ void Loading_Screen_Exit( void );
 extern cVideo *pVideo;
 
 // GUI System
-#ifdef WIN32
-extern CEGUI::OpenGLRenderer *pGuiRenderer;
-#else
 extern CEGUI::OpenGLESRenderer *pGuiRenderer;  
-#endif
 extern CEGUI::System *pGuiSystem;
 
 // Screen

@@ -39,11 +39,7 @@
 #include "elements/CEGUIScrollbar.h"
 #include "CEGUIGeometryBuffer.h"
 
-#ifdef WIN32
-#include "RendererModules/OpenGL/CEGUIOpenGLTexture.h"
-#else
 #include "RendererModules/OpenGLES/Texture.h"
-#endif
 
 namespace SMC
 {
@@ -66,23 +62,20 @@ cEditor_Object_Settings_Item :: ~cEditor_Object_Settings_Item( void )
 }
 
 /* *** *** *** *** *** *** *** *** cEditor_CEGUI_Texture *** *** *** *** *** *** *** *** *** */
-#ifdef WIN32
 // Todo : Needed for CEGUI 0.7.5 to not delete our opengl texture. Remove this if CEGUI 0.8 has an option for it.
-class cEditor_CEGUI_Texture : public CEGUI::OpenGLTexture
+class cEditor_CEGUI_Texture : public CEGUI::OpenGLESTexture
 {
 public:
-	cEditor_CEGUI_Texture( CEGUI::OpenGLRenderer& owner, GLuint tex, const CEGUI::Size& size );
+	cEditor_CEGUI_Texture( CEGUI::OpenGLESRenderer& owner, GLuint tex, const CEGUI::Size& size );
 	~cEditor_CEGUI_Texture( void );
 
 	void cleanupOpenGLTexture( void );
 };
-#endif
 
-#ifdef WIN32
 /* *** *** *** *** *** *** *** *** cEditor_CEGUI_Texture *** *** *** *** *** *** *** *** *** */
 
-cEditor_CEGUI_Texture :: cEditor_CEGUI_Texture( CEGUI::OpenGLRenderer& owner, GLuint tex, const CEGUI::Size& size )
-: CEGUI::OpenGLTexture( owner, tex, size )
+cEditor_CEGUI_Texture :: cEditor_CEGUI_Texture( CEGUI::OpenGLESRenderer& owner, GLuint tex, const CEGUI::Size& size )
+: CEGUI::OpenGLESTexture( owner, "", tex, size )
 {
 
 }
@@ -106,7 +99,7 @@ void cEditor_CEGUI_Texture :: cleanupOpenGLTexture( void )
         d_ogltexture = 0;
     }
 }
-#endif
+
 /* *** *** *** *** *** *** *** *** cEditor_Item_Object *** *** *** *** *** *** *** *** *** */
 
 cEditor_Item_Object :: cEditor_Item_Object( const std::string &text, const CEGUI::Listbox *parent )
