@@ -139,24 +139,6 @@ cGL_Surface *cFont_Manager :: Render_Text( TTF_Font *font, const std::string &te
 	return surface;
 }
 
-void cFont_Manager :: Grab_Textures( void )
-{
-	// save to software memory
-	for( ActiveFontList::iterator itr = m_active_fonts.begin(); itr != m_active_fonts.end(); ++itr )
-	{
-		cGL_Surface *obj = (*itr);
-
-		// get software texture and save it
-		m_software_textures.push_back( obj->Get_Software_Texture() );
-		// delete hardware texture
-		if( glIsTexture( obj->m_image ) )
-		{
-			glDeleteTextures( 1, &obj->m_image );
-		}
-		obj->m_image = 0;
-	}
-}
-
 void cFont_Manager :: Restore_Textures( void )
 {
 	// load back into hardware textures

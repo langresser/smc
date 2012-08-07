@@ -211,8 +211,6 @@ public:
 	// screen red, green and blue color bit size
 	int m_rgb_size[3];
 
-	// default drawing buffer
-	GLint m_default_buffer;
 	// max texture size
 	GLint m_max_texture_size;
 

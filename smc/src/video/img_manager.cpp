@@ -110,57 +110,6 @@ cGL_Surface *cImage_Manager :: Copy( const std::string &path )
 	return NULL;
 }
 
-void cImage_Manager :: Grab_Textures( bool from_file /* = 0 */, bool draw_gui /* = 0 */ )
-{
-	// progress bar
-	CEGUI::ProgressBar *progress_bar = NULL;
-
-	if( draw_gui )
-	{
-		// get progress bar
-		progress_bar = static_cast<CEGUI::ProgressBar *>(CEGUI::WindowManager::getSingleton().getWindow( "progress_bar" ));
-		progress_bar->setProgress( 0 );
-		// set loading screen text
-		Loading_Screen_Draw_Text( _("Saving Textures") );
-	}
-
-	unsigned int loaded_files = 0;
-	unsigned int file_count = objects.size();
-
-	// save all textures
-	for( GL_Surface_List::iterator itr = objects.begin(); itr != objects.end(); ++itr )
-	{
-		// get surface
-		cGL_Surface *obj = (*itr);
-
-		// skip surfaces with an already deleted texture
-		if( !glIsTexture( obj->m_image ) )
-		{
-			continue;
-		}
-
-		// get software texture and save it to software memory
-		m_saved_textures.push_back( obj->Get_Software_Texture( from_file ) );
-		// delete hardware texture
-		if( glIsTexture( obj->m_image ) )
-		{
-			glDeleteTextures( 1, &obj->m_image );
-		}
-
-		// count files
-		loaded_files++;
-
-		// draw
-		if( draw_gui )
-		{
-			// update progress
-			progress_bar->setProgress( static_cast<float>(loaded_files) / static_cast<float>(file_count) );
-
-			Loading_Screen_Draw();
-		}
-	}
-}
-
 void cImage_Manager :: Restore_Textures( bool draw_gui /* = 0 */ )
 {
 	// progress bar

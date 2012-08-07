@@ -48,10 +48,6 @@ public:
 	// Check if the OpenGL texture is used by another cGL_Surface
 	bool Is_Texture_Use_Multiple( void ) const;
 
-	/* Return a software texture copy
-	 * only_filename: if set doesn't save the software texture but only the filename
-	*/
-	cSaved_Texture *Get_Software_Texture( bool only_filename = 0 );
 	// Load a software texture
 	void Load_Software_Texture( cSaved_Texture *soft_tex );
 

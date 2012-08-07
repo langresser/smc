@@ -156,10 +156,8 @@ void cRender_Request_Advanced :: Render_Advanced( void )
 	{
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE );
 		glTexEnvi( GL_TEXTURE_ENV, GL_COMBINE_RGB, m_combine_type );
-#ifdef USE_GL
 		glTexEnvi( GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_CONSTANT );
         glTexEnvi( GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_TEXTURE );
-#endif
 		glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, m_combine_color );
 	}
 }
@@ -195,8 +193,6 @@ cLine_Request :: ~cLine_Request( void )
 
 void cLine_Request :: Draw( void )
 {
-#ifdef USE_GL
-//#warning TODO DRAW LINE
 	Render_Basic();
 
 	// set camera position
@@ -228,23 +224,16 @@ void cLine_Request :: Draw( void )
 	{
 		glLineWidth( m_line_width );
 	}
-	// enable stipple pattern
-	if( m_stipple_pattern != 0 )
-	{
-		glEnable( GL_LINE_STIPPLE );
-		glLineStipple( 2, m_stipple_pattern );
-	}
-
-	glBegin( GL_LINES );
-		glVertex2f( m_line.m_x1, m_line.m_y1 );
-		glVertex2f( m_line.m_x2, m_line.m_y2 );
-	glEnd();
+    
+    GLfloat vertex2[]={m_line.m_x1, m_line.m_y1,
+        m_line.m_x2, m_line.m_y2,};
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, vertex2);
+    glDrawArrays(GL_LINES, 0, 2);
+    glDisableClientState(GL_VERTEX_ARRAY);
 
 	// clear stipple pattern
-	if( m_stipple_pattern != 0 )
-	{
-		glDisable( GL_LINE_STIPPLE );
-	}
 	// clear line width
 	if( m_line_width != 1.0f )
 	{
@@ -259,7 +248,6 @@ void cLine_Request :: Draw( void )
 
 	Render_Advanced_Clear();
 	Render_Basic_Clear();
-#endif
 }
 
 /* *** *** *** *** *** *** cRect_Request *** *** *** *** *** *** *** *** *** *** *** */
@@ -287,8 +275,6 @@ cRect_Request :: ~cRect_Request( void )
 
 void cRect_Request :: Draw( void )
 {
-#ifdef USE_GL
-//#warning TODO DRAW LINE
 	Render_Basic();
 
 	// get half the size
@@ -325,42 +311,33 @@ void cRect_Request :: Draw( void )
 	{
 		glDisable( GL_TEXTURE_2D );
 	}
+    
+    // change width
+    if( m_line_width != 1.0f )
+    {
+        glLineWidth( m_line_width );
+    }
 
-	if( m_filled )
-	{
-		glBegin( GL_POLYGON );
-	}
-	else
-	{
-		// change width
-		if( m_line_width != 1.0f )
-		{
-			glLineWidth( m_line_width );
-		}
-		// enable stipple pattern
-		if( m_stipple_pattern != 0 )
-		{
-			glEnable( GL_LINE_STIPPLE );
-			glLineStipple( 2, m_stipple_pattern );
-		}
-
-		glBegin( GL_LINE_LOOP );
-	}
-		// top left
-		glVertex2f( -half_w, -half_h );
-		// top right
-		glVertex2f( half_w, -half_h );
-		// bottom right
-		glVertex2f( half_w, half_h );
-		// bottom left
-		glVertex2f( -half_w, half_h );
-	glEnd();
+    GLfloat vertex2[]={-half_w, -half_h,
+        half_w, -half_h,
+        half_w, half_h,
+        -half_w, half_h};
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+    glVertexPointer(2, GL_FLOAT, 0, vertex2);
+    
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	// clear stipple pattern
 	if( m_stipple_pattern != 0 )
 	{
-		glDisable( GL_LINE_STIPPLE );
 	}
+
 	// clear line width
 	if( m_line_width != 1.0f )
 	{
@@ -375,7 +352,6 @@ void cRect_Request :: Draw( void )
 
 	Render_Advanced_Clear();
 	Render_Basic_Clear();
-#endif
 }
 
 /* *** *** *** *** *** *** cGradient_Request *** *** *** *** *** *** *** *** *** *** *** */
@@ -397,8 +373,6 @@ cGradient_Request :: ~cGradient_Request( void )
 
 void cGradient_Request :: Draw( void )
 {
-#ifdef USE_GL
-//#warning TODO DRAW LINE
 	Render_Basic();
 
 	// set camera position
@@ -418,7 +392,7 @@ void cGradient_Request :: Draw( void )
 	}
 
 	Render_Advanced();
-
+#ifdef USE_GL
 	if( m_dir == DIR_VERTICAL )
 	{
 		glBegin( GL_POLYGON );
@@ -442,13 +416,13 @@ void cGradient_Request :: Draw( void )
 			glVertex2f( m_rect.m_w, m_rect.m_h );
 		glEnd();
 	}
-
+#endif
 	// clear color
 	glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
 
 	Render_Advanced_Clear();
 	Render_Basic_Clear();
-#endif
+
 }
 
 /* *** *** *** *** *** *** cCircle_Request *** *** *** *** *** *** *** *** *** *** *** */
@@ -471,8 +445,6 @@ cCircle_Request :: ~cCircle_Request( void )
 
 void cCircle_Request :: Draw( void )
 {
-#ifdef USE_GL
-//#warning TODO DRAW LINE
 	Render_Basic();
 
 	// set camera position
@@ -504,40 +476,25 @@ void cCircle_Request :: Draw( void )
 	{
 		// set line width
 		glLineWidth( m_line_width );
-
-		glBegin( GL_LINE_STRIP );
 	}
-	// filled
-	else
-	{
-		glBegin( GL_TRIANGLE_FAN );
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
 
-		// start with center
-		glVertex2f( 0.0f, 0.0f );
-	}
+    const int VERTICIES=180; // more than needed
+    float coords[VERTICIES * 3];
+    float theta = 0;
+    
+    for (int i = 0; i < VERTICIES * 3; i += 3) {
+        coords[i + 0] = (float) cos(theta);
+        coords[i + 1] = (float) sin(theta);
+        coords[i + 2] = 0;
+        theta += M_PI / 90;
+    }
 
-	// set step size based on radius
-	float step_size = 1.0f / ( m_radius * 0.05f );
+    glVertexPointer(3, GL_FLOAT, 0, coords);
+    glDrawArrays(GL_TRIANGLE_FAN, VERTICIES, GL_FLOAT);
 
-	// minimum step size
-	if( step_size > 0.2f )
-	{
-		step_size = 0.2f;
-	}
-
-	float angle = 0.0f;
-
-	while( angle < doubled_pi )
-	{
-		glVertex2f( m_radius * sin( angle ), m_radius * cos( angle ) );
-		angle += step_size;
-	}
-
-	// draw to end
-	angle = doubled_pi;
-	glVertex2f( m_radius * sin( angle ), m_radius * cos( angle ) );
-
-	glEnd();
+    glDisableClientState(GL_VERTEX_ARRAY);
 
 	// clear line width
 	if( m_line_width != 1 )
@@ -553,7 +510,6 @@ void cCircle_Request :: Draw( void )
 
 	Render_Advanced_Clear();
 	Render_Basic_Clear();
-#endif
 }
 
 /* *** *** *** *** *** *** cSurface_Request *** *** *** *** *** *** *** *** *** *** *** */
@@ -676,26 +632,25 @@ void cSurface_Request :: Draw( void )
 		last_bind_texture = m_texture_id;
 	}
 
-#ifdef USE_GL
-	/* vertex arrays should not be used to draw simple primitives as it
-	 * does have no positive performance gain
-	*/
-	// rectangle
-	glBegin( GL_QUADS );
-		// top left
-		glTexCoord2f( 0.0f, 0.0f );
-		glVertex2f( -half_w, -half_h );
-		// top right
-		glTexCoord2f( 1.0f, 0.0f );
-		glVertex2f( half_w, -half_h );
-		// bottom right
-		glTexCoord2f( 1.0f, 1.0f );
-		glVertex2f( half_w, half_h );
-		// bottom left
-		glTexCoord2f( 0.0f, 1.0f );
-		glVertex2f( -half_w, half_h );
-	glEnd();
-#endif
+    GLfloat vertex2[]={-half_w, -half_h,
+                        half_w, -half_h,
+                        half_w, half_h,
+                        -half_w, half_h};
+    GLfloat textureCoor2[]={0.0f, 0.0f,
+                            1.0f, 0.0f,
+                            1.0f, 1.0f,
+                            0.0f, 1.0f};
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+    glVertexPointer(2, GL_FLOAT, 0, vertex2);
+    glTexCoordPointer( 2, GL_FLOAT, 0, textureCoor2);
+    
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	// clear color
 	if( m_color.red != 255 || m_color.green != 255 || m_color.blue != 255 || m_color.alpha != 255 )

@@ -87,12 +87,6 @@ public:
 		return Get_Pointer( path );
 	}
 
-	/* Save hardware textures in software memory
-	 * from_file: if set don't store in software memory but load again from file
-	 * draw_gui : if set use the loading screen gui for drawing
-	*/
-	void Grab_Textures( bool from_file = 0, bool draw_gui = 0  );
-
 	/* Load the saved software textures back into hardware textures or
 	 * load textures from file if set
 	 * draw_gui : if set use the loading screen gui for drawing

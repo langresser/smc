@@ -58,9 +58,7 @@ void Joystick::createJoystick(cSprite_Manager *sprite_manager)
 
 void Joystick::show()
 {
-#ifdef WIN32
 	return;
-#endif
 //	m_dock->Set_Image( pFont->Render_Text( pFont->m_font_small, "Lines sdfsdfsfsdsf: ", blue ), 1, 1 );
 	m_dock->Draw( NULL );
 	m_dir = DIR_UP;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B2ACF3215D1825400757F42 /* iosUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3B2ACF3115D1825400757F42 /* iosUtil.mm */; };
 		3B649D7315CEB5C1006B2F8C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B649D7215CEB5C1006B2F8C /* UIKit.framework */; };
 		3B649D7515CEB5C1006B2F8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B649D7415CEB5C1006B2F8C /* Foundation.framework */; };
 		3B649D7715CEB5C1006B2F8C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B649D7615CEB5C1006B2F8C /* CoreGraphics.framework */; };
@@ -268,6 +269,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B226B0A15D17D3900C203AE /* mygl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mygl.h; sourceTree = "<group>"; };
+		3B2ACF3015D1825400757F42 /* iosUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iosUtil.h; sourceTree = "<group>"; };
+		3B2ACF3115D1825400757F42 /* iosUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iosUtil.mm; sourceTree = "<group>"; };
 		3B649D6E15CEB5C1006B2F8C /* smcios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = smcios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B649D7215CEB5C1006B2F8C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3B649D7415CEB5C1006B2F8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -849,6 +853,8 @@
 			children = (
 				3B64A91115CED78C006B2F8C /* sdl_ios_video */,
 				3B649D7915CEB5C1006B2F8C /* Supporting Files */,
+				3B2ACF3015D1825400757F42 /* iosUtil.h */,
+				3B2ACF3115D1825400757F42 /* iosUtil.mm */,
 			);
 			path = smcios;
 			sourceTree = "<group>";
@@ -1126,6 +1132,7 @@
 		3B649E3015CEB674006B2F8C /* video */ = {
 			isa = PBXGroup;
 			children = (
+				3B226B0A15D17D3900C203AE /* mygl.h */,
 				3B649E3115CEB674006B2F8C /* animation.cpp */,
 				3B649E3215CEB674006B2F8C /* animation.h */,
 				3B649E3315CEB674006B2F8C /* color.h */,
@@ -2095,6 +2102,7 @@
 				3B64AE7015CF04A6006B2F8C /* winfnt.c in Sources */,
 				3B9EA85215D03A3100FC802C /* autofit.c in Sources */,
 				3B9EA86A15D03AE700FC802C /* ftgzip.c in Sources */,
+				3B2ACF3215D1825400757F42 /* iosUtil.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

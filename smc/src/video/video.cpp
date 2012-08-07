@@ -43,6 +43,7 @@
 #include "elements/CEGUIProgressBar.h"
 #include "RendererModules/Null/CEGUINullRenderer.h"
 
+#include "iosUtil.h"
 
 // png
 #include <png.h>
@@ -65,7 +66,6 @@ cVideo :: cVideo( void )
 	m_rgb_size[1] = 0;
 	m_rgb_size[2] = 0;
 
-	m_default_buffer = GL_BACK;
 	m_max_texture_size = 512;
 	
 	m_audio_init_failed = 0;
@@ -264,6 +264,8 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 #ifdef WIN32
 	m_width = 960;
 	m_height = 640;
+#else
+    getScreenSize(&m_width, &m_height);
 #endif
 
 	// first initialization
@@ -295,30 +297,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	//SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
-	// if reinitialization
-	if( m_initialised )
-	{
-		// check if CEGUI is initialized
-		bool cegui_initialized = pGuiSystem->getGUISheet() != NULL;
-
-		// show loading screen
-		if( cegui_initialized )
-		{
-			Loading_Screen_Init();
-		}
-
-		// save textures
-		pImage_Manager->Grab_Textures( reload_textures_from_file, cegui_initialized );
-		pFont->Grab_Textures();
-		pGuiRenderer->grabTextures();
-		pImage_Manager->Delete_Hardware_Textures();
-
-		// exit loading screen
-		if( cegui_initialized )
-		{
-			Loading_Screen_Exit();
-		}
-	}
 
 	// Note: As of SDL 1.2.10, if width and height are both 0, SDL_SetVideoMode will use the desktop resolution.
 	screen = SDL_SetVideoMode( m_width, m_height, 32, flags );
@@ -348,11 +326,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	SDL_GL_GetAttribute( SDL_GL_GREEN_SIZE, &m_rgb_size[1] );
 	SDL_GL_GetAttribute( SDL_GL_BLUE_SIZE, &m_rgb_size[2] );
 
-#ifdef USE_GL
-//#warning TODO OPENGL
-	// remember default buffer
-	glGetIntegerv( GL_DRAW_BUFFER, &m_default_buffer );
-#endif
 	// get maximum texture size
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_max_texture_size );
 
@@ -370,65 +343,28 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	// initialize opengl
 	Init_OpenGL();
 
-	// if reinitialization
-	if( m_initialised )
-	{
-		// reset highest texture id
-		pImage_Manager->m_high_texture_id = 0;
+    // get opengl version
+    std::string version_str = reinterpret_cast<const char *>(glGetString( GL_VERSION ));
+    // erase everything after X.X
+    version_str.erase( 3 );
 
-		/* restore GUI textures
-		 * must be the first CEGUI call after the grabTextures function
-		*/
-		pGuiRenderer->restoreTextures();
-		pFont->Restore_Textures();
+    m_opengl_version = string_to_float( version_str );
 
-		// send new size to CEGUI
-		pGuiSystem->notifyDisplaySizeChanged( CEGUI::Size( static_cast<float>(m_width), static_cast<float>(m_height) ) );
+    // if below optimal version
+    if( m_opengl_version < 1.4f )
+    {
+        if( m_opengl_version >= 1.3f )
+        {
+            printf( "Info : OpenGL Version %.1f is below the optimal version 1.4 and higher\n", m_opengl_version );
+        }
+        else
+        {
+            printf( "Warning : OpenGL Version %.1f is below version 1.3\n", m_opengl_version );
+        }
 
-		// check if CEGUI is initialized
-		bool cegui_initialized = pGuiSystem->getGUISheet() != NULL;
+    }
 
-		// show loading screen
-		if( cegui_initialized )
-		{
-			Loading_Screen_Init();
-		}
-
-		// restore textures
-		pImage_Manager->Restore_Textures( cegui_initialized );
-
-		// exit loading screen
-		if( cegui_initialized )
-		{
-			Loading_Screen_Exit();
-		}
-	}
-	// finished first initialization
-	else
-	{
-		// get opengl version
-		std::string version_str = reinterpret_cast<const char *>(glGetString( GL_VERSION ));
-		// erase everything after X.X
-		version_str.erase( 3 );
-
-		m_opengl_version = string_to_float( version_str );
-
-		// if below optimal version
-		if( m_opengl_version < 1.4f )
-		{
-			if( m_opengl_version >= 1.3f )
-			{
-				printf( "Info : OpenGL Version %.1f is below the optimal version 1.4 and higher\n", m_opengl_version );
-			}
-			else
-			{
-				printf( "Warning : OpenGL Version %.1f is below version 1.3\n", m_opengl_version );
-			}
-
-		}
-
-		m_initialised = 1;
-	}
+    m_initialised = 1;
 }
 
 void cVideo :: Init_OpenGL( void )
@@ -1203,13 +1139,10 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 		surface->pixels = new_pixels;
 	}
 	// set SDL_image pixel store mode
-	else
-	{
-#ifdef USE_GL
-//#warning TODO OPENGL
-		glPixelStorei( GL_UNPACK_ROW_LENGTH, surface->pitch / surface->format->BytesPerPixel );
-#endif
-	}
+//	else
+//	{
+//		glPixelStorei( GL_UNPACK_ROW_LENGTH, surface->pitch / surface->format->BytesPerPixel );
+//	}
 
 	// use the generated texture
 	glBindTexture( GL_TEXTURE_2D, image_num );
@@ -1222,11 +1155,8 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 	// upload to OpenGL texture
 	Create_GL_Texture( texture_width, texture_height, surface->pixels, mipmap );
 
-#ifdef USE_GL
-	//#warning TODO OPENGL
-	// unset pixel store mode
-	glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
-#endif
+//	// unset pixel store mode
+//	glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
     
 	SDL_FreeSurface( surface );
 
@@ -1265,23 +1195,10 @@ void cVideo :: Create_GL_Texture( unsigned int width, unsigned int height, const
 		// enable mipmap filter
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 
-		// if OpenGL 1.4 or higher
-		if( m_opengl_version >= 1.4f )
-		{
-			// use glTexImage2D to create Mipmaps
-			glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, 1 );
-			// copy the software bitmap into the opengl texture
-			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
-		}
-		// OpenGL below 1.4
-		else
-		{
-#if 0
-//#warning TODO OPENGL
-			// use glu to create Mipmaps
-			gluBuild2DMipmaps( GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
-#endif
-		}
+		// use glTexImage2D to create Mipmaps
+        glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, 1 );
+        // copy the software bitmap into the opengl texture
+        glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
 	}
 	// no mipmaps
 	else
