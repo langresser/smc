@@ -9,3 +9,9 @@
 #include "SDL_opengles.h"
 
 //#define USE_GL
+
+#ifdef WIN32
+#include "eglport.h"
+
+void getScreenSize(int* width, int* height);
+#endif

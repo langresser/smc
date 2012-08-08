@@ -384,6 +384,10 @@ void Exit_Game( void )
 	// unload the sdl_image preloaded libraries
 	IMG_Quit();
 
+#ifdef WIN32
+	EGL_Close();
+#endif
+
 	SDL_Quit();
 }
 

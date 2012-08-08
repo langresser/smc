@@ -43,7 +43,9 @@
 #include "elements/CEGUIProgressBar.h"
 #include "RendererModules/Null/CEGUINullRenderer.h"
 
+#ifndef WIN32
 #include "iosUtil.h"
+#endif
 
 // png
 #include <png.h>
@@ -222,6 +224,10 @@ void cVideo :: Init_SDL( void )
 		exit( EXIT_FAILURE );
 	}
 
+#ifdef WIN32
+	EGL_Open();
+#endif
+
 	atexit( SDL_Quit );
 
 	if( SDL_InitSubSystem( SDL_INIT_JOYSTICK ) == -1 )
@@ -255,18 +261,13 @@ void cVideo :: Init_SDL( void )
 void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_preferences /* = 1 */ )
 {
 	// set the video flags
-	int flags = SDL_OPENGL | SDL_SWSURFACE;
-
-#ifndef WIN32
-    flags |= SDL_FULLSCREEN;
+#ifdef WIN32
+    int flags = SDL_SWSURFACE;
+#else
+	int flags = SDL_OPENGL | SDL_SWSURFACE | SDL_FULLSCREEN;
 #endif
 	
-#ifdef WIN32
-	m_width = 960;
-	m_height = 640;
-#else
     getScreenSize(&m_width, &m_height);
-#endif
 
 	// first initialization
 	if( !m_initialised )
@@ -306,6 +307,10 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		printf( "Error : Screen mode creation failed\nReason : %s\n", SDL_GetError() );
 		exit( EXIT_FAILURE );
 	}
+
+#ifdef WIN32
+	EGL_Init();
+#endif
 
 	// check if double buffering got set
 	int is_double_buffer;
@@ -865,7 +870,11 @@ void cVideo :: Render()
 	// update performance timer
 	pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();
 
+#ifdef WIN32
+	EGL_SwapBuffers();
+#else
 	SDL_GL_SwapBuffers();
+#endif
 
 	// update performance timer
 	pFramerate->m_perf_timer[PERF_RENDER_BUFFER]->Update();
