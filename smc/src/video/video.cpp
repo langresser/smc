@@ -122,7 +122,11 @@ void cVideo :: Init_CEGUI( void ) const
 	// create renderer
 	try
 	{
+#ifdef USE_OPENGL_CEGUI
+		 pGuiRenderer = &CEGUI::OpenGLRenderer::create( CEGUI::Size( screen->w, screen->h ) );
+#else
         pGuiRenderer = &CEGUI::OpenGLESRenderer::create( CEGUI::Size( screen->w, screen->h ) );
+#endif
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
@@ -224,7 +228,7 @@ void cVideo :: Init_SDL( void )
 		exit( EXIT_FAILURE );
 	}
 
-#ifdef WIN32
+#ifdef USE_EGL
 	EGL_Open();
 #endif
 
@@ -261,10 +265,14 @@ void cVideo :: Init_SDL( void )
 void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_preferences /* = 1 */ )
 {
 	// set the video flags
-#ifdef WIN32
+#ifdef USE_EGL
     int flags = SDL_SWSURFACE;
 #else
+#ifdef WIN32
+	int flags = SDL_OPENGL | SDL_SWSURFACE;
+#else
 	int flags = SDL_OPENGL | SDL_SWSURFACE | SDL_FULLSCREEN;
+#endif
 #endif
 	
     getScreenSize(&m_width, &m_height);
@@ -308,7 +316,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		exit( EXIT_FAILURE );
 	}
 
-#ifdef WIN32
+#ifdef USE_EGL
 	EGL_Init();
 #endif
 
@@ -863,14 +871,12 @@ void cVideo :: Render()
 	// update performance timer
 	pFramerate->m_perf_timer[PERF_RENDER_GAME]->Update();
 
-#ifdef WIN32
 	pGuiSystem->renderGUI();
-#endif
 
 	// update performance timer
 	pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();
 
-#ifdef WIN32
+#ifdef USE_EGL
 	EGL_SwapBuffers();
 #else
 	SDL_GL_SwapBuffers();
@@ -1213,7 +1219,8 @@ void cVideo :: Create_GL_Texture( unsigned int width, unsigned int height, const
 	else
 	{
 		// default texture minifying function
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+		// 使用GL_NEAREST 防止贴图出现黑线
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 		// copy the software bitmap into the opengl texture
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
 	}
@@ -2136,7 +2143,11 @@ void Loading_Screen_Exit( void )
 
 cVideo *pVideo = NULL;
 
+#ifdef USE_OPENGL_CEGUI
+CEGUI::OpenGLRenderer *pGuiRenderer = NULL;
+#else
 CEGUI::OpenGLESRenderer *pGuiRenderer = NULL;
+#endif
 CEGUI::System *pGuiSystem = NULL;
 
 SDL_Surface *screen = NULL;

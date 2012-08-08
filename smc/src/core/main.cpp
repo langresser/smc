@@ -339,11 +339,13 @@ void Exit_Game( void )
 		delete logger;
 	}
 
+	#ifndef WIN32
 	if( pGuiRenderer )
 	{
 		pGuiRenderer->destroy( *pGuiRenderer );
 		pGuiRenderer = NULL;
 	}
+#endif
 
 	if( pVideo )
 	{
@@ -384,7 +386,7 @@ void Exit_Game( void )
 	// unload the sdl_image preloaded libraries
 	IMG_Quit();
 
-#ifdef WIN32
+#ifdef USE_EGL
 	EGL_Close();
 #endif
 

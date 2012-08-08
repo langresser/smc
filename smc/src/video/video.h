@@ -35,7 +35,12 @@
 #include "CEGUISystem.h"
 
 #include "mygl.h"
+
+#ifdef USE_OPENGL_CEGUI
+#include "RendererModules/OpenGL/CEGUIOpenGLRenderer.h"
+#else
 #include "RendererModules/OpenGLES/Renderer.h"
+#endif
 
 namespace SMC
 {
@@ -263,7 +268,11 @@ void Loading_Screen_Exit( void );
 extern cVideo *pVideo;
 
 // GUI System
+#ifdef USE_OPENGL_CEGUI
+extern CEGUI::OpenGLRenderer *pGuiRenderer;
+#else
 extern CEGUI::OpenGLESRenderer *pGuiRenderer;  
+#endif
 extern CEGUI::System *pGuiSystem;
 
 // Screen

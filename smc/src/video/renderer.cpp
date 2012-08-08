@@ -156,10 +156,8 @@ void cRender_Request_Advanced :: Render_Advanced( void )
 	{
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE );
 		glTexEnvi( GL_TEXTURE_ENV, GL_COMBINE_RGB, m_combine_type );
-#if USE_GL
-		glTexEnvi( GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_CONSTANT );
-        glTexEnvi( GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_TEXTURE );
-#endif
+		glTexEnvi( GL_TEXTURE_ENV, GL_SRC0_RGB, GL_CONSTANT );
+        glTexEnvi( GL_TEXTURE_ENV, GL_SRC1_RGB, GL_TEXTURE );
 		glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, m_combine_color );
 	}
 }

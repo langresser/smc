@@ -22,7 +22,8 @@
  *  THE SOFTWARE.
  *
  */
-
+#include "mygl.h"
+#ifdef USE_EGL
 #include "eglport.h"
 
 #include <stdio.h>
@@ -432,3 +433,5 @@ void Platform_VSync( void )
     }
 #endif /* PANDORA */
 }
+
+#endif

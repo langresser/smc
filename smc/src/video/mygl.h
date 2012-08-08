@@ -6,12 +6,18 @@
 #include <EGL/egl.h>
 #endif
 
+//#include "SDL_opengl.h"
 #include "SDL_opengles.h"
-
-//#define USE_GL
 
 #ifdef WIN32
 #include "eglport.h"
 
 void getScreenSize(int* width, int* height);
+#endif
+
+#define USE_EGL
+//#define USE_OPENGL_CEGUI
+#ifndef USE_EGL
+#define glOrthof glOrtho
+#define glClearDepthf glClearDepth
 #endif
