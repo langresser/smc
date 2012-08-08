@@ -394,31 +394,50 @@ void cGradient_Request :: Draw( void )
 	}
 
 	Render_Advanced();
-#ifdef USE_GL
+
 	if( m_dir == DIR_VERTICAL )
 	{
-		glBegin( GL_POLYGON );
-			glColor4ub( m_color_1.red, m_color_1.green, m_color_1.blue, m_color_1.alpha );
-			glVertex2f( 0.0f, 0.0f );
-			glVertex2f( m_rect.m_w, 0.0f );
-			glColor4ub( m_color_2.red, m_color_2.green, m_color_2.blue, m_color_2.alpha );
-			glVertex2f( m_rect.m_w, m_rect.m_h );
-			glVertex2f( 0.0f, m_rect.m_h );
-		glEnd();
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
+		GLfloat vertex2[]={0.0f, 0.0f,
+                        m_rect.m_w, 0.0f,
+                        m_rect.m_w, m_rect.m_h,
+                        0.0f, m_rect.m_h};
 
+		Uint8 colorv[]={m_color_1.red, m_color_1.green, m_color_1.blue, m_color_1.alpha,
+			m_color_1.red, m_color_1.green, m_color_1.blue, m_color_1.alpha,
+			m_color_2.red, m_color_2.green, m_color_2.blue, m_color_2.alpha,
+			m_color_2.red, m_color_2.green, m_color_2.blue, m_color_2.alpha};
+    
+		
+		glVertexPointer(2, GL_FLOAT, 0, vertex2);
+		glColorPointer(4, GL_UNSIGNED_BYTE, 0, colorv);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
 	}
 	else if( m_dir == DIR_HORIZONTAL )
 	{
-		glBegin( GL_POLYGON );
-			glColor4ub( m_color_1.red, m_color_1.green, m_color_1.blue, m_color_1.alpha );
-			glVertex2f( 0.0f, m_rect.m_h );
-			glVertex2f( 0.0f, 0.0f );
-			glColor4ub( m_color_2.red, m_color_2.green, m_color_2.blue, m_color_2.alpha );
-			glVertex2f( m_rect.m_w, 0.0f );
-			glVertex2f( m_rect.m_w, m_rect.m_h );
-		glEnd();
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
+		GLfloat vertex2[]={0.0f, m_rect.m_h,
+                        0.0f, 0.0f,
+                        m_rect.m_w, 0.0f,
+                        m_rect.m_w, m_rect.m_h};
+
+		Uint8 colorv[]={m_color_1.red, m_color_1.green, m_color_1.blue, m_color_1.alpha,
+			m_color_1.red, m_color_1.green, m_color_1.blue, m_color_1.alpha,
+			m_color_2.red, m_color_2.green, m_color_2.blue, m_color_2.alpha,
+			m_color_2.red, m_color_2.green, m_color_2.blue, m_color_2.alpha};
+    
+		glVertexPointer(2, GL_FLOAT, 0, vertex2);
+		glColorPointer(4, GL_UNSIGNED_BYTE, 0, colorv);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
 	}
-#endif
+
 	// clear color
 	glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
 
