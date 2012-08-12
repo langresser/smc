@@ -174,10 +174,6 @@ public:
 	virtual void Init( void );
 	virtual void Init_GUI( void );
 	void Init_GUI_Game( void );
-	void Init_GUI_Video( void );
-	void Init_GUI_Audio( void );
-	void Init_GUI_Keyboard( void );
-	void Init_GUI_Editor( void );
 	virtual void Exit( void );
 	virtual void Update( void );
 	void Change_Game_Setting( int setting );

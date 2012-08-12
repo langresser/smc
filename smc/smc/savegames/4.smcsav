@@ -1,0 +1,1353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<savegame >
+    <information >
+        <property name="version" value="12" />
+        <property name="level_engine_version" value="40" />
+        <property name="save_time" value="1344631449" />
+        <property name="description" value="q" />
+    </information>
+    <player >
+        <property name="lives" value="7" />
+        <property name="points" value="32371" />
+        <property name="goldpieces" value="25" />
+        <property name="type" value="3" />
+        <property name="state" value="0" />
+        <property name="itembox_item" value="24" />
+        <property name="level_time" value="429993" />
+        <property name="overworld_active" value="World 2" />
+        <property name="overworld_current_waypoint" value="3" />
+    </player>
+    <level >
+        <property name="level_name" value="flippa_3" />
+        <spawned_objects />
+        <objects_data >
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="903" />
+                <property name="posy" value="-399" />
+                <property name="direction" value="1" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="903" />
+                <property name="new_posy" value="-409" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="572" />
+                <property name="posy" value="-160" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="610" />
+                <property name="posy" value="-160" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="648" />
+                <property name="posy" value="-160" />
+            </object>
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="2471" />
+                <property name="posy" value="-505" />
+                <property name="direction" value="3" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="2471" />
+                <property name="new_posy" value="-349" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="1.024000" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="2471" />
+                <property name="posy" value="-441" />
+                <property name="direction" value="3" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="2471" />
+                <property name="new_posy" value="-285" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="1.024000" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="2471" />
+                <property name="posy" value="-377" />
+                <property name="direction" value="3" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="2471" />
+                <property name="new_posy" value="-221" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="1.024000" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="2471" />
+                <property name="posy" value="-313" />
+                <property name="direction" value="3" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="2471" />
+                <property name="new_posy" value="-157" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="1.024000" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="2471" />
+                <property name="posy" value="-249" />
+                <property name="direction" value="3" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="2471" />
+                <property name="new_posy" value="-93" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="1.024000" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="2471" />
+                <property name="posy" value="-185" />
+                <property name="direction" value="3" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="2471" />
+                <property name="new_posy" value="-29" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="1.024000" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="2471" />
+                <property name="posy" value="-121" />
+                <property name="direction" value="3" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="2471" />
+                <property name="new_posy" value="34" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="1.020800" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="2471" />
+                <property name="posy" value="-57" />
+                <property name="direction" value="3" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="2471" />
+                <property name="new_posy" value="98" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="1.020800" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="26" />
+                <property name="posx" value="3626" />
+                <property name="posy" value="-645" />
+                <property name="useable_count" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="3258" />
+                <property name="posy" value="-66" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="3486" />
+                <property name="posy" value="-66" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="3562" />
+                <property name="posy" value="-66" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="3334" />
+                <property name="posy" value="-66" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="3410" />
+                <property name="posy" value="-66" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4107" />
+                <property name="posy" value="-638" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4145" />
+                <property name="posy" value="-638" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4326" />
+                <property name="posy" value="-736" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4326" />
+                <property name="posy" value="-774" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4326" />
+                <property name="posy" value="-812" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4326" />
+                <property name="posy" value="-850" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4638" />
+                <property name="posy" value="-1806" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4780" />
+                <property name="posy" value="-1790" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4859" />
+                <property name="posy" value="-1675" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4867" />
+                <property name="posy" value="-1523" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="5510" />
+                <property name="posy" value="-517" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="5548" />
+                <property name="posy" value="-517" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="4808" />
+                <property name="posy" value="-918" />
+                <property name="state" value="4" />
+                <property name="new_posx" value="4710" />
+                <property name="new_posy" value="-918" />
+                <property name="direction" value="0" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+                <property name="move_back" value="1" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="4594" />
+                <property name="posy" value="-768" />
+                <property name="state" value="4" />
+                <property name="new_posx" value="4594" />
+                <property name="new_posy" value="-900" />
+                <property name="direction" value="2" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="-1.273996" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="4471" />
+                <property name="posy" value="-1064" />
+                <property name="state" value="4" />
+                <property name="new_posx" value="4576" />
+                <property name="new_posy" value="-1064" />
+                <property name="direction" value="1" />
+                <property name="velx" value="2.541201" />
+                <property name="vely" value="0.000000" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="4864" />
+                <property name="posy" value="-800" />
+                <property name="state" value="4" />
+                <property name="new_posx" value="4864" />
+                <property name="new_posy" value="-605" />
+                <property name="direction" value="3" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.764326" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="5052" />
+                <property name="posy" value="-919" />
+                <property name="state" value="4" />
+                <property name="new_posx" value="5198" />
+                <property name="new_posy" value="-919" />
+                <property name="direction" value="1" />
+                <property name="velx" value="-0.721167" />
+                <property name="vely" value="0.000000" />
+                <property name="move_back" value="1" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="5382" />
+                <property name="posy" value="-953" />
+                <property name="state" value="0" />
+                <property name="direction" value="2" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="5178" />
+                <property name="posy" value="-640" />
+                <property name="state" value="4" />
+                <property name="new_posx" value="5178" />
+                <property name="new_posy" value="-816" />
+                <property name="direction" value="2" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="-1.290222" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="4507" />
+                <property name="posy" value="-1597" />
+                <property name="state" value="4" />
+                <property name="new_posx" value="4586" />
+                <property name="new_posy" value="-1597" />
+                <property name="direction" value="1" />
+                <property name="velx" value="3.415487" />
+                <property name="vely" value="0.000000" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4490" />
+                <property name="posy" value="-125" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4490" />
+                <property name="posy" value="-87" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="5386" />
+                <property name="posy" value="-767" />
+                <property name="state" value="0" />
+                <property name="direction" value="3" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="5041" />
+                <property name="posy" value="-371" />
+                <property name="state" value="4" />
+                <property name="new_posx" value="4848" />
+                <property name="new_posy" value="-371" />
+                <property name="direction" value="0" />
+                <property name="velx" value="0.772267" />
+                <property name="vely" value="0.000000" />
+                <property name="move_back" value="1" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="5171" />
+                <property name="posy" value="-372" />
+                <property name="state" value="4" />
+                <property name="new_posx" value="5307" />
+                <property name="new_posy" value="-372" />
+                <property name="direction" value="1" />
+                <property name="velx" value="2.452568" />
+                <property name="vely" value="0.000000" />
+            </object>
+            <object >
+                <property name="type" value="29" />
+                <property name="posx" value="5776" />
+                <property name="posy" value="-1148" />
+                <property name="state" value="0" />
+                <property name="direction" value="2" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+            </object>
+            <object >
+                <property name="type" value="19" />
+                <property name="posx" value="9063" />
+                <property name="posy" value="-1991" />
+                <property name="state" value="0" />
+                <property name="new_posx" value="10590" />
+                <property name="new_posy" value="1" />
+                <property name="direction" value="1" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+                <property name="turtle_state" value="0" />
+            </object>
+            <object >
+                <property name="type" value="19" />
+                <property name="posx" value="9907" />
+                <property name="posy" value="-2019" />
+                <property name="state" value="0" />
+                <property name="new_posx" value="10812" />
+                <property name="new_posy" value="-2" />
+                <property name="direction" value="1" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+                <property name="turtle_state" value="0" />
+            </object>
+            <object >
+                <property name="type" value="19" />
+                <property name="posx" value="9424" />
+                <property name="posy" value="-2170" />
+                <property name="state" value="0" />
+                <property name="new_posx" value="10596" />
+                <property name="new_posy" value="-2" />
+                <property name="direction" value="0" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+                <property name="turtle_state" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="9637" />
+                <property name="posy" value="-2522" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="9761" />
+                <property name="posy" value="-1961" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="9599" />
+                <property name="posy" value="-2522" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="9561" />
+                <property name="posy" value="-2522" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="9523" />
+                <property name="posy" value="-2522" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="9244" />
+                <property name="posy" value="-1963" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="10198" />
+                <property name="posy" value="-2031" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="10264" />
+                <property name="posy" value="-2110" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="10358" />
+                <property name="posy" value="-2161" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="10469" />
+                <property name="posy" value="-2160" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="10539" />
+                <property name="posy" value="-2080" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="10852" />
+                <property name="posy" value="-2176" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="10890" />
+                <property name="posy" value="-2176" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="3953" />
+                <property name="posy" value="-1747" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="3991" />
+                <property name="posy" value="-1747" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4029" />
+                <property name="posy" value="-1747" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4067" />
+                <property name="posy" value="-1747" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4105" />
+                <property name="posy" value="-1747" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4143" />
+                <property name="posy" value="-1747" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4181" />
+                <property name="posy" value="-1747" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4219" />
+                <property name="posy" value="-1747" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="4257" />
+                <property name="posy" value="-1747" />
+            </object>
+        </objects_data>
+    </level>
+    <level >
+        <property name="level_name" value="flippa_3_mushroom" />
+        <spawned_objects >
+            <item >
+                <property name="type" value="mushroom" />
+                <property name="mushroom_type" value="25" />
+                <property name="posx" value="820" />
+                <property name="posy" value="-949" />
+            </item>
+        </spawned_objects>
+        <objects_data >
+            <object >
+                <property name="type" value="26" />
+                <property name="posx" value="644" />
+                <property name="posy" value="-953" />
+                <property name="useable_count" value="0" />
+            </object>
+            <object >
+                <property name="type" value="26" />
+                <property name="posx" value="102" />
+                <property name="posy" value="-722" />
+                <property name="useable_count" value="0" />
+            </object>
+            <object >
+                <property name="type" value="26" />
+                <property name="posx" value="730" />
+                <property name="posy" value="-953" />
+                <property name="useable_count" value="0" />
+            </object>
+            <object >
+                <property name="type" value="26" />
+                <property name="posx" value="1243" />
+                <property name="posy" value="-624" />
+                <property name="useable_count" value="0" />
+            </object>
+            <object >
+                <property name="type" value="26" />
+                <property name="posx" value="1923" />
+                <property name="posy" value="-493" />
+                <property name="useable_count" value="0" />
+            </object>
+            <object >
+                <property name="type" value="26" />
+                <property name="posx" value="816" />
+                <property name="posy" value="-953" />
+                <property name="useable_count" value="0" />
+            </object>
+            <object >
+                <property name="type" value="26" />
+                <property name="posx" value="145" />
+                <property name="posy" value="-722" />
+                <property name="useable_count" value="0" />
+            </object>
+            <object >
+                <property name="type" value="25" />
+                <property name="posx" value="820" />
+                <property name="posy" value="-949" />
+                <property name="new_posx" value="358" />
+                <property name="new_posy" value="4604" />
+                <property name="direction" value="0" />
+                <property name="velx" value="-3.000000" />
+                <property name="vely" value="25.000000" />
+            </object>
+        </objects_data>
+    </level>
+    <level >
+        <property name="level_name" value="flippa_3_desert" />
+        <spawned_objects >
+            <item >
+                <property name="type" value="goldpiece" />
+                <property name="posx" value="711" />
+                <property name="posy" value="-301" />
+                <property name="color" value="yellow" />
+            </item>
+            <item >
+                <property name="type" value="goldpiece" />
+                <property name="posx" value="407" />
+                <property name="posy" value="-407" />
+                <property name="color" value="yellow" />
+            </item>
+            <item >
+                <property name="type" value="goldpiece" />
+                <property name="posx" value="206" />
+                <property name="posy" value="-512" />
+                <property name="color" value="yellow" />
+            </item>
+        </spawned_objects>
+        <objects_data >
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="440" />
+                <property name="posy" value="-458" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="711" />
+                <property name="posy" value="-351" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="959" />
+                <property name="posy" value="-248" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="711" />
+                <property name="posy" value="-389" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="440" />
+                <property name="posy" value="-496" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="440" />
+                <property name="posy" value="-534" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="180" />
+                <property name="posy" value="-1039" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="180" />
+                <property name="posy" value="-1077" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="180" />
+                <property name="posy" value="-1115" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="180" />
+                <property name="posy" value="-1153" />
+                <property name="active" value="0" />
+            </object>
+            <object >
+                <property name="type" value="10" />
+                <property name="posx" value="709" />
+                <property name="posy" value="-306" />
+                <property name="state" value="1" />
+                <property name="new_posx" value="708" />
+                <property name="new_posy" value="-304" />
+                <property name="direction" value="0" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+            </object>
+            <object >
+                <property name="type" value="10" />
+                <property name="posx" value="956" />
+                <property name="posy" value="-203" />
+                <property name="state" value="1" />
+                <property name="new_posx" value="973" />
+                <property name="new_posy" value="-202" />
+                <property name="direction" value="1" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+            </object>
+            <object >
+                <property name="type" value="10" />
+                <property name="posx" value="438" />
+                <property name="posy" value="-410" />
+                <property name="state" value="1" />
+                <property name="new_posx" value="404" />
+                <property name="new_posy" value="-410" />
+                <property name="direction" value="1" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+            </object>
+            <object >
+                <property name="type" value="10" />
+                <property name="posx" value="180" />
+                <property name="posy" value="-517" />
+                <property name="state" value="1" />
+                <property name="new_posx" value="204" />
+                <property name="new_posy" value="-515" />
+                <property name="direction" value="1" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="711" />
+                <property name="posy" value="-301" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="407" />
+                <property name="posy" value="-407" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="206" />
+                <property name="posy" value="-512" />
+            </object>
+        </objects_data>
+    </level>
+    <level >
+        <property name="level_name" value="flippa_3_ending" />
+        <property name="player_posx" value="1049.77" />
+        <property name="player_posy" value="-8429.1" />
+        <spawned_objects >
+            <item >
+                <property name="type" value="goldpiece" />
+                <property name="posx" value="1022" />
+                <property name="posy" value="-8405" />
+                <property name="color" value="yellow" />
+            </item>
+        </spawned_objects>
+        <objects_data >
+            <object >
+                <property name="type" value="38" />
+                <property name="posx" value="147" />
+                <property name="posy" value="-8328" />
+                <property name="direction" value="1" />
+                <property name="platform_state" value="0" />
+                <property name="new_posx" value="1432" />
+                <property name="new_posy" value="-8328" />
+                <property name="velx" value="0.600000" />
+                <property name="vely" value="0.000000" />
+                <property name="new_pos_x" value="0.000000" />
+                <property name="new_pos_y" value="0.000000" />
+                <property name="current_segment" value="0" />
+                <property name="current_segment_pos" value="0.000000" />
+                <property name="forward" value="1" />
+            </object>
+            <object >
+                <property name="type" value="10" />
+                <property name="posx" value="1002" />
+                <property name="posy" value="-8399" />
+                <property name="state" value="1" />
+                <property name="new_posx" value="876" />
+                <property name="new_posy" value="-8397" />
+                <property name="direction" value="0" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+            </object>
+            <object >
+                <property name="type" value="10" />
+                <property name="posx" value="949" />
+                <property name="posy" value="-8399" />
+                <property name="state" value="1" />
+                <property name="new_posx" value="727" />
+                <property name="new_posy" value="-8371" />
+                <property name="direction" value="0" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-7083" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-5829" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-5867" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-5905" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-5943" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-5981" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6019" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6057" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6095" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4689" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4651" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4613" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4575" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4537" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4499" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4461" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4423" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4385" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6893" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6931" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6969" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-7007" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-7045" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6855" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6817" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6171" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-6133" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-5791" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-5753" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4765" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4727" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4347" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1107" />
+                <property name="posy" value="-4309" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3739" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3701" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3663" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3625" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3587" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3549" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3511" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3473" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3435" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3397" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3359" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1" />
+                <property name="posy" value="-3321" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1108" />
+                <property name="posy" value="-2751" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1108" />
+                <property name="posy" value="-2713" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1108" />
+                <property name="posy" value="-2675" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1108" />
+                <property name="posy" value="-2637" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1108" />
+                <property name="posy" value="-2599" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1108" />
+                <property name="posy" value="-2561" />
+            </object>
+            <object >
+                <property name="type" value="8" />
+                <property name="posx" value="1108" />
+                <property name="posy" value="-2523" />
+            </object>
+            <object >
+                <property name="type" value="31" />
+                <property name="posx" value="1075" />
+                <property name="posy" value="-8419" />
+                <property name="state" value="3" />
+                <property name="new_posx" value="1009" />
+                <property name="new_posy" value="-8418" />
+                <property name="direction" value="-1" />
+                <property name="velx" value="0.000000" />
+                <property name="vely" value="0.000000" />
+                <property name="active" value="0" />
+                <property name="dead" value="1" />
+            </object>
+            <object >
+                <property name="type" value="28" />
+                <property name="posx" value="923" />
+                <property name="posy" value="-8395" />
+                <property name="new_posx" value="1001" />
+                <property name="new_posy" value="-8392" />
+                <property name="direction" value="-1" />
+                <property name="velx" value="17.000000" />
+                <property name="vely" value="2.672000" />
+            </object>
+            <object >
+                <property name="type" value="48" />
+                <property name="posx" value="1022" />
+                <property name="posy" value="-8405" />
+                <property name="new_posx" value="2057" />
+                <property name="new_posy" value="-6315" />
+            </object>
+        </objects_data>
+    </level>
+    <overworld >
+        <property name="name" value="Test 1" />
+        <waypoint >
+            <property name="destination" value="lvl_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_2" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_3" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_4" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_5" />
+            <property name="access" value="0" />
+        </waypoint>
+    </overworld>
+    <overworld >
+        <property name="name" value="World 1" />
+        <waypoint >
+            <property name="destination" value="lvl_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_2" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_3" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_4" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_5" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_6" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_7" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_9" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="pasol_3" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="stephane_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="tower_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="world_2" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_8" />
+            <property name="access" value="1" />
+        </waypoint>
+    </overworld>
+    <overworld >
+        <property name="name" value="World 2" />
+        <waypoint >
+            <property name="destination" value="world_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="lvl_10" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="pasol_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="flippa_3" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="world_3" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="eatomania" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="dj_kirby_1" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="jungle_1" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="keywest_1" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="underground" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="clear_night" />
+            <property name="access" value="0" />
+        </waypoint>
+    </overworld>
+    <overworld >
+        <property name="name" value="World 3" />
+        <waypoint >
+            <property name="destination" value="world_2" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_01" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_02" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_03" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_04" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_05" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_06" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="wn_07" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="world_4" />
+            <property name="access" value="0" />
+        </waypoint>
+    </overworld>
+    <overworld >
+        <property name="name" value="World 4" />
+        <waypoint >
+            <property name="destination" value="world_3" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_1" />
+            <property name="access" value="1" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_2" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_3" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_4" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_5" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_6" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="sauer2_7" />
+            <property name="access" value="0" />
+        </waypoint>
+        <waypoint >
+            <property name="destination" value="credits" />
+            <property name="access" value="0" />
+        </waypoint>
+    </overworld>
+</savegame>

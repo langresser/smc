@@ -1013,7 +1013,6 @@ bool cOverworld :: Goto_Next_Level( void )
 	}
 
 	pOverworld_Player->Start_Walk( current_waypoint->m_direction_forward );
-
 	return  1;
 }
 

@@ -765,7 +765,7 @@ std::string cSavegame :: Get_Description( unsigned int save_slot, bool only_desc
 
 		if( savegame->m_levels.empty() )
 		{
-			str_description += " - " + savegame->m_overworld_active;
+			str_description += "  " + savegame->m_overworld_active;
 		}
 		else
 		{
@@ -847,12 +847,6 @@ cSavegame_XML_Handler :: cSavegame_XML_Handler( const std::string &filename )
 	{
 		printf( "Loading Savegame %s CEGUI Exception %s\n", filename.c_str(), ex.getMessage().c_str() );
 		pHud_Debug->Set_Text( _("Savegame Loading failed : ") + (const std::string)ex.getMessage().c_str() );
-	}
-
-	// if no description is set
-	if( m_savegame->m_description.empty() )
-	{
-		m_savegame->m_description = _("No Description");
 	}
 }
 

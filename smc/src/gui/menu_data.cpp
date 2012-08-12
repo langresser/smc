@@ -1218,27 +1218,8 @@ void cMenu_Options :: Init_GUI( void )
 	// tab game
 	CEGUI::Window *tabwindow = wmgr.loadWindowLayout( "menu/tab_game.layout" );
 	m_tabcontrol->addTab( tabwindow );
-	// tab video
-	tabwindow = wmgr.loadWindowLayout( "menu/tab_video.layout" );
-	m_tabcontrol->addTab( tabwindow );
-	// tab audio
-	tabwindow = wmgr.loadWindowLayout( "menu/tab_audio.layout" );
-	m_tabcontrol->addTab( tabwindow );
-	// tab keyboard
-	tabwindow = wmgr.loadWindowLayout( "menu/tab_keyboard.layout" );
-	m_tabcontrol->addTab( tabwindow );
-	// tab joystick
-	tabwindow = wmgr.loadWindowLayout( "menu/tab_joystick.layout" );
-	m_tabcontrol->addTab( tabwindow );
-	// tab editor
-	tabwindow = wmgr.loadWindowLayout( "menu/tab_editor.layout" );
-	m_tabcontrol->addTab( tabwindow );
 
 	Init_GUI_Game();
-	Init_GUI_Video();
-	Init_GUI_Audio();
-	Init_GUI_Keyboard();
-	Init_GUI_Editor();
 }
 
 void cMenu_Options :: Init_GUI_Game( void )
@@ -1246,30 +1227,7 @@ void cMenu_Options :: Init_GUI_Game( void )
 	// get the CEGUI window manager
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 
-	// always run
-	CEGUI::Window *text_always_run = static_cast<CEGUI::Window *>(CEGUI::WindowManager::getSingleton().getWindow( "game_text_always_run" ));
-	text_always_run->setText( UTF8_("Always Run") );
-
-	m_game_combo_always_run = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "game_combo_always_run" ));
-
-	CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( UTF8_("On") );
-	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
-	m_game_combo_always_run->addItem( item );
-	item = new CEGUI::ListboxTextItem( UTF8_("Off") );
-	item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
-	m_game_combo_always_run->addItem( item );
-
-	if( pPreferences->m_always_run )
-	{
-		m_game_combo_always_run->setText( UTF8_("On") );
-	}
-	else
-	{
-		m_game_combo_always_run->setText( UTF8_("Off") );
-	}
-
-	m_game_combo_always_run->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Game_Always_Run_Select, this ) );
-
+ 	CEGUI::ListboxTextItem *item = NULL;
 	// Camera Horizontal Speed
 	CEGUI::Window *text_camera_hor_speed = static_cast<CEGUI::Window *>(CEGUI::WindowManager::getSingleton().getWindow( "game_text_camera_hor_speed" ));
 	text_camera_hor_speed->setText( UTF8_("Camera Hor Speed") );
@@ -1351,53 +1309,15 @@ void cMenu_Options :: Init_GUI_Game( void )
 	CEGUI::PushButton *button_reset_game = static_cast<CEGUI::PushButton *>(CEGUI::WindowManager::getSingleton().getWindow( "game_button_reset" ));
 	button_reset_game->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Game_Button_Reset_Game_Clicked, this ) );
 	button_reset_game->setText( UTF8_("Reset") );
-}
 
-void cMenu_Options :: Init_GUI_Video( void )
-{
-	// get the CEGUI window manager
-	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-
-	// Geometry quality
-	CEGUI::Window *text_geometry_quality = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_geometry_quality" ));
-	text_geometry_quality->setText( UTF8_("Geometry Quality") );
-
-	m_video_slider_geometry_quality = static_cast<CEGUI::Slider *>(wmgr.getWindow( "video_slider_geometry_quality" ));
-	m_video_slider_geometry_quality->setCurrentValue( pVideo->m_geometry_quality );
-	m_video_slider_geometry_quality->subscribeEvent( CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber( &cMenu_Options::Video_Slider_Geometry_Quality_Changed, this ) );
-
-	// Texture quality
-	CEGUI::Window *text_texture_quality = static_cast<CEGUI::Window *>(wmgr.getWindow( "video_text_texture_quality" ));
-	text_texture_quality->setText( UTF8_("Texture Quality") );
-
-	m_video_slider_texture_quality = static_cast<CEGUI::Slider *>(wmgr.getWindow( "video_slider_texture_quality" ));
-	m_video_slider_texture_quality->setCurrentValue( pVideo->m_texture_quality );
-	m_video_slider_texture_quality->subscribeEvent( CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber( &cMenu_Options::Video_Slider_Texture_Quality_Changed, this ) );
-
-	// Reset
-	CEGUI::PushButton *button_reset = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "video_button_reset" ));
-	button_reset->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Video_Button_Reset_Clicked, this ) );
-	button_reset->setText( UTF8_("Reset") );
-
-	// Apply
-	CEGUI::PushButton *button_apply = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "video_button_apply" ));
-	button_apply->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Video_Button_Apply_Clicked, this ) );
-	button_apply->setText( UTF8_("Apply") );
-}
-
-void cMenu_Options :: Init_GUI_Audio( void )
-{
-	// get the CEGUI window manager
-	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-
-	// Music
+		// Music
 	CEGUI::Window *text_music = static_cast<CEGUI::Window *>(wmgr.getWindow( "audio_text_music" ));
 	text_music->setText( UTF8_("Music") );
 	text_music->setTooltipText( UTF8_("Enable to play music. You need to have the Music Addon installed.") );
 
 	m_audio_combo_music = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "audio_combo_music" ));
 
-	CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem( UTF8_("On") );
+	item = new CEGUI::ListboxTextItem( UTF8_("On") );
 	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
 	m_audio_combo_music->addItem( item );
 	item = new CEGUI::ListboxTextItem( UTF8_("Off") );
@@ -1455,109 +1375,6 @@ void cMenu_Options :: Init_GUI_Audio( void )
 	m_audio_slider_sound->setCurrentValue( static_cast<float>(pAudio->m_sound_volume) );
 	m_audio_slider_sound->subscribeEvent( CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber( &cMenu_Options::Audio_Sound_Volume_Changed, this ) );
 
-	// Reset
-	CEGUI::PushButton *button_reset = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "audio_button_reset" ));
-	button_reset->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Audio_Button_Reset_Clicked, this ) );
-	button_reset->setText( UTF8_("Reset") );
-}
-
-void cMenu_Options :: Init_GUI_Keyboard( void )
-{
-	// get the CEGUI window manager
-	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-
-	// Keyboard listbox
-	CEGUI::Window *text_keyboard_shortcuts = wmgr.getWindow( "keyboard_text_shortcuts" );
-	text_keyboard_shortcuts->setText( UTF8_("Shortcuts") );
-
-	CEGUI::MultiColumnList *listbox_keyboard = static_cast<CEGUI::MultiColumnList *>(wmgr.getWindow( "keyboard_listbox" ));
-
-	listbox_keyboard->addColumn( UTF8_("Name"), 0, CEGUI::UDim( 0.47f, 0 ) );
-	listbox_keyboard->addColumn( UTF8_("Key"), 1, CEGUI::UDim( 0.47f, 0 ) );
-	Build_Shortcut_List();
-
-	listbox_keyboard->subscribeEvent( CEGUI::MultiColumnList::EventMouseDoubleClick, CEGUI::Event::Subscriber( &cMenu_Options::Keyboard_List_Double_Click, this ) );
-
-	// Keyboard scroll speed
-	CEGUI::Window *text_keyboard_scroll_speed = wmgr.getWindow( "keyboard_text_scroll_speed" );
-	text_keyboard_scroll_speed->setText( UTF8_("Scroll Speed") );
-
-	CEGUI::Slider *slider_scoll_speed = static_cast<CEGUI::Slider *>(wmgr.getWindow( "keyboard_slider_scroll_speed" ));
-	slider_scoll_speed->setCurrentValue( pPreferences->m_scroll_speed );
-	slider_scoll_speed->subscribeEvent( CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber( &cMenu_Options::Keyboard_Slider_Scroll_Speed_Changed, this ) );
-
-	// Reset Keyboard
-	CEGUI::PushButton *button_reset_keyboard = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "keyboard_button_reset" ));
-	button_reset_keyboard->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Keyboard_Button_Reset_Clicked, this ) );
-	button_reset_keyboard->setText( UTF8_("Reset") );
-}
-
-void cMenu_Options :: Init_GUI_Editor( void )
-{
-	// get the CEGUI window manager
-	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-
-	// show item images
-	CEGUI::Window *text_editor_show_item_images = static_cast<CEGUI::Window *>(wmgr.getWindow( "editor_text_show_item_images" ));
-	text_editor_show_item_images->setText( UTF8_("Show images") );
-
-	m_game_combo_editor_show_item_images = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "editor_combo_show_item_images" ));
-
-	CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( UTF8_("On") );
-	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
-	m_game_combo_editor_show_item_images->addItem( item );
-	item = new CEGUI::ListboxTextItem( UTF8_("Off") );
-	item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
-	m_game_combo_editor_show_item_images->addItem( item );
-
-	if( pPreferences->m_editor_show_item_images )
-	{
-		m_game_combo_editor_show_item_images->setText( UTF8_("On") );
-	}
-	else
-	{
-		m_game_combo_editor_show_item_images->setText( UTF8_("Off") );
-	}
-
-	m_game_combo_editor_show_item_images->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Game_Editor_Show_Item_Images_Select, this ) );
-
-	// item image size
-	CEGUI::Window *text_editor_item_image_size = static_cast<CEGUI::Window *>(wmgr.getWindow( "editor_text_item_image_size" ));
-	text_editor_item_image_size->setText( UTF8_("Item image size") );
-
-	m_game_spinner_editor_item_image_size = static_cast<CEGUI::Spinner *>(wmgr.getWindow( "editor_spinner_item_image_size" ));
-	m_game_spinner_editor_item_image_size->setCurrentValue( static_cast<float>(pPreferences->m_editor_item_image_size) );
-
-	m_game_spinner_editor_item_image_size->subscribeEvent( CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber( &cMenu_Options::Game_Editor_Item_Image_Size_Select, this ) );
-
-	// editor mouse auto hide
-	CEGUI::Window *text_editor_mouse_auto_hide = static_cast<CEGUI::Window *>(wmgr.getWindow( "editor_text_mouse_auto_hide" ));
-	text_editor_mouse_auto_hide->setText( UTF8_("Auto-Hide Mouse") );
-
-	m_game_combo_editor_mouse_auto_hide = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "editor_combo_mouse_auto_hide" ));
-
-	item = new CEGUI::ListboxTextItem( UTF8_("On") );
-	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
-	m_game_combo_editor_mouse_auto_hide->addItem( item );
-	item = new CEGUI::ListboxTextItem( UTF8_("Off") );
-	item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
-	m_game_combo_editor_mouse_auto_hide->addItem( item );
-
-	if( pPreferences->m_editor_mouse_auto_hide )
-	{
-		m_game_combo_editor_mouse_auto_hide->setText( UTF8_("On") );
-	}
-	else
-	{
-		m_game_combo_editor_mouse_auto_hide->setText( UTF8_("Off") );
-	}
-
-	m_game_combo_editor_mouse_auto_hide->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Game_Editor_Auto_Hide_Mouse_Select, this ) );
-
-	// Reset Editor
-	CEGUI::PushButton *button_reset_editor = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "editor_button_reset" ));
-	button_reset_editor->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Options::Game_Button_Reset_Editor_Clicked, this ) );
-	button_reset_editor->setText( UTF8_("Reset") );
 }
 
 void cMenu_Options :: Exit( void )
@@ -1994,6 +1811,7 @@ bool cMenu_Options :: Game_Menu_Level_Text_Changed( const CEGUI::EventArgs &even
 bool cMenu_Options :: Game_Button_Reset_Game_Clicked( const CEGUI::EventArgs &event )
 {
 	pPreferences->Reset_Game();
+	pPreferences->Reset_Audio();
 
 	// clear
 	Game_Action = GA_ENTER_MENU;
@@ -2246,8 +2064,12 @@ cMenu_Savegames :: cMenu_Savegames( bool type )
 : cMenu_Base()
 {
 	m_type_save = type;
-
-	for( unsigned int i = 0; i < 9; i++ )
+	unsigned int i = 0;
+	int max = 9;
+	if (m_type_save == 1) {
+		max = 8;
+	}
+	for( ; i < max; i++ )
 	{
 		m_savegame_temp.push_back( new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager ) );
 	}
@@ -2414,17 +2236,20 @@ void cMenu_Savegames :: Update_Load( void )
 void cMenu_Savegames :: Update_Save( void )
 {
 	// not valid
+	if (pMenuCore->m_handler->m_active == 8) {
+		Exit();
+		return;
+	}
 	if( pOverworld_Player->m_current_waypoint < 0 && !pActive_Level->Is_Loaded() )
 	{
 		return;
 	}
 
-	std::string descripion = Set_Save_Description( pMenuCore->m_handler->m_active + 1 );
-	
-	pFramerate->Reset();
-
-	if( descripion.compare( "Not enough Points" ) == 0 ) 
+	if( pActive_Level->Is_Loaded() && pLevel_Player->m_points < 3000 )
 	{
+		Clear_Input_Events();
+		Draw_Static_Text( _("3000 Points needed for saving in a level.\nSaving on the Overworld is free.") );
+
 		Game_Action = GA_ENTER_MENU;
 		Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_MAIN ) );
 		if( m_exit_to_gamemode != MODE_NOTHING )
@@ -2433,23 +2258,18 @@ void cMenu_Savegames :: Update_Save( void )
 		}
 		return;
 	}
-
-	if( descripion.empty() )
-	{
-		return;
-	}
-
+		
+	pFramerate->Reset();
 	pAudio->Play_Sound( "savegame_save.ogg" );
 
 	// no costs in debug builds
-#ifndef _DEBUG
 	if( pActive_Level->Is_Loaded() )
 	{
 		pHud_Points->Set_Points( pLevel_Player->m_points - 3000 );
 	}
-#endif
+
 	// save
-	pSavegame->Save_Game( pMenuCore->m_handler->m_active + 1, descripion );
+	pSavegame->Save_Game( pMenuCore->m_handler->m_active + 1, "" );
 
 	Game_Action = GA_ENTER_MENU;
 	Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_MAIN ) );
@@ -2499,12 +2319,21 @@ std::string cMenu_Savegames :: Set_Save_Description( unsigned int save_slot )
 void cMenu_Savegames :: Update_Saved_Games_Text( void )
 {
 	unsigned int save_slot = 0;
-
-	for( HudSpriteList::iterator itr = m_savegame_temp.begin(); itr != m_savegame_temp.end(); ++itr )
-	{
-		save_slot++;
-		(*itr)->Set_Image( pFont->Render_Text( pFont->m_font_normal, pSavegame->Get_Description( save_slot ), m_text_color_value ), 1, 1 );
+	if (m_type_save == 0) {
+		// load auto save
+		for( HudSpriteList::iterator itr = m_savegame_temp.begin(); itr != m_savegame_temp.end(); ++itr )
+		{
+			(*itr)->Set_Image( pFont->Render_Text( pFont->m_font_normal, pSavegame->Get_Description( save_slot ), m_text_color_value ), 1, 1 );
+			save_slot++;
+		}
+	} else {
+		for( HudSpriteList::iterator itr = m_savegame_temp.begin(); itr != m_savegame_temp.end(); ++itr )
+		{
+			save_slot++;
+			(*itr)->Set_Image( pFont->Render_Text( pFont->m_font_normal, pSavegame->Get_Description( save_slot ), m_text_color_value ), 1, 1 );
+		}
 	}
+	
 }
 
 /* *** *** *** *** *** *** *** *** cMenu_Credits *** *** *** *** *** *** *** *** *** */

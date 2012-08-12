@@ -22,6 +22,7 @@
 #include "../audio/audio.h"
 #include "../gui/menu.h"
 #include "../video/renderer.h"
+#include "../user/savegame.h"
 
 namespace SMC
 {
@@ -642,6 +643,9 @@ void cOverworld_Player :: Update_Waypoint_Walk( void )
 		Set_Waypoint( m_current_waypoint );
 
 		pAudio->Play_Sound( "waypoint_reached.ogg" );
+
+		// 到达新目的地，存档
+		pSavegame->Save_Game(0, "AutoSave");
 	}
 }
 

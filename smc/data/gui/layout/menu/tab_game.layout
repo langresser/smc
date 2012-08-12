@@ -7,14 +7,6 @@
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Property Name="MousePassThroughEnabled" Value="True" />
-		<Window Type="TaharezLook/Combobox" Name="game_combo_always_run" >
-			<Property Name="Tooltip" Value="Enable this to always run without the need of pressing the run key." />
-			<Property Name="ReadOnly" Value="True" />
-			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-			<Property Name="ClippedByParent" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.05,0},{0.42,0},{0.29,0}}" />
-			<Property Name="MaxEditTextLength" Value="1073741823" />
-		</Window>
 		<Window Type="TaharezLook/SMC_Spinner" Name="game_spinner_camera_hor_speed" >
 			<Property Name="Tooltip" Value="Camera Horizontal Speed" />
 			<Property Name="StepSize" Value="0.1" />
@@ -34,13 +26,6 @@
 			<Property Name="TextInputMode" Value="FloatingPoint" />
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			<Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.21,0},{0.42,0},{0.28,0}}" />
-		</Window>
-		<Window Type="TaharezLook/StaticText" Name="game_text_always_run" >
-			<Property Name="Text" Value="_Always Run" />
-			<Property Name="FrameEnabled" Value="False" />
-			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-			<Property Name="UnifiedAreaRect" Value="{{0.01,0},{0.05,0},{0.3,0},{0.12,0}}" />
-			<Property Name="BackgroundEnabled" Value="False" />
 		</Window>
 		<Window Type="TaharezLook/StaticText" Name="game_text_camera_hor_speed" >
 			<Property Name="Text" Value="_Camera Hor Speed" />
@@ -84,6 +69,48 @@
 			<Property Name="ClippedByParent" Value="False" />
 			<Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.37,0},{0.5,0},{0.68,0}}" />
 			<Property Name="MaxEditTextLength" Value="1073741823" />
+		</Window>
+		<Window Type="TaharezLook/Combobox" Name="audio_combo_music" >
+			<Property Name="ReadOnly" Value="True" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="ClippedByParent" Value="False" />
+			<Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.47,0},{0.42,0},{0.71,0}}" />
+			<Property Name="MaxEditTextLength" Value="1073741823" />
+		</Window>
+		<Window Type="TaharezLook/Combobox" Name="audio_combo_sounds" >
+			<Property Name="ReadOnly" Value="True" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="ClippedByParent" Value="False" />
+			<Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.57,0},{0.42,0},{0.81,0}}" />
+			<Property Name="MaxEditTextLength" Value="1073741823" />
+		</Window>
+		<Window Type="TaharezLook/Slider" Name="audio_slider_music_volume" >
+			<Property Name="CurrentValue" Value="0" />
+			<Property Name="MaximumValue" Value="128" />
+			<Property Name="ClickStepSize" Value="8" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.43,0},{0.47,0},{0.57,0},{0.54,0}}" />
+		</Window>
+		<Window Type="TaharezLook/Slider" Name="audio_slider_sound_volume" >
+			<Property Name="CurrentValue" Value="0" />
+			<Property Name="MaximumValue" Value="128" />
+			<Property Name="ClickStepSize" Value="8" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.43,0},{0.57,0},{0.57,0},{0.64,0}}" />
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="audio_text_music" >
+			<Property Name="Text" Value="_Music" />
+			<Property Name="FrameEnabled" Value="False" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.01,0},{0.47,0},{0.3,0},{0.54,0}}" />
+			<Property Name="BackgroundEnabled" Value="False" />
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="audio_text_sound" >
+			<Property Name="Text" Value="_Sound" />
+			<Property Name="FrameEnabled" Value="False" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.01,0},{0.57,0},{0.3,0},{0.64,0}}" />
+			<Property Name="BackgroundEnabled" Value="False" />
 		</Window>
 		<Window Type="TaharezLook/Button" Name="game_button_reset" >
 			<Property Name="Text" Value="_Reset" />
