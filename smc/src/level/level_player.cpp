@@ -3235,7 +3235,8 @@ float cLevel_Player :: Get_Vel_Modifier( void ) const
 	float vel_mod = 1.0f;
 
 	// if running key is pressed or always run
-	if( pPreferences->m_always_run || pKeyboard->isKeyPress(pPreferences->m_key_action))
+	if (true)
+//	if( pPreferences->m_always_run || pKeyboard->isKeyPress(pPreferences->m_key_action))
 	{
 		vel_mod = 1.5f;
 	}

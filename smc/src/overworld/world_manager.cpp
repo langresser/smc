@@ -110,7 +110,7 @@ void cOverworld_Manager :: Load_Dir( const std::string &dir, bool user_dir /* = 
 				overworld = new cOverworld();
 
 				// get relative path
-				std::string relative_path( current_dir, current_dir.rfind( '/' ) );
+				std::string relative_path( current_dir, current_dir.rfind( '/' ) + 1 );
 
 				// set relative path
 				overworld->m_description->m_path = relative_path;
