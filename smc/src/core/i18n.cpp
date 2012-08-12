@@ -18,7 +18,7 @@
 #include "SDL.h"
 
 #ifdef WIN32
-#include "windows.h"
+#include <windows.h>
 #endif
 
 namespace SMC
@@ -28,6 +28,30 @@ namespace SMC
 
 void I18N_Init( void )
 {
+// 	const char *sys_locale = setlocale( LC_ALL, "" );
+// 	const char* language = SDL_getenv("LANGUAGE");
+// 
+// 	if( sys_locale == NULL )
+// 	{
+// 		debug_print( "Failed to set translation locale\n" );
+// 	}
+// 	else
+// 	{
+// 		debug_print( "Translation locale is %s\n", sys_locale );
+// 	}
+// 
+// 	const char *textdomain_directory = bindtextdomain( CAPTION, DATA_DIR "/" GAME_TRANSLATION_DIR );
+// 
+// 	if( !textdomain_directory )
+// 	{
+// 		printf( "Warning: bindtextdomain failed for %s\n", DATA_DIR "/" GAME_TRANSLATION_DIR );
+// 	}
+// 
+// 	const char *textdomain_codeset = bind_textdomain_codeset( CAPTION, language );
+// 	const char *textdomain_default = textdomain( CAPTION );
+// 
+// 	debug_print( "Translation support with gettext set to:\n\tDirectory %s\n\tCodeset: %s\n\tText domain: %s\n",
+// 		textdomain_directory, textdomain_codeset, textdomain_default );
 }
 
 #ifdef _WIN32
@@ -110,24 +134,7 @@ int Get_Windows_Sub_Language( const std::string &language )
 
 void I18N_Set_Language( const std::string &language )
 {
-#ifdef _WIN32
-	int primary_language = Get_Windows_Primary_Language( language );
-	int sub_language = Get_Windows_Sub_Language( language );
-
-	bool success = SUCCEEDED( SetThreadLocale( MAKELCID( MAKELANGID( primary_language, sub_language ), SORT_DEFAULT ) ) );
-
-	if( !success )
-	{
-		debug_print("Failed to set translation locale to %d %d\n", primary_language, sub_language);
-	}
-	else
-	{
-		debug_print("Translation locale set to %d %d\n", primary_language, sub_language);
-	}
-	//putenv(("LANG=" + std::string(_nl_locale_name_default())).c_str());
-#else
-	setenv( "LANGUAGE", language.c_str(), 1 );
-#endif
+//	SDL_setenv("LANGUAGE", language.c_str(), 1);
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -4,7 +4,7 @@
     <information >
         <property name="version" value="12" />
         <property name="level_engine_version" value="40" />
-        <property name="save_time" value="1344765335" />
+        <property name="save_time" value="1344781120" />
         <property name="description" value="AutoSave" />
     </information>
     <player >
@@ -48,47 +48,47 @@
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_2" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_3" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_4" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_5" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_6" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_7" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_9" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="pasol_3" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="stephane_1" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="tower_1" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="world_2" />
-            <property name="access" value="1" />
+            <property name="access" value="0" />
         </waypoint>
         <waypoint >
             <property name="destination" value="lvl_8" />
