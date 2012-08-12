@@ -217,11 +217,11 @@ void cMenu_Main :: Init( void )
 	temp_item = pMenuCore->Auto_Menu( "save.png", "save.png", m_menu_pos_y );
 	temp_item->m_image_menu->Set_Pos( temp_item->m_pos_x - temp_item->m_image_menu->m_col_rect.m_w - 16, temp_item->m_pos_y );
 	pMenuCore->m_handler->Add_Menu_Item( temp_item );
-	// Quit
-	m_menu_pos_y += 60;
-	temp_item = pMenuCore->Auto_Menu( "quit.png", "", m_menu_pos_y, 1 );
-	temp_item->m_image_menu->Set_Pos( temp_item->m_pos_x + temp_item->m_col_rect.m_w + 16, temp_item->m_pos_y );
-	pMenuCore->m_handler->Add_Menu_Item( temp_item );
+// 	// Quit
+// 	m_menu_pos_y += 60;
+// 	temp_item = pMenuCore->Auto_Menu( "quit.png", "", m_menu_pos_y, 1 );
+// 	temp_item->m_image_menu->Set_Pos( temp_item->m_pos_x + temp_item->m_col_rect.m_w + 16, temp_item->m_pos_y );
+// 	pMenuCore->m_handler->Add_Menu_Item( temp_item );
 
 	if( m_exit_to_gamemode == MODE_NOTHING )
 	{
@@ -236,6 +236,19 @@ void cMenu_Main :: Init( void )
 		hud_sprite->Set_Image( credits, 0, 1 );
 		hud_sprite->Set_Pos( -200, 0 );
 		m_draw_list.push_back( hud_sprite );
+
+		// feedback
+		cGL_Surface *feedback = pFont->Render_Text( pFont->m_font_normal, _("Feedback"), yellow );
+		temp_item = new cMenu_Item( pMenuCore->m_handler->m_level->m_sprite_manager );
+		temp_item->m_image_default->Set_Image( feedback );
+		temp_item->Set_Pos( static_cast<float>(game_res_w) * 0.65f, static_cast<float>(game_res_h) - 30.0f );
+		pMenuCore->m_handler->Add_Menu_Item( temp_item, 1.5f, grey );
+
+		cHudSprite *hud_sprite1 = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
+		hud_sprite1->Set_Image( feedback, 0, 1 );
+		hud_sprite1->Set_Pos( -200, 0 );
+		m_draw_list.push_back( hud_sprite1 );
+
 		// SDL logo
 		hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
 		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/logo_sdl.png" ) );
@@ -310,17 +323,20 @@ void cMenu_Main :: Update( void )
 		Game_Action = GA_ENTER_MENU;
 		Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_SAVE ) );
 	}
-	// Quit
-	else if( pMenuCore->m_handler->m_active == 4 )
-	{
-		game_exit = 1;
-	}
+// 	// Quit
+// 	else if( pMenuCore->m_handler->m_active == 4 )
+// 	{
+// 		game_exit = 1;
+// 	}
 	// Credits
-	else if( pMenuCore->m_handler->m_active == 5 )
+	else if( pMenuCore->m_handler->m_active == 4 )
 	{
 		Game_Action = GA_ENTER_MENU;
 		Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_CREDITS ) );
 		Game_Action_Data_Start.add( "music_fadeout", "500" );
+	}// feedback
+	else if( pMenuCore->m_handler->m_active == 5 )
+	{
 	}
 
 	if( m_exit_to_gamemode != MODE_NOTHING )

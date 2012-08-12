@@ -4,7 +4,7 @@
     <property name="game_version" value="2.0.0" />
     <property name="game_language" value="zh_TW" />
     <property name="game_always_run" value="0" />
-    <property name="game_menu_level" value="menu_green_1" />
+    <property name="game_menu_level" value="menu_blue_1" />
     <property name="game_camera_hor_speed" value="0.3" />
     <property name="game_camera_ver_speed" value="0.2" />
     <property name="video_geometry_quality" value="0.5" />
