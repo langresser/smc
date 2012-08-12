@@ -17,7 +17,6 @@
 #define SMC_I18N_H
 
 #include "../core/global_game.h"
-#include <libintl.h>
 
 namespace SMC
 {
@@ -27,7 +26,7 @@ namespace SMC
 // translates the string with gettext
 #define _(String) (String)
 // translates the utf8 string with gettext
-#define UTF8_(String) reinterpret_cast<CEGUI::utf8*>((String))
+#define UTF8_(String) (String)
 // not translated and only for gettext detection
 #define N_(String) String
 

@@ -16,6 +16,6 @@ void getScreenSize(int* width, int* height)
     }
     
     if (height) {
-        *height = size.width > size.height ? size.height : size.height;
+        *height = size.width > size.height ? size.height : size.width;
     }
 }

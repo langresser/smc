@@ -277,25 +277,6 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	
     getScreenSize(&m_width, &m_height);
 
-	// first initialization
-	if( !m_initialised )
-	{
-		// Set Caption
-		SDL_WM_SetCaption( CAPTION, NULL );
-		// Set Icon
-		std::string filename_icon = DATA_DIR "/" GAME_ICON_DIR "/window_32.png";
-		if( File_Exists( filename_icon ) )
-		{
-			SDL_Surface *icon = IMG_Load( filename_icon.c_str() );
-			SDL_WM_SetIcon( icon, NULL );
-			SDL_FreeSurface( icon );
-		}
-		else
-		{
-			printf( "Warning : Window icon %s does not exist\n", filename_icon.c_str() );
-		}
-	}
-
 	// request settings
 	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8);
@@ -952,13 +933,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image( std::string filename, bool load_se
 			// add cache dir and remove data dir
 			std::string img_filename_cache = m_imgcache_dir + "/" + settings_file.substr( strlen( DATA_DIR "/" ) ) + ".png";
 
-			// check if image cache file exists
-			if( File_Exists( img_filename_cache ) )
-			{
-				sdl_surface = IMG_Load( img_filename_cache.c_str() );
-			}
-			// image given in base settings
-			else if( !settings->m_base.empty() )
+			if( !settings->m_base.empty() )
 			{
 				// use current directory
 				std::string img_filename = filename.substr( 0, filename.rfind( "/" ) + 1 ) + settings->m_base;
@@ -976,7 +951,9 @@ cVideo::cSoftware_Image cVideo :: Load_Image( std::string filename, bool load_se
 					}
 				}
 
-				sdl_surface = IMG_Load( img_filename.c_str() );
+                SDL_Surface* surface = IMG_Load( img_filename.c_str() );
+                sdl_surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ABGR8888, 0);
+                SDL_FreeSurface(surface);
 			}
 		}
 	}
@@ -984,7 +961,9 @@ cVideo::cSoftware_Image cVideo :: Load_Image( std::string filename, bool load_se
 	// if not set in image settings and file exists
 	if( !sdl_surface && File_Exists( filename ) && ( !settings || settings->m_base.empty() ) )
 	{
-		sdl_surface = IMG_Load( filename.c_str() );
+		SDL_Surface* surface = IMG_Load( filename.c_str() );
+        sdl_surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ABGR8888, 0);
+        SDL_FreeSurface(surface);
 	}
 
 	if( !sdl_surface )

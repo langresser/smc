@@ -568,7 +568,7 @@ void Draw_Game( void )
 
 	if( Game_Mode == MODE_LEVEL )
 	{
-		pLevel_Manager->Draw();
+        Joystick::Instance().show();
 	}
 	else if( Game_Mode == MODE_OVERWORLD )
 	{
@@ -583,7 +583,7 @@ void Draw_Game( void )
 		pLevel_Editor->m_settings_screen->Draw();
 	}
 
-	Joystick::Instance().show();
+    Joystick::Instance().show();
 	// Mouse
 	pMouseCursor->Draw();
 

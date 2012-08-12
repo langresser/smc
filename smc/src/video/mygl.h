@@ -15,9 +15,11 @@
 void getScreenSize(int* width, int* height);
 #endif
 
-#define USE_EGL
+//#define USE_EGL
 //#define USE_OPENGL_CEGUI
+#ifdef WIN32
 #ifndef USE_EGL
 #define glOrthof glOrtho
 #define glClearDepthf glClearDepth
+#endif
 #endif

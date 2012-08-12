@@ -22,7 +22,9 @@ namespace SMC
 	public:
 		void createJoystick(cSprite_Manager *sprite_manager);
 		void show();
+        void touchEvent(int type, int x, int y, int figureId);
 	private:
+        bool isTouchIn(int touchx, int touchy, int x, int y, int w, int h);
 		int m_dir;
 		cHudSprite* m_dock;
 		cHudSprite* m_up;
@@ -30,6 +32,12 @@ namespace SMC
 		cHudSprite* m_left;
 		cHudSprite* m_right;
 
+        bool m_showMenuBack;
+        bool m_menuDown;
+        bool m_jumpDown;
+        bool m_fireDown;
+		cHudSprite* m_menuBack;
+		cHudSprite* m_menuBackClick;
 		cHudSprite* m_menu;
 		cHudSprite* m_menuClick;
 		cHudSprite* m_jump;
