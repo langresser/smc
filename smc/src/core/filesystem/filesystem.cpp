@@ -246,19 +246,6 @@ std::string Get_Temp_Directory( void )
 #endif
 }
 
-std::string Get_User_Directory( void )
-{
-#ifdef _WIN32
-	return "./smc/";
-#elif __unix__
-	return (std::string)getenv( "HOME" ) + "/.smc/";
-#elif __APPLE__
-	return "./smc/";
-#else
-	return "";
-#endif
-}
-
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC

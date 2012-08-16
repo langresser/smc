@@ -77,8 +77,6 @@ vector<std::string> Get_Directory_Files( const std::string &dir, const std::stri
 
 // Return the operating system temporary files directory
 std::string Get_Temp_Directory( void );
-// Return the default smc user directory in the operating system application/home directory
-std::string Get_User_Directory( void );
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

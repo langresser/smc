@@ -75,6 +75,8 @@ public:
 
 	// Translate a SDLKey to the proper CEGUI::Key
 	unsigned int SDLKey_to_CEGUIKey( const SDLKey key ) const;
+    unsigned char m_scancode[SDL_NUM_SCANCODES];
+    bool setKeyDown(SDL_Keycode key, bool down);
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

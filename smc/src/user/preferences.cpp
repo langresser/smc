@@ -22,6 +22,8 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/filesystem.h"
+#include "../platform_util.h"
+
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
@@ -160,12 +162,7 @@ void cPreferences :: Save( void )
 {
 	Update();
 
-// fixme : Check if there is a more portable way f.e. with imbue()
-#ifdef _WIN32
-	ofstream file( utf8_to_ucs2( m_config_filename ).c_str(), ios::out | ios::trunc );
-#else
-	ofstream file( m_config_filename.c_str(), ios::out | ios::trunc );
-#endif
+	ofstream file(m_config_filename.c_str(), ios::out | ios::trunc );
 
 	if( !file.is_open() )
 	{

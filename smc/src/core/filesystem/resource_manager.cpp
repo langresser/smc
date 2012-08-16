@@ -15,6 +15,7 @@
 
 #include "../../core/filesystem/resource_manager.h"
 #include "../../core/filesystem/filesystem.h"
+#include "../../platform_util.h"
 #include <cstdio>
 
 
@@ -68,10 +69,17 @@ void cResource_Manager :: Init_User_Directory( void )
 	}
 }
 
-bool cResource_Manager :: Set_User_Directory( const std::string &dir )
+bool cResource_Manager :: Set_User_Directory()
 {
-	user_data_dir = dir;
-
+#ifdef _WIN32
+	user_data_dir = "./smc/";
+#elif __unix__
+	return (std::string)getenv( "HOME" ) + "/.smc/";
+#elif __APPLE__
+	user_data_dir = getFullPath("smc/");
+#else
+	return "";
+#endif
 	return 1;
 }
 

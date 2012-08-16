@@ -167,7 +167,10 @@ void cText_Box :: Activate( void )
 				{
 					pKeyboard->Key_Up( input_event.key.keysym.sym );
 				}
-			}
+			} else if (input_event.type == SDL_MOUSEBUTTONDOWN) {
+                display = 0;
+                break;
+            }
 		}
 
 		// down

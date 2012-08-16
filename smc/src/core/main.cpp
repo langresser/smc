@@ -36,7 +36,7 @@
 #include "../video/renderer.h"
 #include "../core/i18n.h"
 #include "../gui/generic.h"
-#include "../input/joystick.h"
+#include "../platform_util.h"
 
 // CEGUI
 #include "CEGUIDefaultLogger.h"
@@ -115,6 +115,8 @@ namespace SMC
 
 void Init_Game( void )
 {
+    initDir();
+    
 	// init random number generator
 	srand( static_cast<unsigned int>(time( NULL )) );
 
@@ -135,7 +137,7 @@ void Init_Game( void )
 	/* Set default user directory
 	 * can get overridden later from the preferences
 	*/
-	pResource_Manager->Set_User_Directory( Get_User_Directory() );
+	pResource_Manager->Set_User_Directory();
 	/* Initialize the fake CEGUI renderer and system for the pPreferences XMLParser,
 	 * because CEGUI creates the system normally with the OpenGL-Renderer and OpenGL calls may 
 	 * only be made with a valid OpenGL-context, which we would get only by setting 
@@ -197,8 +199,6 @@ void Init_Game( void )
 	pWorld_Editor = new cEditor_World( pActive_Level->m_sprite_manager, NULL );
 	pMouseCursor = new cMouseCursor( pActive_Level->m_sprite_manager );
 	pKeyboard = new cKeyboard();
-
-	Joystick::Instance().createJoystick(pActive_Level->m_sprite_manager);
 
 	pLevel_Manager->Init();
 	// note : set any sprite manager as cOverworld_Manager::Load sets it again
@@ -469,6 +469,16 @@ bool Handle_Input_Global( SDL_Event *ev )
 						return 1;
 					}
 				}
+                if (ev->type == SDL_MOUSEBUTTONDOWN) {
+                    if (pHud_Itembox) {
+                        GL_rect rect = pHud_Itembox->m_rect;
+                        if (pHud_Itembox->m_col_rect.Intersects(pMouseCursor->m_x, pMouseCursor->m_y)) {
+                            pKeyboard->Key_Down(SDLK_RETURN);
+                            return 1;
+                        }
+                        
+                    }
+                }
 			}
 			else if( Game_Mode == MODE_OVERWORLD )
 			{
@@ -568,24 +578,27 @@ void Draw_Game( void )
 
 	if( Game_Mode == MODE_LEVEL )
 	{
-        Joystick::Instance().show();
+        pLevel_Manager->Draw();
+        showJoystick();
+        closeAds();
 	}
 	else if( Game_Mode == MODE_OVERWORLD )
 	{
 		pActive_Overworld->Draw();
+        showJoystick();
+        showAds();
 	}
 	else if( Game_Mode == MODE_MENU )
 	{
 		pMenuCore->Draw();
+        hideJoystick();
 	}
 	else if( Game_Mode == MODE_LEVEL_SETTINGS )
 	{
 		pLevel_Editor->m_settings_screen->Draw();
+        hideJoystick();
+        showAds();
 	}
-
-    Joystick::Instance().show();
-	// Mouse
-	pMouseCursor->Draw();
 
 	// update performance timer
 	pFramerate->m_perf_timer[PERF_DRAW_MOUSE]->Update();

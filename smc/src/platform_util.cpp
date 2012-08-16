@@ -22,6 +22,12 @@ char*   my_strlwr(   char*   str   )
     return   orig;
 }
 
+std::string getFullPath(const char* fileName)
+{
+    std::string temp = g_resource_dir;
+    temp += fileName;
+    return temp;
+}
 
 FILE* open_file(const char* file_name, const char* read_mode)
 {

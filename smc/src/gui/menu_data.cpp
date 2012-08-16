@@ -1272,29 +1272,29 @@ void cMenu_Options :: Init_GUI_Game( void )
 	item->setTextColours( CEGUI::colour( 0, 1, 0 ) );
 	m_game_combo_language->addItem( item );
 
-	// get available languages
-	vector<std::string> language_files = Get_Directory_Files( DATA_DIR "/" GAME_TRANSLATION_DIR, ".none", 1, 0 );
-	// add english as it is the base language and not in the translation directory
-	language_files.push_back( DATA_DIR "/" GAME_TRANSLATION_DIR "/" "en" );
-
-	for( vector<std::string>::iterator itr = language_files.begin(); itr != language_files.end(); ++itr )
-	{
-		// get filename
-		std::string filename = (*itr);
-
-		// if not directory
-		if( filename.rfind( "." ) != std::string::npos )
-		{
-			continue;
-		}
-
-		// remove data dir
-		filename.erase( 0, strlen( DATA_DIR "/" GAME_TRANSLATION_DIR "/" ) );
-
-		item = new CEGUI::ListboxTextItem( filename );
-		item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
-		m_game_combo_language->addItem( item );
-	}
+//	// get available languages
+//	vector<std::string> language_files = Get_Directory_Files( DATA_DIR "/" GAME_TRANSLATION_DIR, ".none", 1, 0 );
+//	// add english as it is the base language and not in the translation directory
+//	language_files.push_back( DATA_DIR "/" GAME_TRANSLATION_DIR "/" "en" );
+//
+//	for( vector<std::string>::iterator itr = language_files.begin(); itr != language_files.end(); ++itr )
+//	{
+//		// get filename
+//		std::string filename = (*itr);
+//
+//		// if not directory
+//		if( filename.rfind( "." ) != std::string::npos )
+//		{
+//			continue;
+//		}
+//
+//		// remove data dir
+//		filename.erase( 0, strlen( DATA_DIR "/" GAME_TRANSLATION_DIR "/" ) );
+//
+//		item = new CEGUI::ListboxTextItem( filename );
+//		item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
+//		m_game_combo_language->addItem( item );
+//	}
 
 	if( pPreferences->m_language.empty() )
 	{
@@ -1302,7 +1302,7 @@ void cMenu_Options :: Init_GUI_Game( void )
 	}
 	else
 	{
-		m_game_combo_language->setText( pPreferences->m_language );
+//		m_game_combo_language->setText( pPreferences->m_language );
 	}
 
 	m_game_combo_language->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Game_Language_Select, this ) );
@@ -2209,7 +2209,7 @@ void cMenu_Savegames :: Draw( void )
 
 void cMenu_Savegames :: Update_Load( void )
 {
-	int save_num = pMenuCore->m_handler->m_active + 1;
+	int save_num = pMenuCore->m_handler->m_active;
 
 	// not valid
 	if( !pSavegame->Is_Valid( save_num ) )

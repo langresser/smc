@@ -19,6 +19,8 @@
 #include "../overworld/overworld.h"
 #include "../core/i18n.h"
 #include "../overworld/world_editor.h"
+#include "../platform_util.h"
+
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIWindowManager.h"
@@ -348,13 +350,7 @@ void cLayer :: Load( const std::string &filename )
 
 bool cLayer :: Save( const std::string &filename )
 {
-// fixme : Check if there is a more portable way f.e. with imbue()
-#ifdef _WIN32
-	ofstream file( utf8_to_ucs2( filename ).c_str(), ios::out | ios::trunc );
-#else
-	ofstream file( filename.c_str(), ios::out | ios::trunc );
-#endif
-
+	ofstream file(filename.c_str(), ios::out | ios::trunc );
 
 	if( !file )
 	{

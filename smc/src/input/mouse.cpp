@@ -31,7 +31,6 @@
 #include "../video/font.h"
 #include "../video/renderer.h"
 #include "../core/i18n.h"
-#include "joystick.h"
 
 namespace SMC
 {
@@ -106,6 +105,7 @@ cMouseCursor :: ~cMouseCursor( void )
 
 void cMouseCursor :: Set_Active( bool enabled )
 {
+    enabled = false;
 	cMovingSprite::Set_Active( enabled );
 	CEGUI::MouseCursor::getSingleton().setVisible( enabled );
 }
@@ -147,13 +147,11 @@ bool cMouseCursor :: Handle_Event( SDL_Event *ev )
 		case SDL_MOUSEMOTION:
 		{
 			pGuiSystem->injectMousePosition( static_cast<float>(ev->motion.x), static_cast<float>(ev->motion.y) );
-			Update_Position();
-            Joystick::Instance().touchEvent(SDL_MOUSEMOTION, ev->motion.x, ev->motion.y, 0);
+			Update_Position();;
 			break;
 		}
 		case SDL_MOUSEBUTTONUP:
 		{
-            Joystick::Instance().touchEvent(SDL_MOUSEBUTTONUP, ev->motion.x, ev->motion.y, 0);
 			if( Handle_Mouse_Up( ev->button.button ) )
 			{
 				// processed
@@ -164,7 +162,6 @@ bool cMouseCursor :: Handle_Event( SDL_Event *ev )
 		}
 		case SDL_MOUSEBUTTONDOWN:
 		{
-            Joystick::Instance().touchEvent(SDL_MOUSEBUTTONDOWN, ev->motion.x, ev->motion.y, 0);
 			if( Handle_Mouse_Down( ev->button.button ) )
 			{
 				// processed

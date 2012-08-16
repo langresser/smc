@@ -44,6 +44,7 @@ cKeyboard :: ~cKeyboard( void )
 
 void cKeyboard :: Reset_Keys( void )
 {
+    memset(m_scancode, 0, sizeof(m_scancode));
 }
 
 bool cKeyboard :: CEGUI_Handle_Key_Up( SDLKey key ) const
@@ -401,14 +402,43 @@ unsigned int cKeyboard :: SDLKey_to_CEGUIKey( const SDLKey key ) const
     }
 }
 
+bool cKeyboard::setKeyDown(SDL_Keycode key, bool down)
+{
+    m_scancode[SDL_GetScancodeFromKey(key)] = down;
+    
+    if (key == SDLK_UP) {
+        m_scancode[SDL_GetScancodeFromKey(SDLK_DOWN)] = 0;
+        m_scancode[SDL_GetScancodeFromKey(SDLK_LEFT)] = 0;
+        m_scancode[SDL_GetScancodeFromKey(SDLK_RIGHT)] = 0;
+    } else if (key == SDLK_DOWN) {
+        m_scancode[SDL_GetScancodeFromKey(SDLK_UP)] = 0;
+        m_scancode[SDL_GetScancodeFromKey(SDLK_LEFT)] = 0;
+        m_scancode[SDL_GetScancodeFromKey(SDLK_RIGHT)] = 0;
+    } else if (key == SDLK_LEFT) {
+        m_scancode[SDL_GetScancodeFromKey(SDLK_UP)] = 0;
+        m_scancode[SDL_GetScancodeFromKey(SDLK_DOWN)] = 0;
+        m_scancode[SDL_GetScancodeFromKey(SDLK_RIGHT)] = 0;
+    } else if (key == SDLK_RIGHT) {
+        m_scancode[SDL_GetScancodeFromKey(SDLK_UP)] = 0;
+        m_scancode[SDL_GetScancodeFromKey(SDLK_DOWN)] = 0;
+        m_scancode[SDL_GetScancodeFromKey(SDLK_LEFT)] = 0;
+    }
+    
+    return true;
+}
+
 bool cKeyboard::isKeyPress(SDL_Keycode key) const
 {
+#ifdef WIN32
 	Uint8* keyState = SDL_GetKeyboardState(NULL);
 	if (keyState && keyState[SDL_GetScancodeFromKey(key)]) {
 		return true;
 	} else {
 		return false;
 	}
+#else
+    return m_scancode[SDL_GetScancodeFromKey(key)];
+#endif
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -43,15 +43,15 @@
 #include "elements/CEGUIProgressBar.h"
 #include "RendererModules/Null/CEGUINullRenderer.h"
 
-#ifndef WIN32
-#include "iosUtil.h"
-#endif
+#include "../platform_util.h"
 
 // png
 #include <png.h>
 #ifndef PNG_COLOR_TYPE_RGBA
 	#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
 #endif
+
+bool g_inFadingDraw = false;
 
 namespace SMC
 {
@@ -718,13 +718,7 @@ void cVideo :: Save_Screenshot( void )
 void cVideo :: Save_Surface( const std::string &filename, const unsigned char *data, unsigned int width, unsigned int height, unsigned int bpp /* = 4 */, bool reverse_data /* = 0 */ ) const
 {
 	FILE *fp = NULL;
-
-	// fixme : Check if there is a more portable way f.e. with imbue()
-	#ifdef _WIN32
-		fp = _wfopen( utf8_to_ucs2( filename ).c_str(), L"wb" );
-	#else
-		fp = fopen( filename.c_str(), "wb" );
-	#endif
+    fp = open_file( filename.c_str(), "wb" );
 
 	if( !fp )
 	{
@@ -1536,6 +1530,7 @@ bool cVideo :: Downscale_Image( const unsigned char* const orig, int width, int 
 
 void Draw_Effect_Out( Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float speed /* = 1 */ )
 {
+    g_inFadingDraw = true;
 	if( effect == EFFECT_OUT_RANDOM )
 	{
 		effect = static_cast<Effect_Fadeout>( ( rand() % (EFFECT_OUT_AMOUNT - 1) ) + 1 );
@@ -1991,10 +1986,12 @@ void Draw_Effect_Out( Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spe
 	}
 	
 	pFramerate->Update();
+    g_inFadingDraw = false;
 }
 
 void Draw_Effect_In( Effect_Fadein effect /* = EFFECT_IN_RANDOM */, float speed /* = 1 */ )
 {
+    g_inFadingDraw = true;
 	// Clear render cache
 	pRenderer->Clear( 1 );
 
@@ -2036,6 +2033,7 @@ void Draw_Effect_In( Effect_Fadein effect /* = EFFECT_IN_RANDOM */, float speed 
 	}
 	
 	pFramerate->Update();
+    g_inFadingDraw = false;
 }
 
 void Loading_Screen_Init( void )

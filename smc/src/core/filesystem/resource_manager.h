@@ -31,7 +31,7 @@ public:
 	~cResource_Manager( void );
 
 	// Set the user data write directory
-	bool Set_User_Directory( const std::string &dir );
+	bool Set_User_Directory();
 	// Create the necessary folders in the user directory
 	void Init_User_Directory( void );
 

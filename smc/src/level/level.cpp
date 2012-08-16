@@ -54,6 +54,8 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../overworld/world_editor.h"
+#include "../platform_util.h"
+
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
@@ -281,12 +283,7 @@ void cLevel :: Save( void )
 		m_level_filename.insert( 0, pResource_Manager->user_data_dir + USER_LEVEL_DIR + "/" );
 	}
 
-// fixme : Check if there is a more portable way f.e. with imbue()
-#ifdef _WIN32
-	ofstream file( utf8_to_ucs2( m_level_filename ).c_str(), ios::out | ios::trunc );
-#else
-	ofstream file( m_level_filename.c_str(), ios::out | ios::trunc );
-#endif
+	ofstream file(m_level_filename.c_str(), ios::out | ios::trunc );
 
 
 	if( !file )

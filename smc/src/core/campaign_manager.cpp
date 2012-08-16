@@ -19,6 +19,8 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/i18n.h"
+#include "../platform_util.h"
+
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
@@ -41,12 +43,7 @@ cCampaign :: ~cCampaign( void )
 
 bool cCampaign :: Save( const std::string &filename )
 {
-// fixme : Check if there is a more portable way f.e. with imbue()
-#ifdef _WIN32
-	ofstream file( utf8_to_ucs2( filename ).c_str(), ios::out | ios::trunc );
-#else
-	ofstream file( filename.c_str(), ios::out | ios::trunc );
-#endif
+	ofstream file(filename.c_str(), ios::out | ios::trunc );
 
 	
 	if( !file.is_open() )
