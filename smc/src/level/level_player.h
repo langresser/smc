@@ -183,6 +183,7 @@ public:
 	
 	// returns the current velocity modifier
 	float Get_Vel_Modifier( void ) const;
+	float Get_Vel_ModifierY( void ) const;
 
 	// Start a jump
 	void Action_Jump( bool enemy_jump = 0 );

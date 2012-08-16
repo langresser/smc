@@ -678,7 +678,7 @@ void cLevel_Player :: Update_Walking( void )
 		{
 			m_walk_time += pFramerate->m_speed_factor;
 
-			if( m_walk_time > speedfactor_fps )
+			if( m_walk_time > speedfactor_fps / 3)
 			{
 				Set_Moving_State( STA_RUN );
 			}
@@ -1179,11 +1179,11 @@ void cLevel_Player :: Update_Climbing( void )
 
 		if( pKeyboard->isKeyPress(pPreferences->m_key_up) )
 		{
-			m_vely = -4.0f * Get_Vel_Modifier();
+			m_vely = -4.0f * Get_Vel_ModifierY();
 		}
 		else if( pKeyboard->isKeyPress(pPreferences->m_key_down))
 		{
-			m_vely = 4.0f * Get_Vel_Modifier();
+			m_vely = 4.0f * Get_Vel_ModifierY();
 		}
 
 		// check if reached climbable top
@@ -1388,7 +1388,7 @@ void cLevel_Player :: Update_Jump( void )
 	// jumping physics
 	if( pKeyboard->isKeyPress(pPreferences->m_key_jump))
 	{
-		Add_Velocity_Y( -( m_jump_accel_up + ( m_vely * m_jump_vel_deaccel ) / Get_Vel_Modifier() ) );
+		Add_Velocity_Y( -( m_jump_accel_up + ( m_vely * m_jump_vel_deaccel ) / Get_Vel_ModifierY() ) );
 		m_jump_power -= pFramerate->m_speed_factor;
 	}
 	else
@@ -3231,6 +3231,30 @@ void cLevel_Player :: Get_Item( SpriteType item_type, bool force /* = 0 */, cMov
 }
 
 float cLevel_Player :: Get_Vel_Modifier( void ) const
+{
+	float vel_mod = 1.0f;
+
+	// if running key is pressed or always run
+	if (true)
+//	if( pPreferences->m_always_run || pKeyboard->isKeyPress(pPreferences->m_key_action))
+	{
+		vel_mod = 1.3f;
+	}
+
+	if( m_invincible_star > 0.0f )
+	{
+		vel_mod *= 1.2f;
+	}
+
+	if( m_state == STA_RUN )
+	{
+		vel_mod *= 1.3f;
+	}
+
+	return vel_mod;
+}
+
+float cLevel_Player :: Get_Vel_ModifierY( void ) const
 {
 	float vel_mod = 1.0f;
 

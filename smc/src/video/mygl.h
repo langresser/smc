@@ -6,19 +6,23 @@
 #include <EGL/egl.h>
 #endif
 
-//#include "SDL_opengl.h"
-#include "SDL_opengles.h"
+#include "SDL_opengl.h"
+//#include "SDL_opengles.h"
 
 #ifdef WIN32
 #include "eglport.h"
-
+//#define USE_EGL
 void getScreenSize(int* width, int* height);
+void showJoystick();
+void closeAds();
+
+void hideJoystick();
+void showAds();
 #endif
 
-//#define USE_EGL
-//#define USE_OPENGL_CEGUI
 #ifdef WIN32
 #ifndef USE_EGL
+#define USE_OPENGL_CEGUI
 #define glOrthof glOrtho
 #define glClearDepthf glClearDepth
 #endif

@@ -149,6 +149,9 @@ bool cKeyboard :: Key_Down( SDLKey key )
 		{
 			return 1;
 		}
+	} else if (key == SDLK_p) {
+		pVideo->Save_Screenshot();
+		return 1;
 	}
 
 	// handle key in the current mode

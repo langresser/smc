@@ -1,16 +1,32 @@
 #include "mygl.h"
 
 #ifdef WIN32
+void initDir()
+{
+}
+
 void getScreenSize(int* width, int* height)
 {
 	if (width) {
-		*width = 960;
+		*width = 1024;
 	}
 
 	if (height) {
-		*height = 640;
+		*height = 768;
 	}
 }
+
+void showJoystick()
+{}
+
+void closeAds()
+{}
+
+void hideJoystick()
+{}
+
+void showAds()
+{}
 #endif
 
 #ifdef WIN32

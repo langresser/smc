@@ -105,7 +105,9 @@ cMouseCursor :: ~cMouseCursor( void )
 
 void cMouseCursor :: Set_Active( bool enabled )
 {
+#ifndef WIN32
     enabled = false;
+#endif
 	cMovingSprite::Set_Active( enabled );
 	CEGUI::MouseCursor::getSingleton().setVisible( enabled );
 }
