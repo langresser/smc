@@ -1,4 +1,0 @@
-from Vegastrike.
-Original name : loss1.ogg
-author : Ken Seguro
-license : GPL

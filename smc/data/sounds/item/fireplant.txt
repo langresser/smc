@@ -1,2 +1,0 @@
-from Wesnoth
-remastered from FluXy

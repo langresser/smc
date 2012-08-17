@@ -1,4 +1,0 @@
-from Vegastrike.
-Original name : peace6.ogg
-author : Ken Seguro
-license : GPL

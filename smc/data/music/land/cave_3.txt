@@ -1,4 +1,0 @@
-from Vegastrike.
-Original name : snow.ogg
-author : Ken Seguro
-license : GPL

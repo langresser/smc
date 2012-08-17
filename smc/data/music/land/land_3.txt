@@ -1,4 +1,0 @@
-from Vegastrike.
-Original name : battle1.ogg
-author : Ken Seguro
-license : GPL
