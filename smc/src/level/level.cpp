@@ -669,6 +669,11 @@ void cLevel :: Process_Input( void )
 
 bool cLevel :: Key_Down( const SDLKey key )
 {
+#ifdef _DEBUG
+	if (pKeyboard->isKeyPress(SDLK_a) && pKeyboard->isKeyPress(SDLK_s)) {
+		pLevel_Player->Get_Item(TYPE_STAR);
+	}
+#endif
 	// debug key F2
 	if( key == SDLK_F2 && game_debug && !editor_level_enabled )
 	{
