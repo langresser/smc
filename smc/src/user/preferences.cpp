@@ -109,6 +109,7 @@ cPreferences :: ~cPreferences( void )
 
 bool cPreferences :: Load( const std::string &filename /* = "" */ )
 {
+	LOGTIME("cPreferencesLoad");
 	Reset_All();
 	
 	// if config file is given

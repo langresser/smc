@@ -78,6 +78,7 @@ cHud_Manager :: ~cHud_Manager( void )
 
 void cHud_Manager :: Load( void )
 {
+	LOGTIME("cHud_ManagerLoad");
 	if( !m_loaded && !objects.empty() )
 	{
 		Unload();

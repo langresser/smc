@@ -157,6 +157,7 @@ cAudio :: ~cAudio( void )
 
 bool cAudio :: Init( void )
 {
+	LOGTIME("cAudio :: Init");
 	// Get current device parameters
 	int dev_frequency = 0;
 	Uint16 dev_format = 0;

@@ -56,6 +56,8 @@ using std::ofstream;
 using std::stringstream;
 using std::ios;
 
+#include "../platform_util.h"
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 #endif

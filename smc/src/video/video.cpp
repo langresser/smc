@@ -90,6 +90,7 @@ cVideo :: ~cVideo( void )
 
 void cVideo :: Init_CEGUI_Fake( void ) const
 {
+	LOGTIME("Init_CEGUI_Fake");
 	// create fake Resource Provider
 	CEGUI::ResourceProvider *rp = new CEGUI::ResourceProvider();
 	// set Resource Provider directories
@@ -119,6 +120,7 @@ void cVideo :: Delete_CEGUI_Fake( void ) const
 
 void cVideo :: Init_CEGUI( void ) const
 {
+	LOGTIME("Init_CEGUI");
 	// create renderer
 	try
 	{
@@ -188,6 +190,7 @@ void cVideo :: Init_CEGUI( void ) const
 
 void cVideo :: Init_CEGUI_Data( void ) const
 {
+	
 	// set the default resource groups to be used
 	CEGUI::Scheme::setDefaultResourceGroup( "schemes" );
 	CEGUI::Imageset::setDefaultResourceGroup( "imagesets" );
@@ -214,6 +217,7 @@ void cVideo :: Init_CEGUI_Data( void ) const
 	// default tooltip
 	pGuiSystem->setDefaultTooltip( "TaharezLook/Tooltip" );
 
+
 	// create default root window
 	CEGUI::Window *window_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "default.layout" );
 	pGuiSystem->setGUISheet( window_root );
@@ -222,6 +226,7 @@ void cVideo :: Init_CEGUI_Data( void ) const
 
 void cVideo :: Init_SDL( void )
 {
+	LOGTIME("Init_SDL");
 	if( SDL_Init( SDL_INIT_VIDEO ) == -1 )
 	{
 		printf( "Error : SDL initialization failed\nReason : %s\n", SDL_GetError() );
@@ -232,17 +237,17 @@ void cVideo :: Init_SDL( void )
 	EGL_Open();
 #endif
 
-	atexit( SDL_Quit );
+//	atexit( SDL_Quit );
 
-	if( SDL_InitSubSystem( SDL_INIT_JOYSTICK ) == -1 )
-	{
-		printf( "Warning : SDL Joystick initialization failed\nReason : %s\n", SDL_GetError() );
-		m_joy_init_failed = 1;
-	}
-	else
-	{
-		m_joy_init_failed = 0;
-	}
+// 	if( SDL_InitSubSystem( SDL_INIT_JOYSTICK ) == -1 )
+// 	{
+// 		printf( "Warning : SDL Joystick initialization failed\nReason : %s\n", SDL_GetError() );
+// 		m_joy_init_failed = 1;
+// 	}
+// 	else
+// 	{
+// 		m_joy_init_failed = 0;
+// 	}
 
 	if( SDL_InitSubSystem( SDL_INIT_AUDIO ) == -1 )
 	{
@@ -257,13 +262,14 @@ void cVideo :: Init_SDL( void )
 	// preload the sdl_image png library
 	IMG_Init( IMG_INIT_PNG );
 
-	SDL_EnableUNICODE( 1 );
+//	SDL_EnableUNICODE( 1 );
 	// hide by default
 	SDL_ShowCursor( SDL_DISABLE );
 }
 
 void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_preferences /* = 1 */ )
 {
+	LOGTIME("Init_Video");
 	// set the video flags
 #ifdef USE_EGL
     int flags = SDL_SWSURFACE;

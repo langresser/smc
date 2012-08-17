@@ -150,9 +150,9 @@ void Init_Game( void )
 	// load user data
 	pPreferences->Load();
 	// set game language
-	I18N_Set_Language( pPreferences->m_language );
-	// init translation support
-	I18N_Init();
+// 	I18N_Set_Language( pPreferences->m_language );
+// 	// init translation support
+// 	I18N_Init();
 	// delete CEGUI System fake
 	pVideo->Delete_CEGUI_Fake();
 
@@ -183,9 +183,7 @@ void Init_Game( void )
 	// apply preferences
 	pPreferences->Apply();
 
-	// draw generic loading screen
-	Loading_Screen_Init();
-
+	
 //	pVideo->Init_Image_Cache( 0, 1 );
 
 	// Init Stage 3 - game classes
@@ -205,16 +203,12 @@ void Init_Game( void )
 	pOverworld_Player = new cOverworld_Player( pActive_Level->m_sprite_manager, NULL );
 	pOverworld_Manager = new cOverworld_Manager( pActive_Level->m_sprite_manager );
 	// set default overworld active
-	pOverworld_Player->Set_Overworld( pOverworld_Manager->Get( "World 1" ) );
-	pOverworld_Manager->Set_Active( "World 1" );
+// 	pOverworld_Player->Set_Overworld( pOverworld_Manager->Get( "World 1" ) );
+// 	pOverworld_Manager->Set_Active( "World 1" );
 	pHud_Manager->Load();
+	
 	pMenuCore = new cMenuCore();
 	pSavegame = new cSavegame();
-
-	// cache
-// 	Preload_Images( 1 );
-// 	Preload_Sounds( 1 );
-	Loading_Screen_Exit();
 }
 
 void Exit_Game( void )

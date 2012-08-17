@@ -66,6 +66,7 @@ cFont_Manager :: ~cFont_Manager( void )
 
 void cFont_Manager :: Init( void )
 {
+	LOGTIME("cFont_ManagerInit");
 	// if already initialised
 	if( TTF_WasInit() )
 	{

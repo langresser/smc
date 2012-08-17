@@ -79,3 +79,19 @@ FILE* open_file(const char* file_name, const char* read_mode)
 
 	return NULL;
 }
+
+#ifdef WIN32
+#include <windows.h>
+#else
+#endif
+unsigned int TimeGet()
+{
+#ifdef WIN32
+	return timeGetTime();
+#else
+	struct timeval start;
+	gettimeofday(&start, NULL);
+	unsigned int dwTime = start.tv_sec * 1000 + start.tv_usec / 1000;
+	return dwTime;
+#endif
+}

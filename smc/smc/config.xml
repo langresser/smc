@@ -2,7 +2,7 @@
 
 <config >
     <property name="game_version" value="2.0.0" />
-    <property name="game_language" value="en" />
+    <property name="game_language" value="" />
     <property name="game_always_run" value="0" />
     <property name="game_menu_level" value="menu_blue_1" />
     <property name="game_camera_hor_speed" value="0.3" />

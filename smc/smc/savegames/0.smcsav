@@ -4,7 +4,7 @@
     <information >
         <property name="version" value="12" />
         <property name="level_engine_version" value="40" />
-        <property name="save_time" value="1344781120" />
+        <property name="save_time" value="1345210434" />
         <property name="description" value="AutoSave" />
     </information>
     <player >
@@ -14,32 +14,9 @@
         <property name="type" value="1" />
         <property name="state" value="3" />
         <property name="itembox_item" value="0" />
-        <property name="overworld_active" value="World 2" />
-        <property name="overworld_current_waypoint" value="5" />
+        <property name="overworld_active" value="World 3" />
+        <property name="overworld_current_waypoint" value="1" />
     </player>
-    <overworld >
-        <property name="name" value="Test 1" />
-        <waypoint >
-            <property name="destination" value="lvl_1" />
-            <property name="access" value="1" />
-        </waypoint>
-        <waypoint >
-            <property name="destination" value="lvl_2" />
-            <property name="access" value="1" />
-        </waypoint>
-        <waypoint >
-            <property name="destination" value="lvl_3" />
-            <property name="access" value="0" />
-        </waypoint>
-        <waypoint >
-            <property name="destination" value="lvl_4" />
-            <property name="access" value="0" />
-        </waypoint>
-        <waypoint >
-            <property name="destination" value="lvl_5" />
-            <property name="access" value="0" />
-        </waypoint>
-    </overworld>
     <overworld >
         <property name="name" value="World 1" />
         <waypoint >

@@ -18,6 +18,7 @@
 
 #include "../core/global_basic.h"
 #include "../video/img_manager.h"
+#include "../platform_util.h"
 // SDL
 // also includes SDL.h
 #include "SDL_ttf.h"
